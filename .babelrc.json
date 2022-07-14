@@ -1,0 +1,15 @@
+{
+  "presets": [
+    "@babel/preset-typescript",
+    [
+      "@babel/preset-env",
+      {
+        "useBuiltIns": "entry",
+        "targets": "> 0.25%, not dead"
+      }
+    ]
+  ],
+  "ignore": [
+    "**/*.test.ts"
+  ]
+}
