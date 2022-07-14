@@ -1,5 +1,5 @@
 {
-  "name": "packetjs",
+  "name": "@fdosruiz/packetjs",
   "version": "1.0.0",
   "description": "Dependency injection container",
   "main": "lib/index.js",
