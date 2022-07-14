@@ -1,0 +1,11 @@
+{
+  "compilerOptions": {
+    "outDir": "lib",
+    "strict": true,
+    "declaration": true,
+    "emitDeclarationOnly": true,
+    "isolatedModules": true,
+    "diagnostics": true,
+    "skipLibCheck": true,
+  }
+}
