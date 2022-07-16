@@ -41,6 +41,11 @@ declare class Container {
      * @return any
      */
     get(key: string): any;
+    /**
+     * Gets the configuration properties object
+     * @return object
+     */
+    getProps(): object;
 }
 /**
  * Context definition

@@ -13,7 +13,7 @@ container.addProps({
     date: '2022-03-18T17:00:03.030Z',
     url: 'http://example.com',
 });
-
+-
 container.addProps({
     url2: 'http://example2.com',
 });
@@ -34,3 +34,5 @@ console.log('Before calling:', container);
 const service4 = container.get(service.SERVICE4);
 
 console.log('After calling:', container);
+
+console.log('Get props:', container.getProps());
