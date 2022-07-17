@@ -7,23 +7,23 @@ Packet JS is a micro-dependency injection container for JavaScript/Node applicat
 Using npm:
 
 ```bash
-$ npm install @di/packetjs
+$ npm install @fdosruiz/packetjs
 ```
 
 Using yarn:
 
 ```bash
-$ yarn add @di/packetjs
+$ yarn add @fdosruiz/packetjs
 ```
 
 ## Importing
 
 ```javascript
 // Using Node.js `require()`
-const container = require('@di/packetjs');
+const container = require('@fdosruiz/packetjs');
 
 // Using ES6 imports
-import container from '@di/packetjs';
+import container from '@fdosruiz/packetjs';
 ```
 
 ## Basic usage
@@ -31,7 +31,7 @@ import container from '@di/packetjs';
 Registering a service:
 
 ```javascript
-const container = require('@di/packetjs'); // Get the container instance.
+const container = require('@fdosruiz/packetjs'); // Get the container instance.
 
 container.add('Service', () => { /* here the logic */ return new SomeService() });
 ```
@@ -39,7 +39,7 @@ container.add('Service', () => { /* here the logic */ return new SomeService() }
 In some other place:
 
 ```javascript
-const container = require('@di/packetjs'); // Always get the same instance of the container. (singleton pattern)
+const container = require('@fdosruiz/packetjs'); // Always get the same instance of the container. (singleton pattern)
 
 const service = container.get('Service'); // Make an instance of the service on demand, with lazy loading.
 ```
