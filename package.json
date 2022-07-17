@@ -1,5 +1,5 @@
 {
-  "name": "@fdosruiz/packetjs",
+  "name": "@di/packetjs",
   "version": "1.0.0",
   "description": "Dependency injection container",
   "main": "lib/index.js",
@@ -16,6 +16,10 @@
   "repository": {
     "type": "git",
     "url": "https://github.com/fdosruiz/packetjs.git"
+  },
+  "engines": {
+    "node": ">=6.0.0",
+    "npm": ">=3.8.6"
   },
   "keywords": [
     "dependency-injection",

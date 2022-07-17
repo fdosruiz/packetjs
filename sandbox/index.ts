@@ -14,6 +14,10 @@ container.addProps({
     url: 'http://example.com',
 });
 
+container.addProps({
+    url2: 'http://example2.com',
+});
+
 console.log(container);
 
 container.add(service.SERVICE1, () => new Date());
@@ -30,3 +34,5 @@ console.log('Before calling:', container);
 const service4 = container.get(service.SERVICE4);
 
 console.log('After calling:', container);
+
+console.log('Get props:', container.getProps());

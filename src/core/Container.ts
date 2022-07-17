@@ -78,6 +78,14 @@ class Container {
     }
     return null;
   }
+
+  /**
+   * Gets the configuration properties object
+   * @return object
+   */
+  public getProps(): object {
+    return this.properties;
+  }
 }
 
 /**

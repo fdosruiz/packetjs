@@ -1,8 +1,10 @@
 import Container, { Callback } from './Container';
+import container from "./Container";
 
 describe('testing core container', () => {
+  const container = Container.getContainer();
+
   beforeEach(() => {
-    const container = Container.getContainer();
     // @ts-ignore
     container.context = [];
     // @ts-ignore
@@ -16,7 +18,6 @@ describe('testing core container', () => {
   });
 
   it('should add a new service to context', () => {
-    const container = Container.getContainer();
     const name = 'service1';
     const callback = () => {
       return new Date();
@@ -35,7 +36,6 @@ describe('testing core container', () => {
   });
 
   it('should add configuration props', () => {
-    const container = Container.getContainer();
     const configuration1 = {
       param1: 'a1',
       param2: 'a2',
@@ -70,8 +70,17 @@ describe('testing core container', () => {
     expect(container.properties.param4).toBe('a4');
   });
 
+  it('should get configuration props', () => {
+    const configurationProps = { param1: 'a1', param2: 'a2' };
+    container.addProps(configurationProps);
+    const containerProps = container.getProps();
+
+    expect(containerProps).toEqual(configurationProps);
+    // It is equal, but it is not the same object
+    expect(containerProps).not.toBe(configurationProps);
+  });
+
   it('should get a service from context and apply lazy loading', () => {
-    const container = Container.getContainer();
     const name = 'service2';
     const callback = () => {
       return new Date('2000-01-01T00:00:00.000Z');
@@ -90,7 +99,6 @@ describe('testing core container', () => {
   });
 
   it('should apply lazy loading recursively on several services', () => {
-    const container = Container.getContainer();
     const name1 = 'service1';
     const name2 = 'service2';
     const callback1: Callback = () => {
@@ -115,7 +123,6 @@ describe('testing core container', () => {
   });
 
   it('should not apply lazy loading on uncalled services', () => {
-    const container = Container.getContainer();
     const name1 = 'service1';
     const name2 = 'service2';
     const callback1 = () => {
@@ -139,7 +146,6 @@ describe('testing core container', () => {
   });
 
   it('should get the same instance from the same two calls', () => {
-    const container = Container.getContainer();
     const name = 'service';
     const callback = () => {
       return new Date();
@@ -152,7 +158,6 @@ describe('testing core container', () => {
   });
 
   it('should get null from services not set', () => {
-    const container = Container.getContainer();
     const service = container.get('notname');
 
     expect(service).toBeNull();
