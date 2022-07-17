@@ -106,7 +106,7 @@ cosnt something = container.get('service').getSomeThing(id); // Makes an instanc
 If you need standalone containers, it is possible to create isolated instances by accessing the Core Container Class:
 
 ```javascript
-const { Container } = require('packetjs/lib/core');
+const { Container } = require('@fdosruiz/packetjs/lib/core');
 const a = new Container();
 const b = new Container();
 // a !== b
