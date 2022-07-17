@@ -1,6 +1,6 @@
 {
   "name": "@fdosruiz/packetjs",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Dependency injection container",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
@@ -18,8 +18,7 @@
     "url": "https://github.com/fdosruiz/packetjs.git"
   },
   "engines": {
-    "node": ">=6.0.0",
-    "npm": ">=3.8.6"
+    "node": ">=6.0.0"
   },
   "keywords": [
     "dependency-injection",
@@ -47,6 +46,7 @@
     "babel-jest": "^28.1.2",
     "babel-plugin-add-module-exports": "^1.0.4",
     "core-js": "^3.23.4",
+    "coveralls": "^3.1.1",
     "jest": "^28.1.2",
     "nodemon": "^2.0.19",
     "ts-node": "^10.8.2",
