@@ -19,7 +19,6 @@ container.addProps({
 });
 
 console.log(container);
-
 container.add(service.SERVICE1, () => new Date());
 container.add(service.SERVICE2, ({ props }) => new Date(props.date));
 container.add(service.SERVICE3, ({ props }) => new URL(props.url));
