@@ -7,8 +7,8 @@ on:
     branches: [main, 'v*']
 
 jobs:
-  test:
-    name: Test
+  qa:
+    name: QA Tests
     runs-on: ubuntu-latest
 
     strategy:
@@ -25,6 +25,7 @@ jobs:
         cache: 'npm'
     - run: npm install
     - run: npm test
+    - run: npm run lint
     - name: Coveralls
       uses: coverallsapp/github-action@master
       with:

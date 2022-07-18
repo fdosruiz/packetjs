@@ -1,5 +1,4 @@
 import Container, { Callback } from './Container';
-import container from "./Container";
 
 describe('testing core container', () => {
   const container = Container.getContainer();
@@ -9,12 +8,12 @@ describe('testing core container', () => {
     container.context = [];
     // @ts-ignore
     container.properties = [];
-  })
+  });
 
   it('should get the same instance always', () => {
     const container1 = Container.getContainer();
     const container2 = Container.getContainer();
-    expect(container1).toBe(container2)
+    expect(container1).toBe(container2);
   });
 
   it('should add a new service to context', () => {
@@ -57,7 +56,7 @@ describe('testing core container', () => {
     expect(container.properties.param3).toBeUndefined();
     // @ts-ignore
     expect(container.properties.param4).toBeUndefined();
-    container.addProps(configuration2)
+    container.addProps(configuration2);
     // @ts-ignore
     expect(Object.keys(container.properties)).toHaveLength(4);
     // @ts-ignore

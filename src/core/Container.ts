@@ -49,7 +49,7 @@ class Container {
     this.properties = {
       ...this.properties,
       ...props,
-    }
+    };
     return this;
   }
 
