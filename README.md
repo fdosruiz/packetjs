@@ -6,6 +6,7 @@
 [![Build status](https://github.com/fdosruiz/packetjs/actions/workflows/ci-cd.yml/badge.svg)](https://github.com/fdosruiz/packetjs/actions)
 [![MIT License](https://img.shields.io/badge/license-MIT-blue.svg?style=flat)](https://github.com/fdosruiz/packetjs/blob/main/LICENSE)
 [![Gihub package dependents](https://badgen.net/github/dependents-pkg/fdosruiz/packetjs)](https://github.com/fdosruiz/packetjs/network/dependents?dependent_type=PACKAGE)
+[![Coverage Status](https://coveralls.io/repos/github/fdosruiz/packetjs/badge.svg?branch=main)](https://coveralls.io/github/fdosruiz/packetjs?branch=main)
 
 Packet JS is a micro-dependency injection container for JavaScript/Node applications, written in TypeScript and with lazy loading, instantiating each service on demand with dependency on each other. 
 
