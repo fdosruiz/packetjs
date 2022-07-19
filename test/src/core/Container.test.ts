@@ -1,4 +1,4 @@
-import Container, { Callback } from './Container';
+import Container, { Callback } from '../../../src/core/Container';
 
 describe('testing core container', () => {
   const container = Container.getContainer();

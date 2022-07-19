@@ -1,5 +1,5 @@
-import { Container } from "./core";
-import container from './index';
+import { Container } from "../../src/core";
+import container from '../../src';
 
 describe('testing entry point', () => {
   it('should get the instance of the container', () => {
