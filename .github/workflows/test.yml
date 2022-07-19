@@ -1,8 +1,8 @@
-name: CI/CD
+name: Tests
 
 on:
   pull_request:
-    branches: [main]
+    branches: ['v*']
 
 jobs:
   qa:
@@ -25,8 +25,3 @@ jobs:
     - run: npm install
     - run: npm test
     - run: npm run lint
-
-    - name: Coveralls
-      uses: coverallsapp/github-action@master
-      with:
-        github-token: ${{ secrets.github_token }}

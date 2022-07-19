@@ -1,6 +1,8 @@
 {
+  "comments": false,
   "presets": [
     "@babel/preset-typescript",
+    "minify",
     [
       "@babel/preset-env",
       {
