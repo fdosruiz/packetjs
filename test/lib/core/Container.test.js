@@ -136,4 +136,22 @@ describe('testing core container', () => {
 
     expect(service).toBeNull();
   });
+
+  it('should dont get the same instance from the same two calls (getFactory method)', () => {
+    const name = 'service';
+    const callback = () => {
+      return new Date();
+    };
+    container.add(name, callback);
+    const service1 = container.getFactory(name);
+    const service2 = container.getFactory(name);
+
+    expect(service1).not.toBe(service2);
+  });
+
+  it('should get null from services not set (getFactory method)', () => {
+    const service = container.getFactory('notname');
+
+    expect(service).toBeNull();
+  });
 });
