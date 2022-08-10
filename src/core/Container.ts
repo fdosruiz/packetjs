@@ -64,7 +64,7 @@ class Container {
   }
 
   /**
-   * Gets the instance for a concrete context
+   * Gets always the same instance for a concrete context
    * @param key Unique key of the service or function
    * @return any
    */
@@ -77,6 +77,18 @@ class Container {
       return ctx.instance;
     }
     return null;
+  }
+
+  /**
+   * Gets always a new instance for a concrete context
+   * @param key Unique key of the service or function
+   * @return any
+   */
+  public getFactory(key: string): any {
+    const ctx = this.find(key);
+    return ctx
+      ? ctx.callback({ container: this, props: this.properties })
+      : null;
   }
 
   /**
