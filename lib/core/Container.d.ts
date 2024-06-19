@@ -17,7 +17,7 @@ declare class Container {
      */
     static getContainer(): Container;
     /**
-     * Add a new service or function to the container
+     * Add a new service or function to context
      * @param key Unique key for the new service or function
      * @param callback Callback function with dependency injection logic
      */
@@ -36,13 +36,13 @@ declare class Container {
      */
     private find;
     /**
-     * Gets always the same instance for a concrete service
+     * Gets always the same instance for a concrete context
      * @param key Unique key of the service or function
      * @return any
      */
     get(key: string): any;
     /**
-     * Gets always a new instance for a concrete service
+     * Gets always a new instance for a concrete context
      * @param key Unique key of the service or function
      * @return any
      */
