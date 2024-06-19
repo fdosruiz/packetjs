@@ -1,4 +1,4 @@
-# Packet JS
+# Packet JS DI
 
 [![node](https://img.shields.io/node/v/@fdosruiz/packetjs.svg?maxAge=1000)](https://www.npmjs.com/package/@fdosruiz/packetjs)
 [![install size](https://packagephobia.com/badge?p=@fdosruiz/packetjs)](https://packagephobia.com/result?p=@fdosruiz/packetjs)
@@ -14,20 +14,20 @@ Packet JS is a lightweight micro-dependency injection container for JavaScript/N
 
 Using npm:
 
-    npm install @fdosruiz/packetjs
+    npm i packetjs-di
 
 Using yarn:
 
-    yarn add @fdosruiz/packetjs
+    yarn add packetjs-di
 
 ## Importing
 
 ```javascript
 // Using Node.js `require()`
-const container = require('@fdosruiz/packetjs');
+const container = require('packetjs-di');
 
 // Using ES6 imports
-import container from '@fdosruiz/packetjs';
+import container from 'packetjs-di';
 ```
 
 ## Basic usage
@@ -35,7 +35,7 @@ import container from '@fdosruiz/packetjs';
 Register a service:
 
 ```javascript
-const container = require('@fdosruiz/packetjs');
+const container = require('packetjs-di');
 
 container.add('Service', () => {
   return new SomeService();
@@ -45,13 +45,13 @@ container.add('Service', () => {
 In some other place:
 
 ```javascript
-const container = require('@fdosruiz/packetjs');
+const container = require('packetjs-di');
 
 // Make the instance of the service on demand, with lazy loading.
 const service = container.get('Service');
 ```
 
-> In both cases, `require('@fdosruiz/packetjs')` always get the same instance of the container.
+> In both cases, `require('packetjs-di')` always get the same instance of the container.
 
 ## Adding configuration properties
 
@@ -143,7 +143,7 @@ const service2 = container.get('service');
 For standalone containers, it is possible to create isolated instances by accessing the Core Container Class:
 
 ```javascript
-const { Container } = require('@fdosruiz/packetjs/lib/core');
+const { Container } = require('packetjs-di/lib/core');
 const a = new Container();
 const b = new Container();
 // a !== b
