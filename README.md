@@ -14,15 +14,11 @@ Packet JS is a lightweight micro-dependency injection container for JavaScript/N
 
 Using npm:
 
-```bash
-$ npm install @fdosruiz/packetjs
-```
+    npm install @fdosruiz/packetjs
 
 Using yarn:
 
-```bash
-$ yarn add @fdosruiz/packetjs
-```
+    yarn add @fdosruiz/packetjs
 
 ## Importing
 
