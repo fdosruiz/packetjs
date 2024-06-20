@@ -1,6 +1,6 @@
 # PacketJs DI
 
-<div align="center" style="background-color: #1f2d3a">
+<div align="center">
   <img src="resources/logo.png" alt="packetjs-di" />
 </div>
 
