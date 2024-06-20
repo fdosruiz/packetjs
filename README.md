@@ -4,7 +4,7 @@
   <img src="resources/logo.png" alt="packetjs-di" />
 </div>
 
-[![node](https://img.shields.io/node/v/packetjs-di.svg?maxAge=1000)](https://www.npmjs.com/package/packetjs-di)
+[![node](https://img.shields.io/node/v/@fdosruiz/packetjs.svg?maxAge=1000)](https://www.npmjs.com/package/packetjs-di)
 [![install size](https://packagephobia.com/badge?p=packetjs-di)](https://packagephobia.com/result?p=packetjs-di)
 [![Minified + Gzipped](https://badgen.net/bundlephobia/minzip/packetjs-di)](https://bundlephobia.com/result?p=packetjs-di)
 [![Minified](https://badgen.net/bundlephobia/min/packetjs-di)](https://bundlephobia.com/result?p=packetjs-di)

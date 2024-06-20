@@ -5,6 +5,7 @@
 .idea
 /coverage/
 /node_modules/
+/resources/
 /sandbox/
 /scripts/
 /src/
