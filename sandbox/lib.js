@@ -6,7 +6,7 @@ container.addProps({
     date: '2022-03-18T17:00:03.030Z',
     url: 'http://example.com',
 });
--
+
 container.addProps({
     url2: 'http://example2.com',
 });

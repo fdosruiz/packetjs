@@ -1,4 +1,4 @@
-import { Container } from "../../lib/core";
+import { Container } from 'packetjs-di/lib/core';
 import container from '../../lib';
 
 describe('testing entry point', () => {
