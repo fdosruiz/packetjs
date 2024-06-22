@@ -6,14 +6,14 @@
 
 [![node](https://img.shields.io/node/v/@fdosruiz/packetjs.svg?maxAge=1000)](https://www.npmjs.com/package/packetjs-di)
 [![install size](https://packagephobia.com/badge?p=packetjs-di)](https://packagephobia.com/result?p=packetjs-di)
-[![Minified + Gzipped](https://badgen.net/bundlephobia/minzip/packetjs-di)](https://bundlephobia.com/result?p=packetjs-di)
-[![Minified](https://badgen.net/bundlephobia/min/packetjs-di)](https://bundlephobia.com/result?p=packetjs-di)
+[![npm bundle size zip](https://img.shields.io/bundlephobia/minzip/packetjs-di?style=flat-square)](https://bundlephobia.com/package/packetjs-di@latest)
+[![npm bundle size](https://img.shields.io/bundlephobia/min/packetjs-di?style=flat-square)](https://bundlephobia.com/package/packetjs-di@latest)
+[![Dependencies](https://img.shields.io/badge/dependencies-0-blue)](https://bundlephobia.com/result?p=packetjs-di)
 [![npm downloads](https://img.shields.io/npm/dm/packetjs-di.svg?style=flat-square)](https://npm-stat.com/charts.html?package=packetjs-di)
 [![Build status](https://github.com/fdosruiz/packetjs/actions/workflows/ci-cd.yml/badge.svg)](https://github.com/fdosruiz/packetjs/actions)
 [![MIT License](https://img.shields.io/badge/license-MIT-blue.svg?style=flat)](https://github.com/fdosruiz/packetjs/blob/main/LICENSE)
-[![Dependencies](https://badgen.net/bundlephobia/dependency-count/packetjs-di)](https://bundlephobia.com/result?p=packetjs-di)
 [![Coverage Status](https://coveralls.io/repos/github/fdosruiz/packetjs/badge.svg?branch=main)](https://coveralls.io/github/fdosruiz/packetjs?branch=main)
-
+[![Known Vulnerabilities](https://snyk.io/test/npm/packetjs-di/badge.svg)](https://snyk.io/test/npm/packetjs-di)
 
 Packet JS is a lightweight micro-dependency injection container for JavaScript/Node applications, written in TypeScript and with lazy loading, instantiating each service on demand with dependency on each other.
 
