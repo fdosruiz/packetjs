@@ -8,6 +8,7 @@ on:
 
 jobs:
   publish-npm:
+    name: NPM Publish
     runs-on: ubuntu-latest
     if: github.ref == 'refs/heads/main'
     permissions:
@@ -32,8 +33,6 @@ jobs:
           restore-keys: |
             node_modules-
       - run: npm ci
-      - run: |
-          echo "NPM TOKEN: ${{secrets.NPM_TOKEN}}"
       - run: npm publish --provenance --access public
         env:
           NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}

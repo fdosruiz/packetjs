@@ -8,16 +8,16 @@ on:
 
 jobs:
   build:
-    name: Build package
+    name: CI/CD Build
     uses: ./.github/workflows/build.yml
 
   qa:
     needs: build
-    name: QA Tests
+    name: CI/CD QA
     uses: ./.github/workflows/qa.yml
 
   npm-publish:
     needs: qa
-    name: NPM Publish
+    name: CI/CD Publish
     uses: ./.github/workflows/npm-publish.yml
     secrets: inherit
