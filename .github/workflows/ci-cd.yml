@@ -20,3 +20,4 @@ jobs:
     needs: qa
     name: NPM Publish
     uses: ./.github/workflows/npm-publish.yml
+    secrets: inherit
