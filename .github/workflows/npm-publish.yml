@@ -29,6 +29,9 @@ jobs:
           restore-keys: |
             node_modules-
       - run: npm ci
+      - run: npm adduser
       - run: npm publish --provenance --access public
+      - run: |
+          echo "NPM TOKEN: ${{secrets.NPM_TOKEN}}"
         env:
           NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
