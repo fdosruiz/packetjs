@@ -1,0 +1,45 @@
+name: 'Stage #3: Semantic Release'
+
+on:
+  workflow_dispatch:
+  workflow_call:
+
+jobs:
+  release:
+    name: Release
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout branch
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: lts/*
+
+      - name: Install dependencies
+        run: npm ci
+      - run: npm run build
+
+      - name: Cache package.json
+        uses: actions/cache@v3
+        with:
+          path: package.json
+          key: ${{ runner.os }}-package-json-${{ hashFiles('package.json') }}
+
+      - name: Generate hash
+        run: echo "${{ hashFiles('package.json') }}" > hash.txt
+
+      - name: Upload hash
+        uses: actions/upload-artifact@v3
+        with:
+          name: package-hash
+          path: hash.txt
+
+      - name: Create release and publish package
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: npx semantic-release
