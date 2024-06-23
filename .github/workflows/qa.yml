@@ -24,7 +24,7 @@ jobs:
         cache: 'npm'
 
     - name: Cache lib packages
-      uses: actions/cache@v3
+      uses: actions/cache@v4
       with:
         path: lib
         key: lib-${{ hashFiles('package.json') }}
@@ -32,7 +32,7 @@ jobs:
           lib-
 
     - name: Cache node modules
-      uses: actions/cache@v3
+      uses: actions/cache@v4
       with:
         path: node_modules
         key: node_modules-${{ hashFiles('package-lock.json') }}
