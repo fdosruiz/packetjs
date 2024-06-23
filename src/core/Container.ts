@@ -98,6 +98,31 @@ class Container {
   public getProps(): object {
     return this.properties;
   }
+
+  /**
+   * Retrieves all context objects like a getter function
+   *
+   * @example
+   ```js
+   const {
+     service1,
+     service2,
+   } = container.getAll();
+
+   // invoque the services
+   service1();
+   service2();
+   ```
+   * @returns {IContextObject} - An object containing the context objects and their getters.
+   */
+  public getAll(): IContextObject {
+    return this.context.reduce((acc: IContextObject, ctx: Context) => {
+      return {
+        ...acc,
+        [ctx.key]: () => this.get(ctx.key),
+      };
+    }, {} as IContextObject);
+  }
 }
 
 /**
@@ -126,6 +151,10 @@ export interface Context {
 export type Props = {
   container: Container;
   props: object | any;
+}
+
+interface IContextObject{
+  [key: string]: () => any;
 }
 
 /**

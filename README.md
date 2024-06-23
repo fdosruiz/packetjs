@@ -4,7 +4,7 @@
   <img src="resources/logo.png" alt="packetjs-di" />
 </div>
 
-[![node](https://img.shields.io/node/v/@fdosruiz/packetjs.svg?maxAge=1000)](https://www.npmjs.com/package/packetjs-di)
+[![node](https://img.shields.io/badge/node-%3E=6.0.0-green)](https://www.npmjs.com/package/packetjs-di)
 [![install size](https://packagephobia.com/badge?p=packetjs-di)](https://packagephobia.com/result?p=packetjs-di)
 [![npm bundle size zip](https://img.shields.io/bundlephobia/minzip/packetjs-di?style=flat-square)](https://bundlephobia.com/package/packetjs-di@latest)
 [![npm bundle size](https://img.shields.io/bundlephobia/min/packetjs-di?style=flat-square)](https://bundlephobia.com/package/packetjs-di@latest)
@@ -62,6 +62,49 @@ const service = container.get('Service');
 
 > In both cases, `require('packetjs-di')` always get the same instance of the container.
 
+## Getting the services
+
+The usual way to get the service is:
+
+```javascript
+const service = container.get('Service');
+```
+
+But we can get all the services with method `getAll()`:
+
+```javascript
+const services = container.getAll();
+```
+
+And apply different techniques to get them:
+
+**Destructuring**
+
+```javascript
+// Destructuring
+const { service1, service2 } = container.getAll();
+
+// Make the instance of the service on demand, with lazy loading.
+service1();
+service2();
+```
+
+**Method chaining**
+
+```javascript
+const instanceService1 = container.getAll().service1();
+```
+
+**Global variables**
+
+```javascript
+const services = container.getAll();
+
+// Make the instance of the service on demand, with lazy loading.
+services.service1();
+services.service2();
+```
+
 ## Adding configuration properties
 
 It is possible to add configuration properties, for service registration or to make the configuration available throughout the application.
@@ -93,7 +136,7 @@ container.addProps({
 });
 ```
 
-### Register multiples services, with dependencies on each other
+## Register multiples services, with dependencies on each other
 
 For configuring the dependency Injection container, the order of registration of each service is indifferent. Each registered service will be called on demand when the main service is called.
 
@@ -129,7 +172,7 @@ In another place we can use the container like this:
 const foo = container.get('service').getBar(id);
 ```
 
-### Factory
+## Factory
 
 If you need a factory of the registered services, you can use the `getFactory` method to always get a different instance of the service: 
 
@@ -147,7 +190,7 @@ const service2 = container.get('service');
 // service1 === service2
 ```
 
-### Instantiating new containers
+## Instantiating new containers
 
 For standalone containers, it is possible to create isolated instances by accessing the Core Container Class:
 
@@ -160,14 +203,15 @@ const b = new Container();
 
 ## Container API
 
-| Method               | Arguments                                                                                                                                                                                                                                      | Description                                                  |
-|----------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------| ------------------------------------------------------------ |
-| `add(key, callback)` | - `key`: Unique key for the new service or function<br/>- `callback({ container, props })`: Callback function with dependency injection logic.<br/>The callback function receives an object with the container and properties in its argument. | Add a new service or function to the container               |
-| `get(key)`           | - `key`: Unique key of the service or function to get                                                                                                                                                                                          | Always get the same instance for a concrete service          |
-| `getFactory(key)`    | - `key`: Unique key of the service or function to get                                                                                                                                                                                          | Always get a new instance for a concrete service             |
-| `addProps(props)`    | - `props`: Configuration properties object (JSON)                                                                                                                                                                                                |                                                              |
-| `getProps()`         |                                                                                                                                                                                                                                                | Gets the configuration properties object                     |
-| `getContainer()`     |                                                                                                                                                                                                                                                | Always get the same instance of the container. (static method) |
+| Method               | Arguments                                                                                                                                                                                                                                      | Description                                                                                        |
+|----------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------|
+| `add(key, callback)` | - `key`: Unique key for the new service or function<br/>- `callback({ container, props })`: Callback function with dependency injection logic.<br/>The callback function receives an object with the container and properties in its argument. | Add a new service or function to the container                                                     |
+| `get(key)`           | - `key`: Unique key of the service or function to get                                                                                                                                                                                          | Always get the same instance for a concrete service                                                |
+| `getAll()`           |                                                                                                                                                                                                                                                | Get all services and return them as an object. Each service, of this object, is called on demand   |
+| `getFactory(key)`    | - `key`: Unique key of the service or function to get                                                                                                                                                                                          | Always get a new instance for a concrete service                                                   |
+| `addProps(props)`    | - `props`: Configuration properties object (JSON)                                                                                                                                                                                              |                                                                                                    |
+| `getProps()`         |                                                                                                                                                                                                                                                | Gets the configuration properties object                                                           |
+| `getContainer()`     |                                                                                                                                                                                                                                                | Always get the same instance of the container. (static method)                                     |
 
 ## Credits
 
