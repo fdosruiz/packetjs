@@ -82,17 +82,17 @@ And apply different techniques to get them:
 
 ```javascript
 // Destructuring
-const { service1, service2 } = container.getAll();
+const { Service1, Service2 } = container.getAll();
 
 // Make the instance of the service on demand, with lazy loading.
-service1();
-service2();
+Service1();
+Service2();
 ```
 
 **Method chaining**
 
 ```javascript
-const instanceService1 = container.getAll().service1();
+const instanceService1 = container.getAll().Service1();
 ```
 
 **Global variables**
@@ -101,8 +101,8 @@ const instanceService1 = container.getAll().service1();
 const services = container.getAll();
 
 // Make the instance of the service on demand, with lazy loading.
-services.service1();
-services.service2();
+services.Service1();
+services.Service2();
 ```
 
 ## Adding configuration properties
