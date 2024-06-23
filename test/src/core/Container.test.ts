@@ -179,4 +179,29 @@ describe('testing core container', () => {
 
     expect(service).toBeNull();
   });
+
+  it('should get all services from the context', () => {
+    const name1 = 'service1';
+    const name2 = 'service2';
+    const callback1 = () => new Date('2000-01-01T00:00:00.000Z');
+    const callback2 = () => new Date('2000-01-01T00:00:01.000Z');
+    container.add(name1, callback1);
+    container.add(name2, callback2);
+    const allServices = container.getAll();
+
+    expect(allServices.service1()).toBeInstanceOf(Date);
+    expect(allServices.service1().getTime()).toBe(946684800000);
+    // @ts-ignore
+    expect(allServices.service1()).toBe(container.context[0].instance);
+
+    expect(allServices.service2()).toBeInstanceOf(Date);
+    expect(allServices.service2().getTime()).toBe(946684801000);
+    // @ts-ignore
+    expect(allServices.service2()).toBe(container.context[1].instance);
+  });
+
+  it('should return an empty object when context is empty', () => {
+    const allServices = container.getAll();
+    expect(allServices).toEqual({});
+  });
 });
