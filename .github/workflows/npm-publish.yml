@@ -33,6 +33,25 @@ jobs:
           restore-keys: |
             node_modules-
       - run: npm ci
-      - run: npm publish --provenance --access public
+
+      - name: Download hash
+        uses: actions/download-artifact@v3
+        with:
+          name: package-hash
+
+      - name: Check if package.json has changed
+        run: |
+          echo "Cached hash: $(cat package-hash/hash.txt)"
+          echo "Current hash: ${{ hashFiles('package.json') }}"
+          if [[ "$(cat package-hash/hash.txt)" != "${{ hashFiles('package.json') }}" ]]; then
+            echo "::set-output name=changed::true";
+          else
+            echo "::set-output name=changed::false";
+          fi
+        id: hash-check
+
+      - name: Publish package if package.json has changed.
+        if: steps.hash-check.outputs.changed == 'true'
+        run: npm publish --provenance --access public
         env:
           NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}

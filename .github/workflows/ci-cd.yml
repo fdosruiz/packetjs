@@ -16,8 +16,14 @@ jobs:
     name: CI/CD QA
     uses: ./.github/workflows/qa.yml
 
-  npm-publish:
+  semantic:
     needs: qa
+    name: CI/CD Semantic
+    uses: ./.github/workflows/semantic.yml
+    secrets: inherit
+
+  npm-publish:
+    needs: semantic
     name: CI/CD Publish
     uses: ./.github/workflows/npm-publish.yml
     secrets: inherit
