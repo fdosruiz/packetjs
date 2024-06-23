@@ -2,31 +2,21 @@ name: CI/CD
 
 on:
   push:
-    branches: [main]
+    branches:
+      - 'main'
+      - 'rc-*'
 
 jobs:
+  build:
+    name: Build package
+    uses: ./.github/workflows/build.yml
+
   qa:
+    needs: build
     name: QA Tests
-    runs-on: ubuntu-latest
+    uses: ./.github/workflows/qa.yml
 
-    strategy:
-      matrix:
-        node-version: [12.x, 14.x, 16.x, 18.x, 20.x, 21.x]
-        # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
-
-    steps:
-    - uses: actions/checkout@v4
-
-    - name: Setup environment ${{ matrix.node-version }}
-      uses: actions/setup-node@v4
-      with:
-        node-version: ${{ matrix.node-version }}
-        cache: 'npm'
-    - run: npm install
-    - run: npm test
-    - run: npm run lint
-
-    - name: Coveralls
-      uses: coverallsapp/github-action@master
-      with:
-        github-token: ${{ secrets.github_token }}
+  npm-publish:
+    needs: qa
+    name: NPM Publish
+    uses: ./.github/workflows/npm-publish.yml

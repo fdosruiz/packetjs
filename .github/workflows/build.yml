@@ -1,21 +1,18 @@
-name: 'Stage #3: Node.js Publish Package'
+name: 'Stage #1: Build package'
 
 on:
-  release:
-    types: [created]
   workflow_dispatch:
   workflow_call:
 
 jobs:
-  publish-npm:
+  build:
+    name: Build package
     runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/main'
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
           node-version: 18
-          registry-url: https://registry.npmjs.org/
       - uses: actions/cache@v3
         with:
           path: lib
@@ -28,7 +25,5 @@ jobs:
           key: node_modules-${{ hashFiles('package-lock.json') }}
           restore-keys: |
             node_modules-
-      - run: npm ci
-      - run: npm publish --provenance --access public
-        env:
-          NODE_AUTH_TOKEN: ${{secrets.npm_token}}
+      - run: npm install
+      - run: npm run build
