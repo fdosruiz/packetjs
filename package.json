@@ -1,6 +1,6 @@
 {
   "name": "packetjs-di",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "Lightweight micro dependency injection container",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
