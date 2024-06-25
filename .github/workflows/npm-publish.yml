@@ -10,7 +10,7 @@ jobs:
   publish-npm:
     name: NPM Publish
     runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/main'
+#    if: github.ref == 'refs/heads/main'
     permissions:
       contents: write
       id-token: write
@@ -34,24 +34,25 @@ jobs:
             node_modules-
       - run: npm ci
 
-      - name: Download hash
-        uses: actions/download-artifact@v3
+      - name: Download version artifact
+        uses: actions/download-artifact@v4
         with:
-          name: package-hash
+          name: version-artifact
 
-      - name: Check if package.json has changed
+      - name: Compare versions
         run: |
-          echo "Cached hash: $(cat package-hash/hash.txt)"
-          echo "Current hash: ${{ hashFiles('package.json') }}"
-          if [[ "$(cat package-hash/hash.txt)" != "${{ hashFiles('package.json') }}" ]]; then
-            echo "::set-output name=changed::true";
+          VERSION=$(jq -r .version package.json)
+          ARTIFACT_VERSION=$(cat version.txt)
+          if [ "$VERSION" != "$ARTIFACT_VERSION" ]; then
+            echo "Version has changed. Current version: $VERSION. New version: $ARTIFACT_VERSION."
+            echo 'CHANGED=true' >> $GITHUB_ENV
           else
-            echo "::set-output name=changed::false";
+            echo "Version has not changed"
+            echo 'CHANGED=false' >> $GITHUB_ENV
           fi
-        id: hash-check
 
-      - name: Publish package if package.json has changed.
-        if: steps.hash-check.outputs.changed == 'true'
+      - name: Publish package if version has changed from package.json (only on main branch)
+        if: ${{ env.CHANGED == 'true' }}
         run: npm publish --provenance --access public
         env:
           NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}

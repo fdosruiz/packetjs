@@ -8,7 +8,6 @@ jobs:
   release:
     name: Release
     runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/main'
 
     steps:
       - name: Checkout branch
@@ -25,22 +24,22 @@ jobs:
         run: npm ci
       - run: npm run build
 
-      - name: Cache package.json
-        uses: actions/cache@v3
-        with:
-          path: package.json
-          key: ${{ runner.os }}-package-json-${{ hashFiles('package.json') }}
-
-      - name: Generate hash
-        run: echo "${{ hashFiles('package.json') }}" > hash.txt
-
-      - name: Upload hash
-        uses: actions/upload-artifact@v3
-        with:
-          name: package-hash
-          path: hash.txt
-
       - name: Create release and publish package
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: npx semantic-release
+
+      - name: Get new version from package.json
+        run: echo "VERSION=$(jq -r .version package.json)" >> $GITHUB_ENV
+
+      - name: Print new version
+        run: echo $VERSION
+
+      - name: Create Artifact with version
+        run: echo $VERSION > version.txt
+
+      - name: Upload version as an Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: version-artifact
+          path: version.txt
