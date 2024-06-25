@@ -1,3 +1,9 @@
+## [1.2.7](https://github.com/fdosruiz/packetjs/compare/v1.2.6...v1.2.7) (2024-06-25)
+
+### Trivial Changes
+
+* update package keywords in package.json ([c7b6cf0](https://github.com/fdosruiz/packetjs/commit/c7b6cf056b411f107ef2a88471b8660e651304d7))
+
 ## [1.2.6](https://github.com/fdosruiz/packetjs/compare/v1.2.5...v1.2.6) (2024-06-25)
 
 ### Trivial Changes
