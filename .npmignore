@@ -3,6 +3,7 @@
 .github
 .husky
 .idea
+.releaserc
 /coverage/
 /node_modules/
 /resources/
