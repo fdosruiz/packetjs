@@ -2,10 +2,7 @@
 
 ## 1. Create the branch locally and publish it
 
-```shell
-$ git checkout -b BRANCH-NAME
-$ git push -u origin BRANCH-NAME
-```
+    git checkout -b BRANCH-NAME
 
 ## 2. Make the necessary code changes and commits
 
@@ -13,9 +10,6 @@ $ git push -u origin BRANCH-NAME
 
 When writing code, the developer must ensure that its quality is optimal, so the project's formatting rules, linting,
 and good practices for writing clean, modern code must be adhered to.
-> 💡 Although the project has several layers where code quality is automatically checked, as well as specific npm
-> commands that can be executed manually, it is recommended to install extensions in the editor (_ESLint_ and _Prettier_)
-> as they allow the code to be adapted as it is written.
 
 ### 2.2 Commits
 
@@ -43,10 +37,14 @@ using one of the following types:
 
     npm run test
 
-## 4. Publish Changes
+## 4. Run Linting
+
+    npm run lint
+
+## 5. Publish Changes
 
     git push -u origin BRANCH-NAME
 
-## 5. Create a Pull Request (PR)
+## 6. Create a Pull Request (PR)
 
-
+Create a PR from the new branch to the main branch.

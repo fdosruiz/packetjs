@@ -10,8 +10,10 @@
 /scripts/
 /src/
 /test/
+CONTRIBUTING.md
 babel.config.json
 jest.config.ts
 nodemon.json
 tsconfig.json
 tslint.json
+version.txt

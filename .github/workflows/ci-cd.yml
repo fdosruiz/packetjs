@@ -10,23 +10,23 @@ on:
 
 jobs:
   build:
-    name: CI/CD Build
+    name: 'Stage #1'
     uses: ./.github/workflows/build.yml
 
   qa:
     needs: build
-    name: CI/CD QA
+    name: 'Stage #2'
     uses: ./.github/workflows/qa.yml
 
   semantic:
     needs: qa
     if: github.event_name != 'pull_request'
-    name: CI/CD Semantic
+    name: 'Stage #3'
     uses: ./.github/workflows/semantic.yml
     secrets: inherit
 
   npm-publish:
     needs: semantic
-    name: CI/CD Publish
+    name: 'Stage #4'
     uses: ./.github/workflows/npm-publish.yml
     secrets: inherit

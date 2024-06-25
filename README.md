@@ -17,8 +17,6 @@
 
 Packet JS is a lightweight micro-dependency injection container for JavaScript/Node applications, written in TypeScript and with lazy loading, instantiating each service on demand with dependency on each other.
 
-> This package was migrated from PacketJS [https://www.npmjs.com/package/@fdosruiz/packetjs](https://www.npmjs.com/package/@fdosruiz/packetjs)
-
 ## Installation
 
 Using npm:
