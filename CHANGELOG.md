@@ -1,3 +1,10 @@
+## [1.2.6](https://github.com/fdosruiz/packetjs/compare/v1.2.5...v1.2.6) (2024-06-25)
+
+### Trivial Changes
+
+* add files to .npmignore ([cdc7127](https://github.com/fdosruiz/packetjs/commit/cdc7127ff3bed38c071610def6feb8212591f93f))
+* move semantic-release configuration to separate file to improve npm package size ([29edc59](https://github.com/fdosruiz/packetjs/commit/29edc59c7618dcf24b7cd75397151f3b8fc6111d))
+
 ## [1.2.5](https://github.com/fdosruiz/packetjs/compare/v1.2.4...v1.2.5) (2024-06-25)
 
 ### Trivial Changes
