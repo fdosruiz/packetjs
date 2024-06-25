@@ -53,6 +53,8 @@ jobs:
 
       - name: Publish package if version has changed from package.json (only on main branch)
         if: ${{ env.CHANGED == 'true' }}
-        run: npm publish --provenance --access public
+        run: |
+          git pull
+          npm publish --provenance --access public
         env:
           NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
