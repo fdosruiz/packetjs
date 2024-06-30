@@ -1,3 +1,9 @@
+## [1.2.8](https://github.com/fdosruiz/packetjs/compare/v1.2.7...v1.2.8) (2024-06-30)
+
+### Tests
+
+* update Babel configuration and add tests for the Container class over lib directory ([7887072](https://github.com/fdosruiz/packetjs/commit/7887072f1c58d81e84212034a7846a31c6436142))
+
 ## [1.2.7](https://github.com/fdosruiz/packetjs/compare/v1.2.6...v1.2.7) (2024-06-25)
 
 ### Trivial Changes
