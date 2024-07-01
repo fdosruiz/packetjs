@@ -10,6 +10,7 @@ class Container {
   /**
    * Private constructor to be only accessible within the class declaration
    * @private
+   * @constructor
    */
   private constructor() {
     this.context = [];
@@ -18,7 +19,7 @@ class Container {
 
   /**
    * Gets always the same instance of the container. (Singleton pattern)
-   * @return Container
+   * @return {Container} The container instance.
    */
   static getContainer(): Container {
     if (!Container.container) {
@@ -41,9 +42,10 @@ class Container {
   }
 
   /**
-   * Add an object configuration to container properties
-   * @param props Configuration properties object
-   * @return Container
+   * Add configuration properties to the container.
+   *
+   * @param {object} props - The configuration properties to add to the container.
+   * @return {Container} - The modified container.
    */
   public addProps(props: object): Container {
     this.properties = {
@@ -55,9 +57,10 @@ class Container {
 
   /**
    * Find a context
-   * @param key Unique key of the service or function
+   *
+   * @param {string} key - Unique key of the service or function
    * @private
-   * @return Context | undefined
+   * @return {Context | undefined} - The found context, or undefined if not found
    */
   private find(key: string): Context | undefined {
     return this.context.find((ctx: Context) => ctx.key == key);
@@ -65,8 +68,10 @@ class Container {
 
   /**
    * Gets always the same instance for a concrete context
-   * @param key Unique key of the service or function
-   * @return any
+   *
+   * @param {string} key - Unique key of the service or function
+   * @return {any} - The instance of the service or function associated with the given key,
+   * or null if no instance is found
    */
   public get(key: string): any {
     const ctx = this.find(key);
@@ -80,9 +85,10 @@ class Container {
   }
 
   /**
-   * Gets always a new instance for a concrete context
-   * @param key Unique key of the service or function
-   * @return any
+   * Retrieves a new instance of a service or function based on the provided key.
+   *
+   * @param {string} key - The unique key of the service or function.
+   * @returns {any} - A new instance of the service or function, or null if not found.
    */
   public getFactory(key: string): any {
     const ctx = this.find(key);
@@ -92,8 +98,9 @@ class Container {
   }
 
   /**
-   * Gets the configuration properties object
-   * @return object
+   * Retrieves the configuration properties object.
+   *
+   * @returns {object} The configuration properties object.
    */
   public getProps(): object {
     return this.properties;
