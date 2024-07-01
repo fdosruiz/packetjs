@@ -1,3 +1,9 @@
+import {
+  Callback,
+  Context,
+  IContextObject,
+} from "../types/common.types";
+
 /**
  * Dependency injection container
  * @author Francisco Ruiz
@@ -131,42 +137,5 @@ class Container {
     }, {} as IContextObject);
   }
 }
-
-/**
- * Context definition
- */
-export interface Context {
-  /**
-   * Unique key of the service or function
-   */
-  key: string;
-
-  /**
-   * Callback function with dependency injection logic
-   */
-  callback: Callback;
-
-  /**
-   * Instance of callback function
-   */
-  instance?: any;
-}
-
-/**
- * Properties definition
- */
-export type Props = {
-  container: Container;
-  props: object | any;
-}
-
-interface IContextObject{
-  [key: string]: () => any;
-}
-
-/**
- * Callback definition
- */
-export type Callback = (p: Props) => any;
 
 export default Container;
