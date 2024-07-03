@@ -1,4 +1,4 @@
-import { Container } from "../core";
+import { Container } from '../core';
 
 /**
  * Context definition
@@ -53,4 +53,4 @@ export interface IServiceConfig {
 /**
  * Callback definition
  */
-export type Callback = (p: Props) => any;
+export type Callback = (props: Props) => any;

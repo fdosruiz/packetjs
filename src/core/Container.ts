@@ -2,7 +2,9 @@ import {
   Callback,
   Context,
   IContextObject,
-} from "../types/common.types";
+  IServiceConfig,
+} from '../types/common.types';
+import { Cache } from '.';
 
 /**
  * Dependency injection container
@@ -12,6 +14,7 @@ class Container {
   static container: Container;
   private context: Context[];
   private properties: object;
+  private cache: Cache;
 
   /**
    * Private constructor to be only accessible within the class declaration
@@ -21,6 +24,7 @@ class Container {
   private constructor() {
     this.context = [];
     this.properties = {};
+    this.cache = new Cache();
   }
 
   /**
@@ -35,14 +39,18 @@ class Container {
   }
 
   /**
-   * Add a new service or function to context
-   * @param key Unique key for the new service or function
-   * @param callback Callback function with dependency injection logic
+   * Add a new service or function to the context.
+   *
+   * @param {string} key - Unique key for the new service or function.
+   * @param {Callback} callback - Callback function with dependency injection logic.
+   * @param {IServiceConfig} [config] - Optional configuration for the service or function.
+   * @returns {Container} - The updated Container object.
    */
-  public add(key: string, callback: Callback): Container {
+  public add(key: string, callback: Callback, config?: IServiceConfig): Container {
     this.context.push({
       key,
       callback,
+      config,
     });
     return this;
   }
@@ -84,6 +92,7 @@ class Container {
     if (ctx) {
       if (!ctx.instance) {
         ctx.instance = ctx.callback({ container: this, props: this.properties });
+        ctx.config?.cached && this.cache.memorizeMethods(ctx);
       }
       return ctx.instance;
     }
