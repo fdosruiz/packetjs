@@ -29,11 +29,23 @@
             "release": "patch"
           },
           {
+            "type": "ci",
+            "release": false
+          },
+          {
             "type": "docs",
             "release": "patch"
           },
           {
             "type": "deps",
+            "release": "patch"
+          },
+          {
+            "type": "refactor",
+            "release": "patch"
+          },
+          {
+            "type": "style",
             "release": "patch"
           },
           {
@@ -54,6 +66,14 @@
         "presetConfig": {
           "types": [
             {
+              "type": "breaking",
+              "section": "Major Features"
+            },
+            {
+              "type": "revert",
+              "section": "Revert Changes"
+            },
+            {
               "type": "feat",
               "section": "Features"
             },
@@ -68,10 +88,6 @@
             {
               "type": "ci",
               "section": "CI/CD"
-            },
-            {
-              "type": "fix",
-              "section": "Bug Fixes"
             },
             {
               "type": "docs",
