@@ -12,7 +12,7 @@ import { Cache } from '.';
  */
 class Container {
   static container: Container;
-  private context: Context[];
+  private context: Map<String, Context>;
   private properties: object;
   private cache: Cache;
 
@@ -22,7 +22,7 @@ class Container {
    * @constructor
    */
   private constructor() {
-    this.context = [];
+    this.context = new Map<String, Context>();
     this.properties = {};
     this.cache = new Cache();
   }
@@ -47,7 +47,7 @@ class Container {
    * @returns {Container} - The updated Container object.
    */
   public add(key: string, callback: Callback, config?: IServiceConfig): Container {
-    this.context.push({
+    this.context.set(key, {
       key,
       callback,
       config,
@@ -70,17 +70,6 @@ class Container {
   }
 
   /**
-   * Find a context
-   *
-   * @param {string} key - Unique key of the service or function
-   * @private
-   * @return {Context | undefined} - The found context, or undefined if not found
-   */
-  private find(key: string): Context | undefined {
-    return this.context.find((ctx: Context) => ctx.key == key);
-  }
-
-  /**
    * Gets always the same instance for a concrete context
    *
    * @param {string} key - Unique key of the service or function
@@ -88,7 +77,7 @@ class Container {
    * or null if no instance is found
    */
   public get(key: string): any {
-    const ctx = this.find(key);
+    const ctx = this.context.get(key);
     if (ctx) {
       if (!ctx.instance) {
         ctx.instance = ctx.callback({ container: this, props: this.properties });
@@ -106,7 +95,7 @@ class Container {
    * @returns {any} - A new instance of the service or function, or null if not found.
    */
   public getFactory(key: string): any {
-    const ctx = this.find(key);
+    const ctx = this.context.get(key);
     return ctx
       ? ctx.callback({ container: this, props: this.properties })
       : null;
@@ -138,12 +127,11 @@ class Container {
    * @returns {IContextObject} - An object containing the context objects and their getters.
    */
   public getAll(): IContextObject {
-    return this.context.reduce((acc: IContextObject, ctx: Context) => {
-      return {
-        ...acc,
-        [ctx.key]: () => this.get(ctx.key),
-      };
-    }, {} as IContextObject);
+    const contextServices: IContextObject = {};
+    this.context.forEach((ctx) => {
+      contextServices[ctx.key] = () => this.get(ctx.key);
+    });
+    return contextServices;
   }
 }
 
