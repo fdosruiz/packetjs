@@ -33,6 +33,19 @@ using one of the following types:
 - `style`: formatting changes that do not affect code logic (white spaces, line breaks, quotes, etc.)
 - `chore`: any other change that does not belong to the types above.
 
+## 3. Add tests
+
+Use the following path to add tests:
+
+    tests/src
+    tests/lib
+
+Use the common tests to add tests, if needed.
+
+    tests/common
+
+Run `npm run build` to ensure that code is up-to-date in lib directory.
+
 ## 3. Run Unit Tests
 
     npm run test
