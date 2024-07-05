@@ -12,7 +12,7 @@ import { Cache } from '.';
  */
 class Container {
   static container: Container;
-  private context: Map<String, Context>;
+  private context: Map<string, Context>;
   private properties: object;
   private cache: Cache;
 
@@ -22,7 +22,7 @@ class Container {
    * @constructor
    */
   private constructor() {
-    this.context = new Map<String, Context>();
+    this.context = new Map<string, Context>();
     this.properties = {};
     this.cache = new Cache();
   }
@@ -81,7 +81,7 @@ class Container {
     if (ctx) {
       if (!ctx.instance) {
         ctx.instance = ctx.callback({ container: this, props: this.properties });
-        ctx.config?.cached && this.cache.memorizeMethods(ctx);
+        this.cache.memorizeMethods(ctx);
       }
       return ctx.instance;
     }

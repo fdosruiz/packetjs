@@ -11,13 +11,14 @@ class Cache {
   }
 
   /**
-   * Memorizes the methods on the given context object by creating a cache proxy for each method.
+   * Memorizes the methods on the given context instance, creating a cache proxy for each method,
+   * only if "config.cached" is active.
    *
    * @param {Context} ctx - The context object.
    * @return {Object} - The original context object with methods memorized.
    */
-  public memorizeMethods(ctx: Context) {
-    if (!this.instances.has(ctx.key) && typeof ctx.instance === 'object') {
+  public memorizeMethods(ctx: Context): Context {
+    if (ctx.config?.cached && !this.instances.has(ctx.key) && typeof ctx.instance === 'object') {
       const methods = this.extractMethods(ctx);
 
       methods.forEach((method) => {
@@ -27,7 +28,7 @@ class Cache {
       this.instances.set(ctx.key, ctx.instance);
     }
 
-    return ctx.instance;
+    return ctx;
   }
 
   /**
@@ -41,11 +42,12 @@ class Cache {
     const objectMethods = this.getObjectMethods(ctx);
     const functionMethods = this.getFunctionMethods(ctx);
     let methods = [...objectMethods, ...functionMethods].filter(
-      method => typeof ctx.instance[method] === 'function'
+      method => typeof ctx.instance[method] === 'function',
     );
 
-    if (ctx.config?.methods) {
-      methods = methods.filter(method => ctx.config?.methods?.includes(method));
+    const configMethods = ctx.config?.methods;
+    if (configMethods) {
+      methods = methods.filter(method => configMethods.includes(method));
     }
 
     return methods;
@@ -81,7 +83,7 @@ class Cache {
         this.methods.set(key, result);
 
         return result;
-      }
+      },
     });
   }
 
