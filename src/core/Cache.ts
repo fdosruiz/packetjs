@@ -47,7 +47,10 @@ class Cache {
 
     const configMethods = ctx.config?.methods;
     if (configMethods) {
-      methods = methods.filter(method => configMethods.includes(method));
+      const filterModeCallback = ctx.config?.excludeMode
+        ? (method: string) => !configMethods.includes(method)
+        : (method: string) => configMethods.includes(method);
+      methods = methods.filter(filterModeCallback);
     }
 
     return methods;

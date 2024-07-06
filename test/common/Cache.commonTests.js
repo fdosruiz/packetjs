@@ -5,24 +5,8 @@ export const cacheCommonTests = (Cache) => {
   describe('Testing Cache Common Tests', () => {
     let cache;
     const mockFunction = jest.fn();
-    const ctxCacheFunctions = {
-      key: 'testKey',
-      callback: mockFunction,
-      instance: null,
-      config: {
-        cached: true,
-        methods: [ 'method1' ],
-      },
-    };
-    const ctxCacheObjects = {
-      key: 'testKeyClasses',
-      callback: mockFunction,
-      instance: null,
-      config: {
-        cached: true,
-        methods: [ 'getTime' ],
-      },
-    };
+    const ctxCacheFunctions = { key: 'testKey', callback: mockFunction, instance: null };
+    const ctxCacheObjects = { key: 'testKeyClasses', callback: mockFunction, instance: null };
     const time = 1720107080000;
     const getTimeMock = jest.fn(() => new Date(time).getTime());
     const getDayMock = jest.fn(() => new Date(time).getDay());
@@ -36,13 +20,20 @@ export const cacheCommonTests = (Cache) => {
       ctxCacheFunctions.instance = {
         method1: jest.fn(() => uniqid()),
         method2: jest.fn(() => uniqid()),
+        method3: jest.fn(() => uniqid()),
+        method4: jest.fn(() => uniqid()),
+        method5: jest.fn(() => uniqid()),
       };
       ctxCacheObjects.instance = new TestingClass();
     });
 
     describe("Cache Functions", () => {
       it("Memorize the methods configured on the given context object", () => {
-        const ctxOut = cache.memorizeMethods(ctxCacheFunctions);
+        const overrideCtx = {
+          ...ctxCacheFunctions,
+          config: { cached: true, methods: [ 'method1' ] },
+        };
+        const ctxOut = cache.memorizeMethods(overrideCtx);
         // Call the method1
         const uniqid1 = ctxOut.instance.method1();
         const uniqid2 = ctxOut.instance.method1();
@@ -81,18 +72,43 @@ export const cacheCommonTests = (Cache) => {
       it('Should cache all methods if config methods is not set', () => {
         const overrideCtx = {
           ...ctxCacheFunctions,
-          config: {
-            cached: true,
-          },
+          config: { cached: true },
         };
         const ctxOut = cache.memorizeMethods(overrideCtx);
         const uniqid1 = ctxOut.instance.method1();
         const uniqid2 = ctxOut.instance.method2();
+        const uniqid3 = ctxOut.instance.method3();
+        const uniqid4 = ctxOut.instance.method4();
+        const uniqid5 = ctxOut.instance.method5();
 
         // 'Should cache all methods
-        expect(cache['methods'].size).toBe(2);
+        expect(cache['methods'].size).toBe(5);
         expect(Array.from(cache['methods'])[0]).toEqual([ 'testKey_method1_[]', uniqid1 ]);
         expect(Array.from(cache['methods'])[1]).toEqual([ 'testKey_method2_[]', uniqid2 ]);
+        expect(Array.from(cache['methods'])[2]).toEqual([ 'testKey_method3_[]', uniqid3 ]);
+        expect(Array.from(cache['methods'])[3]).toEqual([ 'testKey_method4_[]', uniqid4 ]);
+        expect(Array.from(cache['methods'])[4]).toEqual([ 'testKey_method5_[]', uniqid5 ]);
+      });
+
+      it('Should cache all methods except methods excluded', () => {
+        const overrideCtx = {
+          ...ctxCacheFunctions,
+          config: { cached: true, methods: [ 'method1' ], excludeMode: true },
+        };
+        const ctxOut = cache.memorizeMethods(overrideCtx);
+        ctxOut.instance.method1();
+        ctxOut.instance.method2();
+        ctxOut.instance.method3();
+        ctxOut.instance.method4();
+        ctxOut.instance.method5();
+
+        // 'Should cache all methods except method1
+        expect(cache['methods'].size).toBe(4);
+        expect(cache['methods'].get('testKey_method1_[]')).toBeUndefined();
+        expect(cache['methods'].get('testKey_method2_[]')).not.toBeUndefined();
+        expect(cache['methods'].get('testKey_method3_[]')).not.toBeUndefined();
+        expect(cache['methods'].get('testKey_method4_[]')).not.toBeUndefined();
+        expect(cache['methods'].get('testKey_method5_[]')).not.toBeUndefined();
       });
 
       it('Should not cache any methods if not config is set', () => {
@@ -110,14 +126,22 @@ export const cacheCommonTests = (Cache) => {
       });
 
       it("Only methods from config are extracted from the keys of the function instance", () => {
-        const methods = cache['extractMethods'](ctxCacheFunctions);
+        const overrideCtx = {
+          ...ctxCacheFunctions,
+          config: { cached: true, methods: [ 'method1' ] },
+        };
+        const methods = cache['extractMethods'](overrideCtx);
         expect(methods).toEqual([ "method1" ]);
       });
     });
 
     describe("Cache Objects", () => {
       it("Memorize the methods configured on the given context object", () => {
-        const ctxOut = cache.memorizeMethods(ctxCacheObjects);
+        const overrideCtx = {
+          ...ctxCacheObjects,
+          config: { cached: true, methods: [ 'getTime' ] },
+        };
+        const ctxOut = cache.memorizeMethods(overrideCtx);
         // Call getTime three times
         ctxOut.instance.getTime();
         ctxOut.instance.getTime();
@@ -147,9 +171,7 @@ export const cacheCommonTests = (Cache) => {
       it('Should cache all methods if config methods is not set', () => {
         const overrideCtx = {
           ...ctxCacheObjects,
-          config: {
-            cached: true,
-          },
+          config: { cached: true },
         };
         const ctxOut = cache.memorizeMethods(overrideCtx);
         ctxOut.instance.getTime();
@@ -159,6 +181,21 @@ export const cacheCommonTests = (Cache) => {
         expect(cache['methods'].size).toBe(2);
         expect(Array.from(cache['methods'])[0]).toEqual([ 'testKeyClasses_getTime_[]', 1720107080000 ]);
         expect(Array.from(cache['methods'])[1]).toEqual([ 'testKeyClasses_getDay_[]', 4 ]);
+      });
+
+      it('Should cache all methods except methods excluded', () => {
+        const overrideCtx = {
+          ...ctxCacheObjects,
+          config: { cached: true, methods: [ 'getTime' ], excludeMode: true },
+        };
+        const ctxOut = cache.memorizeMethods(overrideCtx);
+        ctxOut.instance.getTime();
+        ctxOut.instance.getDay();
+
+        // 'Should cache all methods except getTime method
+        expect(cache['methods'].size).toBe(1);
+        expect(cache['methods'].get('testKeyClasses_getTime_[]')).toBeUndefined();
+        expect(cache['methods'].get('testKeyClasses_getDay_[]')).not.toBeUndefined();
       });
 
       it('Should not cache any methods if not config is set', () => {
@@ -176,12 +213,49 @@ export const cacheCommonTests = (Cache) => {
       });
 
       it("Only methods from config are extracted from the prototype of the instance", () => {
-        const methods = cache['extractMethods'](ctxCacheObjects);
+        const overrideCtx = {
+          ...ctxCacheObjects,
+          config: { cached: true, methods: [ 'getTime' ] },
+        };
+        const methods = cache['extractMethods'](overrideCtx);
         expect(methods).toEqual([ "getTime" ]);
       });
     });
 
     describe("Common functions", () => {
+      it('Should cache only instances that dont have a previous cache key', () => {
+        const overrideCtx = {
+          ...ctxCacheFunctions,
+          config: { cached: true },
+        };
+
+        // Cache testKey instance
+        const ctxOut = cache.memorizeMethods(overrideCtx);
+
+        const unique1 = ctxOut.instance.method1();
+        const unique2 = ctxOut.instance.method1();
+
+        // First instance should be cached
+        expect(unique1).toBe(unique2);
+
+        // Create another instance
+        const anotherCtx = {
+          key: 'testKey', // duplicate key
+          instance: {
+            method1: jest.fn(() => uniqid()),
+          },
+        };
+
+        // Cache testKey instance (duplicated key)
+        const ctxOut2 = cache.memorizeMethods(anotherCtx);
+
+        const unique3 = ctxOut2.instance.method1();
+        const unique4 = ctxOut2.instance.method1();
+
+        // Second instance should not be cached
+        expect(unique3).not.toBe(unique4);
+      });
+
       each([
         [ true ],
         [ false ],

@@ -116,13 +116,13 @@ class Container {
    * @example
    ```js
    const {
-     service1,
-     service2,
+     Service1,
+     Service2,
    } = container.getAll();
 
    // invoque the services
-   service1();
-   service2();
+   Service1();
+   Service2();
    ```
    * @returns {IContextObject} - An object containing the context objects and their getters.
    */
