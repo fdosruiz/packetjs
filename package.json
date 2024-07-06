@@ -11,7 +11,7 @@
     "lint": "eslint --ext .js,.ts ./",
     "prepare": "husky install",
     "sandbox-lib": "nodemon sandbox/lib.js",
-    "sandbox-ts": "nodemon sandbox/index.ts",
+    "sandbox-ts": "nodemon sandbox/index.ts --watch sandbox/common.js --watch sandbox/index.ts",
     "test": "jest"
   },
   "author": "Francisco Ruiz",
