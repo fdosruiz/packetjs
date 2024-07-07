@@ -28,4 +28,14 @@ export default {
       statements: 100,
     },
   },
+
+  transform: {
+    '^.+\\.ts?$': 'ts-jest',
+    '^.+\\.js?$': 'babel-jest',
+  },
+
+  coveragePathIgnorePatterns: [
+    "/node_modules/",
+    "/test/common/",
+  ],
 };

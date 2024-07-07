@@ -1,24 +1,35 @@
+import {
+  Callback,
+  Context,
+  IContextObject,
+  IServiceOptions,
+} from '../types/common.types';
+import { Cache } from '.';
+
 /**
  * Dependency injection container
  * @author Francisco Ruiz
  */
 class Container {
   static container: Container;
-  private context: Context[];
+  private context: Map<string, Context>;
   private properties: object;
+  private cache: Cache;
 
   /**
    * Private constructor to be only accessible within the class declaration
    * @private
+   * @constructor
    */
   private constructor() {
-    this.context = [];
+    this.context = new Map<string, Context>();
     this.properties = {};
+    this.cache = new Cache();
   }
 
   /**
    * Gets always the same instance of the container. (Singleton pattern)
-   * @return Container
+   * @return {Container} The container instance.
    */
   static getContainer(): Container {
     if (!Container.container) {
@@ -28,22 +39,27 @@ class Container {
   }
 
   /**
-   * Add a new service or function to context
-   * @param key Unique key for the new service or function
-   * @param callback Callback function with dependency injection logic
+   * Add a new service or function to the context.
+   *
+   * @param {string} key - Unique key for the new service or function.
+   * @param {Callback} callback - Callback function with dependency injection logic.
+   * @param {IServiceOptions} [options] - Optional configuration for the service or function.
+   * @returns {Container} - The updated Container object.
    */
-  public add(key: string, callback: Callback): Container {
-    this.context.push({
+  public add(key: string, callback: Callback, options?: IServiceOptions): Container {
+    this.context.set(key, {
       key,
       callback,
+      options,
     });
     return this;
   }
 
   /**
-   * Add an object configuration to container properties
-   * @param props Configuration properties object
-   * @return Container
+   * Add configuration properties to the container.
+   *
+   * @param {object} props - The configuration properties to add to the container.
+   * @return {Container} - The modified container.
    */
   public addProps(props: object): Container {
     this.properties = {
@@ -54,25 +70,18 @@ class Container {
   }
 
   /**
-   * Find a context
-   * @param key Unique key of the service or function
-   * @private
-   * @return Context | undefined
-   */
-  private find(key: string): Context | undefined {
-    return this.context.find((ctx: Context) => ctx.key == key);
-  }
-
-  /**
    * Gets always the same instance for a concrete context
-   * @param key Unique key of the service or function
-   * @return any
+   *
+   * @param {string} key - Unique key of the service or function
+   * @return {any} - The instance of the service or function associated with the given key,
+   * or null if no instance is found
    */
   public get(key: string): any {
-    const ctx = this.find(key);
+    const ctx = this.context.get(key);
     if (ctx) {
       if (!ctx.instance) {
         ctx.instance = ctx.callback({ container: this, props: this.properties });
+        this.cache.memorizeMethods(ctx);
       }
       return ctx.instance;
     }
@@ -80,20 +89,22 @@ class Container {
   }
 
   /**
-   * Gets always a new instance for a concrete context
-   * @param key Unique key of the service or function
-   * @return any
+   * Retrieves a new instance of a service or function based on the provided key.
+   *
+   * @param {string} key - The unique key of the service or function.
+   * @returns {any} - A new instance of the service or function, or null if not found.
    */
   public getFactory(key: string): any {
-    const ctx = this.find(key);
+    const ctx = this.context.get(key);
     return ctx
       ? ctx.callback({ container: this, props: this.properties })
       : null;
   }
 
   /**
-   * Gets the configuration properties object
-   * @return object
+   * Retrieves the configuration properties object.
+   *
+   * @returns {object} The configuration properties object.
    */
   public getProps(): object {
     return this.properties;
@@ -105,61 +116,23 @@ class Container {
    * @example
    ```js
    const {
-     service1,
-     service2,
+     Service1,
+     Service2,
    } = container.getAll();
 
    // invoque the services
-   service1();
-   service2();
+   Service1();
+   Service2();
    ```
    * @returns {IContextObject} - An object containing the context objects and their getters.
    */
   public getAll(): IContextObject {
-    return this.context.reduce((acc: IContextObject, ctx: Context) => {
-      return {
-        ...acc,
-        [ctx.key]: () => this.get(ctx.key),
-      };
-    }, {} as IContextObject);
+    const contextServices: IContextObject = {};
+    this.context.forEach((ctx) => {
+      contextServices[ctx.key] = () => this.get(ctx.key);
+    });
+    return contextServices;
   }
 }
-
-/**
- * Context definition
- */
-export interface Context {
-  /**
-   * Unique key of the service or function
-   */
-  key: string;
-
-  /**
-   * Callback function with dependency injection logic
-   */
-  callback: Callback;
-
-  /**
-   * Instance of callback function
-   */
-  instance?: any;
-}
-
-/**
- * Properties definition
- */
-export type Props = {
-  container: Container;
-  props: object | any;
-}
-
-interface IContextObject{
-  [key: string]: () => any;
-}
-
-/**
- * Callback definition
- */
-export type Callback = (p: Props) => any;
 
 export default Container;

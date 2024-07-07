@@ -12,7 +12,7 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
-          node-version: 18
+          node-version: 20
       - uses: actions/cache@v4
         with:
           path: lib
@@ -25,5 +25,5 @@ jobs:
           key: node_modules-${{ hashFiles('package-lock.json') }}
           restore-keys: |
             node_modules-
-      - run: npm install
+      - run: npm ci
       - run: npm run build
