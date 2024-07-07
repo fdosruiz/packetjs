@@ -7,9 +7,6 @@ class Cache {
   private methods = new Map<string, any>();
   private instances = new Map<string, any>();
 
-  public constructor() {
-  }
-
   /**
    * Memorizes the methods on the given context instance, creating a cache proxy for each method,
    * only if "config.cached" is active.
@@ -41,11 +38,11 @@ class Cache {
   private extractMethods(ctx: Context): string[] {
     const objectMethods = this.getObjectMethods(ctx);
     const functionMethods = this.getFunctionMethods(ctx);
+    const configMethods = ctx.options?.methods;
     let methods = [...objectMethods, ...functionMethods].filter(
       method => typeof ctx.instance[method] === 'function',
     );
 
-    const configMethods = ctx.options?.methods;
     if (configMethods) {
       const filterModeCallback = ctx.options?.excludeMode
         ? (method: string) => !configMethods.includes(method)
@@ -104,5 +101,3 @@ class Cache {
 }
 
 export default Cache;
-
-

@@ -48,7 +48,7 @@ export interface IContextObject {
 export interface IServiceOptions {
   cached: boolean;
   methods?: string[] | undefined;
-  excludeMode?: boolean;
+  excludeMode?: boolean | undefined;
 }
 
 /**
