@@ -31,7 +31,7 @@ export const cacheCommonTests = (Cache) => {
       it("Memorize the methods configured on the given context object", () => {
         const overrideCtx = {
           ...ctxCacheFunctions,
-          config: { cached: true, methods: [ 'method1' ] },
+          options: { cached: true, methods: [ 'method1' ] },
         };
         const ctxOut = cache.memorizeMethods(overrideCtx);
         // Call the method1
@@ -72,7 +72,7 @@ export const cacheCommonTests = (Cache) => {
       it('Should cache all methods if config methods is not set', () => {
         const overrideCtx = {
           ...ctxCacheFunctions,
-          config: { cached: true },
+          options: { cached: true },
         };
         const ctxOut = cache.memorizeMethods(overrideCtx);
         const uniqid1 = ctxOut.instance.method1();
@@ -93,7 +93,7 @@ export const cacheCommonTests = (Cache) => {
       it('Should cache all methods except methods excluded', () => {
         const overrideCtx = {
           ...ctxCacheFunctions,
-          config: { cached: true, methods: [ 'method1' ], excludeMode: true },
+          options: { cached: true, methods: [ 'method1' ], excludeMode: true },
         };
         const ctxOut = cache.memorizeMethods(overrideCtx);
         ctxOut.instance.method1();
@@ -114,7 +114,7 @@ export const cacheCommonTests = (Cache) => {
       it('Should not cache any methods if not config is set', () => {
         const overrideCtx = {
           ...ctxCacheFunctions,
-          config: undefined,
+          options: undefined,
         };
         const ctxOut = cache.memorizeMethods(overrideCtx);
 
@@ -128,7 +128,7 @@ export const cacheCommonTests = (Cache) => {
       it("Only methods from config are extracted from the keys of the function instance", () => {
         const overrideCtx = {
           ...ctxCacheFunctions,
-          config: { cached: true, methods: [ 'method1' ] },
+          options: { cached: true, methods: [ 'method1' ] },
         };
         const methods = cache['extractMethods'](overrideCtx);
         expect(methods).toEqual([ "method1" ]);
@@ -139,7 +139,7 @@ export const cacheCommonTests = (Cache) => {
       it("Memorize the methods configured on the given context object", () => {
         const overrideCtx = {
           ...ctxCacheObjects,
-          config: { cached: true, methods: [ 'getTime' ] },
+          options: { cached: true, methods: [ 'getTime' ] },
         };
         const ctxOut = cache.memorizeMethods(overrideCtx);
         // Call getTime three times
@@ -171,7 +171,7 @@ export const cacheCommonTests = (Cache) => {
       it('Should cache all methods if config methods is not set', () => {
         const overrideCtx = {
           ...ctxCacheObjects,
-          config: { cached: true },
+          options: { cached: true },
         };
         const ctxOut = cache.memorizeMethods(overrideCtx);
         ctxOut.instance.getTime();
@@ -186,7 +186,7 @@ export const cacheCommonTests = (Cache) => {
       it('Should cache all methods except methods excluded', () => {
         const overrideCtx = {
           ...ctxCacheObjects,
-          config: { cached: true, methods: [ 'getTime' ], excludeMode: true },
+          options: { cached: true, methods: [ 'getTime' ], excludeMode: true },
         };
         const ctxOut = cache.memorizeMethods(overrideCtx);
         ctxOut.instance.getTime();
@@ -201,7 +201,7 @@ export const cacheCommonTests = (Cache) => {
       it('Should not cache any methods if not config is set', () => {
         const overrideCtx = {
           ...ctxCacheObjects,
-          config: undefined,
+          options: undefined,
         };
         const ctxOut = cache.memorizeMethods(overrideCtx);
 
@@ -215,7 +215,7 @@ export const cacheCommonTests = (Cache) => {
       it("Only methods from config are extracted from the prototype of the instance", () => {
         const overrideCtx = {
           ...ctxCacheObjects,
-          config: { cached: true, methods: [ 'getTime' ] },
+          options: { cached: true, methods: [ 'getTime' ] },
         };
         const methods = cache['extractMethods'](overrideCtx);
         expect(methods).toEqual([ "getTime" ]);
@@ -226,7 +226,7 @@ export const cacheCommonTests = (Cache) => {
       it('Should cache only instances that dont have a previous cache key', () => {
         const overrideCtx = {
           ...ctxCacheFunctions,
-          config: { cached: true },
+          options: { cached: true },
         };
 
         // Cache testKey instance

@@ -120,11 +120,11 @@ const commonSandboxTests = (container) => {
     container.get('Date').getTime('cccc', '3333');
     console.log(container.cache.methods);
 
-    console.log('--------------------------- BEFORE CALLING - MEMORIZE CONFIG METHODS (DATE2) ------------------------------------');
+    console.log('--------------------------- BEFORE CALLING - MEMORIZE CONFIG METHODS (DATE_2) ------------------------------------');
     console.log(container.context.get('Date2'));
     console.log(container.cache.methods);
 
-    console.log('--------------------------- AFTER CALLING - MEMORIZE CONFIG METHODS (DATE) ------------------------------------');
+    console.log('--------------------------- AFTER CALLING - MEMORIZE CONFIG METHODS (DATE_2) ------------------------------------');
     container.get('Date2').getTime('aaaa', '1111');
     console.log(container.context.get('Date2'));
     console.log(container.cache.methods);
@@ -152,11 +152,11 @@ const commonSandboxTests = (container) => {
   };
 
   const memorizedServicesExcludeMode = () => {
-    console.log('--------------------------- BEFORE CALLING - MEMORIZE ALL METHODS EXCEPT EXCLUDED (DATE) ------------------------------------');
+    console.log('--------------------------- BEFORE CALLING - MEMORIZE ALL METHODS EXCEPT EXCLUDED (RandomExclude) ------------------------------------');
     console.log(container.context.get('RandomExclude'));
     console.log(container.cache.methods);
 
-    console.log('--------------------------- AFTER CALLING - MEMORIZE ALL METHODS EXCEPT EXCLUDED (DATE) ------------------------------------');
+    console.log('--------------------------- AFTER CALLING - MEMORIZE ALL METHODS EXCEPT EXCLUDED (RandomExclude) ------------------------------------');
     container.get('RandomExclude').getRandom1();
     container.get('RandomExclude').getRandom2();
     console.log(container.context.get('RandomExclude'));

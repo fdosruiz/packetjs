@@ -18,7 +18,7 @@ class Cache {
    * @return {Object} - The original context object with methods memorized.
    */
   public memorizeMethods(ctx: Context): Context {
-    if (ctx.config?.cached && !this.instances.has(ctx.key) && typeof ctx.instance === 'object') {
+    if (ctx.options?.cached && !this.instances.has(ctx.key) && typeof ctx.instance === 'object') {
       const methods = this.extractMethods(ctx);
 
       methods.forEach((method) => {
@@ -45,9 +45,9 @@ class Cache {
       method => typeof ctx.instance[method] === 'function',
     );
 
-    const configMethods = ctx.config?.methods;
+    const configMethods = ctx.options?.methods;
     if (configMethods) {
-      const filterModeCallback = ctx.config?.excludeMode
+      const filterModeCallback = ctx.options?.excludeMode
         ? (method: string) => !configMethods.includes(method)
         : (method: string) => configMethods.includes(method);
       methods = methods.filter(filterModeCallback);

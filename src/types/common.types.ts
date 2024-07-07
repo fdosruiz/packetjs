@@ -20,9 +20,9 @@ export interface Context {
   instance?: any;
 
   /**
-   * Configuration object for service
+   * Options object for service configuration
    */
-  config?: IServiceConfig;
+  options?: IServiceOptions;
 }
 
 /**
@@ -45,7 +45,7 @@ export interface IContextObject {
  * Represents the configuration settings for a service.
  * @interface
  */
-export interface IServiceConfig {
+export interface IServiceOptions {
   cached: boolean;
   methods?: string[] | undefined;
   excludeMode?: boolean;

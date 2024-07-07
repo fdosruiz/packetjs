@@ -2,7 +2,7 @@ import {
   Callback,
   Context,
   IContextObject,
-  IServiceConfig,
+  IServiceOptions,
 } from '../types/common.types';
 import { Cache } from '.';
 
@@ -43,14 +43,14 @@ class Container {
    *
    * @param {string} key - Unique key for the new service or function.
    * @param {Callback} callback - Callback function with dependency injection logic.
-   * @param {IServiceConfig} [config] - Optional configuration for the service or function.
+   * @param {IServiceOptions} [options] - Optional configuration for the service or function.
    * @returns {Container} - The updated Container object.
    */
-  public add(key: string, callback: Callback, config?: IServiceConfig): Container {
+  public add(key: string, callback: Callback, options?: IServiceOptions): Container {
     this.context.set(key, {
       key,
       callback,
-      config,
+      options,
     });
     return this;
   }
