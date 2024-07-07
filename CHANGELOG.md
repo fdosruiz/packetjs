@@ -1,3 +1,10 @@
+## [1.3.1](https://github.com/fdosruiz/packetjs/compare/v1.3.0...v1.3.1) (2024-07-07)
+
+### Bug Fixes
+
+* resolve the fix with babel transpile for node 8.6.0 and above. ([0d951af](https://github.com/fdosruiz/packetjs/commit/0d951af5f0d2f86c5a809e0acb5904226b84da1c))
+* resolve the fix with babel transpile for node 8.6.0 and above. ([7ff213d](https://github.com/fdosruiz/packetjs/commit/7ff213d288713fd29137ceb2161875368e488414))
+
 ## [1.3.0](https://github.com/fdosruiz/packetjs/compare/v1.2.8...v1.3.0) (2024-07-07)
 
 ### Revert Changes
