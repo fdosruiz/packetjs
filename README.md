@@ -4,7 +4,7 @@
   <img src="resources/logo.png" alt="packetjs-di" />
 </div>
 
-[![node](https://img.shields.io/badge/node-%3E=6.0.0-green)](https://www.npmjs.com/package/packetjs-di)
+[![node](https://img.shields.io/badge/node-%3E=8.6.0-green)](https://www.npmjs.com/package/packetjs-di)
 [![install size](https://packagephobia.com/badge?p=packetjs-di)](https://packagephobia.com/result?p=packetjs-di)
 [![npm bundle size zip](https://img.shields.io/bundlephobia/minzip/packetjs-di?style=flat-square)](https://bundlephobia.com/package/packetjs-di@latest)
 [![npm bundle size](https://img.shields.io/bundlephobia/min/packetjs-di?style=flat-square)](https://bundlephobia.com/package/packetjs-di@latest)

@@ -1,4 +1,4 @@
-const commonSandboxTests = (container) => {
+const commonSandboxTests = (container, exclusions = false) => {
   // Add properties
   container.addProps({
       date: '2022-03-18T17:00:03.030Z',
@@ -8,7 +8,9 @@ const commonSandboxTests = (container) => {
   const addServices = () => {
     container.add('Service1', () => new Date());
     container.add('Service2', ({ props }) => new Date(props.date));
-    container.add('Service3', ({ props }) => new URL(props.url));
+    !exclusions
+      ? container.add('Service3', ({ props }) => new URL(props.url))
+      : container.add('Service3', ({ props }) => new Date(props.date))
     container.add('Service4', ({ container: c }) => {
         const service2 = c.get('Service2');
         const service3 = c.get('Service3');
@@ -16,7 +18,9 @@ const commonSandboxTests = (container) => {
     });
     container.add('Service5', () => Math.random() * 1000);
     container.add('Service6', ({ props }) => new Date(props.date));
-    container.add('Service7', ({ props }) => new URL(props.url));
+    !exclusions
+      ? container.add('Service7', ({ props }) => new URL(props.url))
+      : container.add('Service7', ({ props }) => new Date(props.date))
   };
 
   const addNewProps = () => {
