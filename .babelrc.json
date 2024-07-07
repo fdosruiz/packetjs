@@ -8,7 +8,10 @@
       {
         "useBuiltIns": "usage",
         "corejs": "3",
-        "targets": "> 0.25%, not dead"
+        "targets": [
+            "> 0.25%, not dead",
+            "node 8.6.0"
+        ]
       }
     ]
   ]

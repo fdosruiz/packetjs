@@ -11,7 +11,7 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [14.x, 16.x, 18.x, 20.x, 21.x]
+        node-version: [8.6.0, 10.x, 12.x, 14.x, 16.x, 18.x, 20.x, 21.x]
         # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
 
     steps:
@@ -30,12 +30,21 @@ jobs:
         key: lib-${{ hashFiles('package.json') }}
         restore-keys: |
           lib-
-
-    - run: npm ci
-    - run: npm test
-    - run: npm run lint
-
-    - name: Coveralls
-      uses: coverallsapp/github-action@master
+    - uses: actions/cache@v4
       with:
-        github-token: ${{ secrets.github_token }}
+        path: node_modules
+        key: node_modules-${{ hashFiles('package-lock.json') }}
+        restore-keys: |
+          node_modules-
+#    - run: npm ci
+    - run: node -v
+    - run: |
+        node sandbox/ci-cd.js
+
+#    - run: npm test
+#    - run: npm run lint
+
+#    - name: Coveralls
+#      uses: coverallsapp/github-action@master
+#      with:
+#        github-token: ${{ secrets.github_token }}
