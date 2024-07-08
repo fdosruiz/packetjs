@@ -1,3 +1,9 @@
+## [1.3.2](https://github.com/fdosruiz/packetjs/compare/v1.3.1...v1.3.2) (2024-07-08)
+
+### Bug Fixes
+
+* update Babel configuration for core-js dependency ([f120198](https://github.com/fdosruiz/packetjs/commit/f12019828c39df4626b72acc2b4048b6d220ad81))
+
 ## [1.3.1](https://github.com/fdosruiz/packetjs/compare/v1.3.0...v1.3.1) (2024-07-07)
 
 ### Bug Fixes
