@@ -6,8 +6,7 @@
     [
       "@babel/preset-env",
       {
-        "useBuiltIns": "usage",
-        "corejs": "3",
+        "useBuiltIns": "entry",
         "targets": [
             "> 0.25%, not dead",
             "node 8.6.0"
