@@ -10,20 +10,28 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: lts/*
+
       - uses: actions/cache@v4
-        with:
-          path: lib
-          key: lib-${{ hashFiles('package.json') }}
-          restore-keys: |
-            lib-
-      - uses: actions/cache@v4
+        id: cache
         with:
           path: node_modules
           key: node_modules-${{ hashFiles('package-lock.json') }}
           restore-keys: |
             node_modules-
-      - run: npm ci
+
+      - run: node -v
+      - name: Install Dependencies
+        if: steps.cache.outputs.cache-hit != 'true'
+        run: npm ci
       - run: npm run build
+
+      - name: Upload build lib as an Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: lib-artifact
+          path: lib

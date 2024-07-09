@@ -12,7 +12,7 @@
     "prepare": "husky install",
     "sandbox-lib": "nodemon sandbox/lib.js",
     "sandbox-ts": "nodemon sandbox/index.ts --watch sandbox/common.js --watch sandbox/index.ts",
-    "test": "jest"
+    "test": "bash ./scripts/prettier.sh && jest"
   },
   "author": "Francisco Ruiz",
   "repository": {
@@ -68,6 +68,7 @@
     "husky": "^8.0.1",
     "jest": "^28.1.2",
     "nodemon": "^3.1.4",
+    "prettier": "3.3.2",
     "semantic-release": "^24.0.0",
     "ts-jest": "^28.0.8",
     "ts-node": "^10.9.2",
