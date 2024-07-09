@@ -1,3 +1,9 @@
+## [1.3.4](https://github.com/fdosruiz/packetjs/compare/v1.3.3...v1.3.4) (2024-07-09)
+
+### Bug Fixes
+
+* update Node.js version and npm registry URL in workflows ([49faebb](https://github.com/fdosruiz/packetjs/commit/49faebb00555e4f26207c77605ab158a37430e1c))
+
 ## [1.3.3](https://github.com/fdosruiz/packetjs/compare/v1.3.2...v1.3.3) (2024-07-09)
 
 ### Trivial Changes
