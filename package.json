@@ -20,19 +20,26 @@
     "url": "https://github.com/fdosruiz/packetjs.git"
   },
   "engines": {
-    "node": ">=6.0.0"
+    "node": ">=8.6.0"
   },
   "keywords": [
+    "cache",
+    "caching",
+    "container",
+    "dependency",
     "dependency-injection",
     "dependency-injection-container",
     "di",
     "injection",
-    "dependency",
-    "container",
-    "lazy",
-    "lazy-loading",
     "javascript",
     "js",
+    "lazy",
+    "lazy-loading",
+    "memcached",
+    "memo",
+    "memoization",
+    "memoize",
+    "memoizer",
     "node",
     "nodejs",
     "pimple"
