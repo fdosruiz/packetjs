@@ -10,28 +10,30 @@ jobs:
   publish-npm:
     name: NPM Publish
     runs-on: ubuntu-latest
-#    if: github.ref == 'refs/heads/main'
+    if: github.ref == 'refs/heads/main'
     permissions:
       contents: write
       id-token: write
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
         with:
-          node-version: 20
-          registry-url: https://registry.npmjs.org/
-      - uses: actions/cache@v4
-        with:
-          path: lib
-          key: lib-${{ hashFiles('package.json') }}
-          restore-keys: |
-            lib-
+          node-version: lts/*
+
       - uses: actions/cache@v4
         with:
           path: node_modules
           key: node_modules-${{ hashFiles('package-lock.json') }}
           restore-keys: |
             node_modules-
+
+      - name: Download lib artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: lib-artifact
+          path: lib
 
       - name: Download version artifact
         uses: actions/download-artifact@v4

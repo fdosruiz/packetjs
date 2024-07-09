@@ -15,11 +15,11 @@
 [![Coverage Status](https://coveralls.io/repos/github/fdosruiz/packetjs/badge.svg?branch=main)](https://coveralls.io/github/fdosruiz/packetjs?branch=main)
 [![Known Vulnerabilities](https://snyk.io/test/npm/packetjs-di/badge.svg)](https://snyk.io/test/npm/packetjs-di)
 
-Packet JS is a lightweight Dependency Injection container written in TypeScript. It's designed for JavaScript/Node
+Packet JS is a lightweight Dependency Injection container written in TypeScript. It's made for JavaScript/Node
 applications and features lazy loading of services. It instantiates each service on-demand, including those that have
 interdependencies.
 
-It is designed to allow design patterns such as Dependency Inversion or Inversion of Control (IoC), which helps to
+It is engineered to allow design patterns such as Dependency Inversion or Inversion of Control (IoC), which helps to
 improve the design of the application components. Furthermore, it is meant to enhance the performance of large
 applications, by using a dependency injection caching service.
 

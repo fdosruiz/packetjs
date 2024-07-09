@@ -12,7 +12,7 @@
     "prepare": "husky install",
     "sandbox-lib": "nodemon sandbox/lib.js",
     "sandbox-ts": "nodemon sandbox/index.ts --watch sandbox/common.js --watch sandbox/index.ts",
-    "test": "jest"
+    "test": "bash ./scripts/prettier.sh && jest"
   },
   "author": "Francisco Ruiz",
   "repository": {
@@ -20,19 +20,26 @@
     "url": "https://github.com/fdosruiz/packetjs.git"
   },
   "engines": {
-    "node": ">=6.0.0"
+    "node": ">=8.6.0"
   },
   "keywords": [
+    "cache",
+    "caching",
+    "container",
+    "dependency",
     "dependency-injection",
     "dependency-injection-container",
     "di",
     "injection",
-    "dependency",
-    "container",
-    "lazy",
-    "lazy-loading",
     "javascript",
     "js",
+    "lazy",
+    "lazy-loading",
+    "memcached",
+    "memo",
+    "memoization",
+    "memoize",
+    "memoizer",
     "node",
     "nodejs",
     "pimple"
@@ -68,6 +75,7 @@
     "husky": "^8.0.1",
     "jest": "^28.1.2",
     "nodemon": "^3.1.4",
+    "prettier": "3.3.2",
     "semantic-release": "^24.0.0",
     "ts-jest": "^28.0.8",
     "ts-node": "^10.9.2",
