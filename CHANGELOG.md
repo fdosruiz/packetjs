@@ -1,3 +1,17 @@
+## [1.3.3](https://github.com/fdosruiz/packetjs/compare/v1.3.2...v1.3.3) (2024-07-09)
+
+### Trivial Changes
+
+* update Node engine version and keywords in package.json ([146feeb](https://github.com/fdosruiz/packetjs/commit/146feeb5c2252d45a6267a1e33ef18edefa1152b))
+
+### CI/CD
+
+* improve github workflow to detect problems with babel transpilation, over each node version ([7a0c359](https://github.com/fdosruiz/packetjs/commit/7a0c35958a49c578b0b61a35274399f0db359aec))
+
+### Documentation
+
+* update README.md description ([83eae6a](https://github.com/fdosruiz/packetjs/commit/83eae6ad699224c25294e77a15155b5472a1d504))
+
 ## [1.3.2](https://github.com/fdosruiz/packetjs/compare/v1.3.1...v1.3.2) (2024-07-08)
 
 ### Bug Fixes
