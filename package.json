@@ -11,8 +11,11 @@
     "lint": "eslint --ext .js,.ts ./",
     "prepare": "husky install",
     "sandbox-lib": "nodemon sandbox/lib.js",
-    "sandbox-ts": "nodemon sandbox/index.ts --watch sandbox/common.js --watch sandbox/index.ts",
-    "test": "bash ./scripts/prettier.sh && jest"
+    "sandbox-ts": "nodemon sandbox/index.ts --watch sandbox/common.js --watch sandbox/index.ts --watch src/*",
+    "test": "jest test/src",
+    "test-watch": "jest --watch test/src",
+    "test-lib": "bash ./scripts/prettier.sh && jest test/lib",
+    "test-lib-watch": "bash ./scripts/prettier.sh && jest --watch test/lib"
   },
   "author": "Francisco Ruiz",
   "repository": {

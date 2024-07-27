@@ -3,6 +3,7 @@
 .github
 .husky
 .idea
+.prettierrc
 .releaserc
 /coverage/
 /node_modules/
