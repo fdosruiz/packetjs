@@ -38,4 +38,6 @@ export default {
     "/node_modules/",
     "/test/common/",
   ],
+
+  verbose: true,
 };

@@ -1,14 +1,20 @@
 import Container from '../../../src/core/Container';
 import { containerCommonTests } from '../../common/Container.commonTests';
 
-const memorizeMethodsMock = jest.fn();
+const middlewareGetProxyMock = jest.fn();
 
-jest.mock('../../../src/core/Cache', () => {
+const mocks = {
+  middlewareGetProxyMock,
+};
+
+jest.mock('../../../src/core/Middleware', () => {
   return jest.fn().mockImplementation(() => {
-    return {memorizeMethods: memorizeMethodsMock};
+    return {
+      getProxy: middlewareGetProxyMock,
+    };
   });
 });
 
-describe('Testing Container CORE', () => {
-  containerCommonTests(Container, memorizeMethodsMock);
+describe('Unit Testing for Container (Source code)', () => {
+  containerCommonTests(Container, mocks);
 });

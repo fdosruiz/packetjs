@@ -1,6 +1,6 @@
 import Cache from '../../../lib/core/Cache';
 import { cacheCommonTests } from '../../common/Cache.commonTests';
 
-describe('Testing Cache LIB', () => {
+describe('Unit Testing for Cache (Lib code)', () => {
   cacheCommonTests(Cache);
 });
