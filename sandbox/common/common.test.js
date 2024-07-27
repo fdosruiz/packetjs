@@ -1,5 +1,5 @@
 export const commonSandboxTests = (container, Container) => {
-  const initProps = { date: '2022-03-18T17:00:03.030Z', url: 'http://example.com' };
+  const initProps = { date: '2022-03-18T17:00:03.030Z', url: 'https://example.com' };
   // Add properties
   container.addProps(initProps);
 
@@ -9,7 +9,7 @@ export const commonSandboxTests = (container, Container) => {
     container.add('Service3', ({ props }) => new URL(props.url));
     container.add('Service4', ({ container: c }) => {
         const service2 = c.get('Service2');
-        const service3 = c.get('Service3');
+        c.get('Service3');
         return new Date(service2);
     });
     container.add('Service5', () => Math.random() * 1000);
@@ -32,16 +32,16 @@ export const commonSandboxTests = (container, Container) => {
         doTimeout,
       }
     };
-    container.add('Date', ({ container: c }) => {
+    container.add('Date', () => {
       return new Date();
     }, { cache: true });
-    container.add('Date2', ({ container: c }) => {
+    container.add('Date2', () => {
       return new Date();
     }, { cache: true, methods: ['getTime'] });
-    container.add('Random', ({ container: c }) => {
+    container.add('Random', () => {
       return functionService();
     }, { cache: true, methods: ['getRandom1', 'getRandom2', 'doTimeout'] });
-    container.add('RandomExclude', ({ container: c }) => {
+    container.add('RandomExclude', () => {
       return functionService();
     }, { cache: true, methods: ['getRandom1'], excludeMode: true });
   };
@@ -52,7 +52,7 @@ export const commonSandboxTests = (container, Container) => {
 
     describe('Adding new properties', () => {
       it('should add new props', () => {
-        const newProps = { url: 'http://override.url.com', url2: 'http://example2.com', user: 'Francisco' }
+        const newProps = { url: 'https://override.url.com', url2: 'https://example2.com', user: 'Francisco' }
         expect(container.getProps()).toEqual(initProps);
 
         container.addProps(newProps);
@@ -384,7 +384,7 @@ export const commonSandboxTests = (container, Container) => {
 
         // Cache storage
         let entries = [...container.middleware.cache.storage.entries()];
-        // expect(entries).toHaveLength(10); // before entries was 10
+        expect(entries).toHaveLength(10); // before entries was 10
 
         // After calling methods
         const random1 = container.get('Random').getRandom1();
@@ -648,7 +648,7 @@ export const commonSandboxTests = (container, Container) => {
 
       it('should memorize all methods with DEPRECATED option "cached"', () => {
         const container1 = new Container();
-        container1.add('DateDeprecated', ({ container: c }) => {
+        container1.add('DateDeprecated', () => {
           return new Date();
         }, { cached: true });
 
@@ -1118,7 +1118,7 @@ export const commonSandboxTests = (container, Container) => {
       });
 
       it('service should receive the params without args in the next function', () => {
-        container.middleware.add('RequestService',  (next, context, args) => {
+        container.middleware.add('RequestService',  (next) => {
           return next();
         }, {
           priority: 0,
@@ -1149,7 +1149,7 @@ export const commonSandboxTests = (container, Container) => {
         // Config the new service
         container.add('NewService', () => {
           return {
-            fetch: (arg) => 'Response of new service'
+            fetch: () => 'Response of new service'
           };
         });
 
@@ -1212,7 +1212,7 @@ export const commonSandboxTests = (container, Container) => {
 
         container.add('NewService', () => {
           return {
-            fetch: (arg) => 'Response of new service'
+            fetch: () => 'Response of new service'
           };
         }, { cache: true });
 
@@ -1313,11 +1313,11 @@ export const commonSandboxTests = (container, Container) => {
         expect(container1).not.toBe(container2);
 
         container1.add('NewService', () => {
-          return { fetch: (arg) => 'Response of new service' };
+          return { fetch: () => 'Response of new service' };
         });
 
         container2.add('NewService', () => {
-          return { fetch: (arg) => 'Response of new service' };
+          return { fetch: () => 'Response of new service' };
         });
 
         // Service should be different
@@ -1340,11 +1340,11 @@ export const commonSandboxTests = (container, Container) => {
         expect(container1).not.toBe(container2);
 
         container1.add('NewService', () => {
-          return { fetch: (arg) => 'Response of new service 1' };
+          return { fetch: () => 'Response of new service 1' };
         }, { cache: true });
 
         container2.add('NewService', () => {
-          return { fetch: (arg) => 'Response of new service 2' };
+          return { fetch: () => 'Response of new service 2' };
         }, { cache: true });
 
         // Service should be different

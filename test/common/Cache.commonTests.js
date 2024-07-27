@@ -127,7 +127,7 @@ export const cacheCommonTests = (Cache) => {
       storageEntries = [...cache.storage.entries()];
       expect(storageEntries).toHaveLength(0);
 
-      // Call middleware again with other method not exluded (should cache the result)
+      // Call middleware again with other method not excluded (should cache the result)
       const result3 = callback(next, { methodName: 'otherMethod' }, [ 1, 2, 3 ]);
       expect(result3).not.toBe(result);
       expect(result3).not.toBe(result2);

@@ -24,7 +24,7 @@ class Middleware {
    */
   public add(key: string, middleware: IMiddleware, options: Options) {
     this.registerMiddleware(key, middleware, options);
-    this.container.purge(key); // @TODO documentar orden de declaración de los middlewares, si se hace después de la instanciación es necesario purgar para poder usar los middlewares posteriores
+    this.container.purge(key);
   }
 
   /**

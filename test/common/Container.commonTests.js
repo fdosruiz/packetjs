@@ -244,7 +244,7 @@ export const containerCommonTests = (Container, mocks) => {
       });
 
       it('should get null from services not set', () => {
-        const service = container.get('notname');
+        const service = container.get('not-name');
 
         expect(service).toBeNull();
       });
@@ -290,7 +290,7 @@ export const containerCommonTests = (Container, mocks) => {
       });
 
       it('should get null from services not set', () => {
-        const service = container.getFactory('notname');
+        const service = container.getFactory('not-name');
 
         expect(service).toBeNull();
       });

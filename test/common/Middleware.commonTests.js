@@ -8,8 +8,6 @@ export const middlewareCommonTests = (Middleware, Container) => {
     let ctx;
     let instanceTestService;
     let ctxTestService;
-    let instanceContainerService;
-    let ctxContainerService;
     const testService = () => {
       const nonFunctionProperty = 'This is not a function';
       const doTimeout = (time) => {
@@ -56,8 +54,6 @@ export const middlewareCommonTests = (Middleware, Container) => {
       ctx = { key: 'Service', instance };
       instanceTestService = testService();
       ctxTestService = { key: 'testService', instance: instanceTestService };
-      instanceContainerService = containerService();
-      ctxContainerService = { key: 'containerService', instance: instanceTestService };
       container.add('containerService', () => containerService());
       container.add('testService', () => testService());
     });
@@ -236,6 +232,10 @@ export const middlewareCommonTests = (Middleware, Container) => {
     });
 
     describe('Getting proxy', () => {
+      const middleware1 = (next) => next();
+      const middleware2 = (next) => next();
+      const middleware3 = (next) => next();
+
       it('should get and undefined proxy from the given context', () => {
         const ctx = { key: 'Service' };
         const proxy = middlewareInstance.getProxy(ctx);
@@ -256,9 +256,6 @@ export const middlewareCommonTests = (Middleware, Container) => {
       it('should get a proxy for the given context if there is middlewares registered', () => {
         const instance = new Date();
         const ctx = { key: 'Service', instance };
-        const middleware1 = (next) => next();
-        const middleware2 = (next) => next();
-        const middleware3 = (next) => next();
 
         // Add middlewares
         middlewareInstance.add('Service', middleware1, { name: 'middleware1' });
@@ -279,9 +276,6 @@ export const middlewareCommonTests = (Middleware, Container) => {
       it('should get a proxy for the given context with cache enabled if there is middlewares registered', () => {
         const instance = new Date();
         const ctx = { key: 'Service', instance, options: { cache: true } };
-        const middleware1 = (next) => next();
-        const middleware2 = (next) => next();
-        const middleware3 = (next) => next();
 
         // Add middlewares
         middlewareInstance.add('Service', middleware1, { name: 'middleware1' });
@@ -606,7 +600,7 @@ export const middlewareCommonTests = (Middleware, Container) => {
       });
 
       it('service should receive the params without args in the next function', () => {
-        const middleware = (next, context, args) => {
+        const middleware = (next) => {
           return next();
         };
         // Add middlewares
@@ -842,12 +836,12 @@ export const middlewareCommonTests = (Middleware, Container) => {
         argument.originalResult = result;
         return containerResult;
       };
-      const middlewareInfiniteLoop = (next, context, args) => {
+      const middlewareInfiniteLoop = (next, context) => {
         const { container } = context;
         const testService = container.get('testService');
         return testService.fetch();
       };
-      const middlewareOmitInfiniteLoop = (next, context, args) => {
+      const middlewareOmitInfiniteLoop = (next, context) => {
         const { container } = context;
         const testService = container.get('testService', true);
         return testService.fetch();

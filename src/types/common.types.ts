@@ -47,14 +47,14 @@ export interface IServiceOptions {
    * @deprecated since version 1.4.0. Will be removed in version 2.0.
    * Use {@link cache} instead.
    */
-  cached: boolean;
+  cached?: boolean;
 
   /**
    * This variable represents the state of the cache.
    *
    * @type {boolean}
    */
-  cache: boolean;
+  cache?: boolean;
 
   /**
    * Represents a collection of methods for the cache and memoization.

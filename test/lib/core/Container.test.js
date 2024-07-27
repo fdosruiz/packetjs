@@ -13,7 +13,7 @@ jest.mock('../../../lib/core/Middleware', () => {
 });
 
 describe('Unit Testing for Container (Lib code)', () => {
-  const middleware = new Middleware();
+  const middleware = new Middleware(Container.getContainer());
   const mocks = {
     middlewareGetProxyMock: middleware._getMemorizeMethodsMock(),
   };
