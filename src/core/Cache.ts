@@ -41,7 +41,7 @@ class Cache {
    *
    * @param {Context} ctx - The context object.
    * @param {string} method - The method to check.
-   * @returns {boolean} - Returns true if the method should be cached; otherwise, returns false.
+   * @returns {boolean} - Returns true if the method should be cached, otherwise returns false.
    */
   private isCacheable(ctx: Context, method: string): boolean {
     return ctx.options?.methods
