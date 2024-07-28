@@ -64,6 +64,13 @@ class Middleware {
     this.middlewaresStack.set(key, stack);
   }
 
+  /**
+   * Adds cache middleware to the given context.
+   *
+   * @param {Context} ctx - The context object.
+   *
+   * @return {void}
+   */
   private addCacheMiddleware(ctx: Context) {
     if (ctx.options?.cache || ctx.options?.cached) {
       this.cache.add(ctx, this);
