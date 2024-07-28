@@ -1,4 +1,4 @@
-import Container from '../../../src/core/Container';
+import Container from '../../../../src/core/Container';
 import { containerCommonTests } from '../../common/Container.commonTests';
 
 const middlewareGetProxyMock = jest.fn();
@@ -7,7 +7,7 @@ const mocks = {
   middlewareGetProxyMock,
 };
 
-jest.mock('../../../src/core/Middleware', () => {
+jest.mock('../../../../src/core/Middleware', () => {
   return jest.fn().mockImplementation(() => {
     return {
       getProxy: middlewareGetProxyMock,

@@ -12,14 +12,14 @@
     "prepare": "husky install",
     "sandbox-lib": "nodemon sandbox/lib.js",
     "sandbox-ts": "nodemon sandbox/index.ts --watch sandbox/common.js --watch sandbox/index.ts --watch src/*",
-    "test": "jest test/src",
-    "test-watch": "jest --watch test/src",
-    "test-lib": "bash ./scripts/prettier.sh && jest test/lib",
-    "test-lib-watch": "bash ./scripts/prettier.sh && jest --watch test/lib",
-    "test-sandbox-src": "jest sandbox/src.test.ts",
-    "test-sandbox-lib": "bash ./scripts/prettier.sh && jest sandbox/lib.test.js",
-    "test-sandbox-src-watch": "jest --watch sandbox/src.test.ts",
-    "test-sandbox-lib-watch": "bash ./scripts/prettier.sh && jest --watch sandbox/lib.test.js"
+    "test": "jest test/unit/src",
+    "test-watch": "jest --watch test/unit/src",
+    "test-lib": "bash ./scripts/prettier.sh && jest test/unit/lib",
+    "test-lib-watch": "bash ./scripts/prettier.sh && jest --watch test/unit/lib",
+    "test-integration": "jest test/integration/src",
+    "test-integration-watch": "jest --watch test/integration/src",
+    "test-integration-lib": "bash ./scripts/prettier.sh && jest test/integration/lib",
+    "test-integration-lib-watch": "bash ./scripts/prettier.sh && jest --watch test/integration/lib"
   },
   "author": "Francisco Ruiz",
   "repository": {

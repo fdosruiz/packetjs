@@ -1210,8 +1210,7 @@ export const commonSandboxTests = (container, Container) => {
 
         // Add a new middleware. Purge the instance and the proxy from the container
         container.middleware.add('RequestService', (next, context, args) => {
-          const result = next(args);
-          response = result;
+          response = next(args);
           return 'Response of middleware declared after the service';
         });
 
@@ -1247,8 +1246,7 @@ export const commonSandboxTests = (container, Container) => {
 
         // Add a new middleware. Purge the instance and the proxy from the container
         container.middleware.addGlobal((next, context, args) => {
-          const result = next(args);
-          responseGlobal = result;
+          responseGlobal = next(args);
           return 'Response of global middleware declared after the service';
         });
 
