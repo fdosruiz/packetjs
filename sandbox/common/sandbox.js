@@ -180,7 +180,7 @@ const commonSandboxTests = (container, cicd = false) => {
     console.log('--------------------------- AFTER CALLING - MEMORIZE ALL METHODS (DATE) ------------------------------------');
     let result = container.get('Date').getTime('aaaa', '1111');
     console.log(' >> Result: ', result);
-    console.log(serviceDate);
+    // console.log(serviceDate);
     console.log(cache);
 
     if (cicd) {
@@ -188,7 +188,7 @@ const commonSandboxTests = (container, cicd = false) => {
       const expected = [ [ 'Date_getTime_["aaaa","1111"]', result ] ];
       const storageEntries = [...cacheStorage.entries()];
       if (!isNotEmpty) throwError("memorizedServices | cache should not be empty");
-      if (!toEquals(storageEntries, expected)) throwError("memorizedServices | AFTER CALLING - MEMORIZE ALL METHODS |cache storage are not equals");
+      if (!toEquals(storageEntries, expected)) throwError("memorizedServices | AFTER CALLING - MEMORIZE ALL METHODS | cache storage are not equals");
     }
 
     console.log('--------------------------- AFTER RECURSIVE CALLS - OVER SAME METHOD AND PROPS (DATE) ------------------------------------');
@@ -316,12 +316,12 @@ const commonSandboxTests = (container, cicd = false) => {
 
     console.log('--------------------------- AFTER CALLING - MEMORIZE ALL METHODS EXCEPT EXCLUDED (RandomExclude with Factory Method) ------------------------------------');
     const factory = container.getFactory('RandomExclude');
-    console.log(` >> Memoized getRandom1 (Factory): ${factory.getRandom1()}`);
-    console.log(` >> Memoized getRandom1 (Factory): ${factory.getRandom1()}`);
-    console.log(` >> Memoized getRandom1 (Factory): ${factory.getRandom1()}`);
-    console.log(` >> Not Memoized getRandom2 (Factory): ${factory.getRandom2()}`);
-    console.log(` >> Not Memoized getRandom2 (Factory): ${factory.getRandom2()}`);
-    console.log(` >> Not Memoized getRandom2 (Factory): ${factory.getRandom2()}`);
+    console.log(` >> Not Memoized  getRandom1 (Factory): ${factory.getRandom1()}`);
+    console.log(` >> Not Memoized  getRandom1 (Factory): ${factory.getRandom1()}`);
+    console.log(` >> Not Memoized  getRandom1 (Factory): ${factory.getRandom1()}`);
+    console.log(` >> Memoized getRandom2 (Factory): ${factory.getRandom2()}`);
+    console.log(` >> Memoized getRandom2 (Factory): ${factory.getRandom2()}`);
+    console.log(` >> Memoized getRandom2 (Factory): ${factory.getRandom2()}`);
     console.log(cacheStorage);
   };
 
