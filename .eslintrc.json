@@ -22,7 +22,6 @@
   ],
   "ignorePatterns": [
     "lib/**",
-    "sandbox/**",
     "scripts/**"
   ],
   "rules": {

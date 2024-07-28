@@ -30,7 +30,7 @@ export const commonSandboxTests = (container, Container) => {
         getRandom1,
         getRandom2,
         doTimeout,
-      }
+      };
     };
     container.add('Date', () => {
       return new Date();
@@ -52,7 +52,7 @@ export const commonSandboxTests = (container, Container) => {
 
     describe('Adding new properties', () => {
       it('should add new props', () => {
-        const newProps = { url: 'https://override.url.com', url2: 'https://example2.com', user: 'Francisco' }
+        const newProps = { url: 'https://override.url.com', url2: 'https://example2.com', user: 'Francisco' };
         expect(container.getProps()).toEqual(initProps);
 
         container.addProps(newProps);
@@ -727,7 +727,12 @@ export const commonSandboxTests = (container, Container) => {
             return arg === 'overrideRequest'
               ? 'Response of fetch method with args override'
               : `Response of fetch method with arg: ${arg}`;
-          }
+          },
+          doTimeout: (time) => {
+            return new Promise((resolve) => {
+              setTimeout(() => resolve(`time lapsed: ${time}`), time);
+            });
+          },
         };
       });
 
@@ -752,7 +757,7 @@ export const commonSandboxTests = (container, Container) => {
           global: false,
           middleware: expect.any(Function),
           name: "RequestFake",
-          priority: 0
+          priority: 0,
         }]);
 
         // After calling RequestFake service
@@ -889,7 +894,8 @@ export const commonSandboxTests = (container, Container) => {
         expect(RequestService.fetch('overrideArgs', arg2)).toBe('Response of fetch method with args override');
       });
 
-      it('should call global middlewares, together with service middlewares, with default priority | object instance | override result and args ', () => {
+      it('should call global middlewares, together with service middlewares, with default priority' +
+        ' | object instance | override result and args ', () => {
         container.middleware.add('RequestService',  (next, context, args) => {
           const [arg1, arg2] = args;
           arg2.push('Middleware 1 before');
@@ -993,7 +999,8 @@ export const commonSandboxTests = (container, Container) => {
         expect(RequestService.fetch('overrideArgs', arg2)).toBe('Response of fetch method with args override');
       });
 
-      it('should call global middlewares, together with service middlewares, with custom priority | object instance | override result and args', () => {
+      it('should call global middlewares, together with service middlewares, with custom priority' +
+        ' | object instance | override result and args', () => {
         container.middleware.add('RequestService',  (next, context, args) => {
           const [arg1, arg2] = args;
           arg2.push('Middleware 1 before');
@@ -1114,7 +1121,7 @@ export const commonSandboxTests = (container, Container) => {
 
         // After calling Request service
         const RequestService = container.get('RequestService');
-        expect(() => { RequestService.fetch() }).toThrowError('next() called multiple times');
+        expect(() => { RequestService.fetch(); }).toThrowError('next() called multiple times');
       });
 
       it('service should receive the params without args in the next function', () => {
@@ -1149,7 +1156,7 @@ export const commonSandboxTests = (container, Container) => {
         // Config the new service
         container.add('NewService', () => {
           return {
-            fetch: () => 'Response of new service'
+            fetch: () => 'Response of new service',
           };
         });
 
@@ -1159,6 +1166,101 @@ export const commonSandboxTests = (container, Container) => {
         expect(NewService2).toBeInstanceOf(Object);
         expect(NewService2.fetch(arg1)).toBe('Response of new service');
         expect(arg1).toEqual(['NewService 1 before', 'NewService 1 after']);
+      });
+
+      it('should call async/await middleware', (done) => {
+        let response;
+        container.middleware.add('RequestService', async (next, context, args) => {
+          const result = await next(args);
+          response = result;
+          return result;
+        });
+
+        // Before calling Request service
+        const middlewares = container.middleware.middlewaresStack;
+        expect(middlewares.get('RequestService')).toHaveLength(1);
+
+        // After calling Request service
+        const RequestService = container.get('RequestService');
+        RequestService.doTimeout(10).then((result) => {
+          expect(result).toBe('time lapsed: 10');
+          expect(response).toBe(result);
+          expect(response).not.toEqual(expect.any(Promise));
+          done();
+        });
+      });
+
+      it('should register a middleware after call a service and purge the context', () => {
+        let response;
+        container.middleware.add('RequestService', (next, context, args) => {
+          const result = next(args);
+          response = result;
+          return result;
+        });
+
+        // Before calling Request service
+        let middlewares = container.middleware.middlewaresStack;
+        expect(middlewares.get('RequestService')).toHaveLength(1);
+
+        // After calling Request service
+        let RequestService = container.get('RequestService');
+        let fetchResponse = RequestService.fetch();
+        expect(fetchResponse).toBe('Response of fetch method without args');
+        expect(fetchResponse).toBe(response);
+
+        // Add a new middleware. Purge the instance and the proxy from the container
+        container.middleware.add('RequestService', (next, context, args) => {
+          const result = next(args);
+          response = result;
+          return 'Response of middleware declared after the service';
+        });
+
+        // Before calling Request service again
+        middlewares = container.middleware.middlewaresStack;
+        expect(middlewares.get('RequestService')).toHaveLength(2);
+
+        // After calling Request service again
+        RequestService = container.get('RequestService');
+        fetchResponse = RequestService.fetch();
+        expect(fetchResponse).toBe('Response of middleware declared after the service');
+        expect(fetchResponse).toBe(response);
+      });
+
+      it('should register a global middleware after call a service and dont purge the context', () => {
+        let response;
+        let responseGlobal;
+        container.middleware.add('RequestService', (next, context, args) => {
+          const result = next(args);
+          response = result;
+          return result;
+        });
+
+        // Before calling Request service
+        let middlewares = container.middleware.middlewaresStack;
+        expect(middlewares.get('RequestService')).toHaveLength(1);
+
+        // After calling Request service
+        let RequestService = container.get('RequestService');
+        let fetchResponse = RequestService.fetch();
+        expect(fetchResponse).toBe('Response of fetch method without args');
+        expect(fetchResponse).toBe(response);
+
+        // Add a new middleware. Purge the instance and the proxy from the container
+        container.middleware.addGlobal((next, context, args) => {
+          const result = next(args);
+          responseGlobal = result;
+          return 'Response of global middleware declared after the service';
+        });
+
+        // Before calling Request service again
+        middlewares = container.middleware.middlewaresStack;
+        expect(middlewares.get('RequestService')).toHaveLength(1);
+
+        // After calling Request service again
+        RequestService = container.get('RequestService');
+        fetchResponse = RequestService.fetch();
+        expect(fetchResponse).toBe('Response of fetch method without args');
+        expect(fetchResponse).not.toBe(responseGlobal);
       });
     });
 
@@ -1212,7 +1314,7 @@ export const commonSandboxTests = (container, Container) => {
 
         container.add('NewService', () => {
           return {
-            fetch: () => 'Response of new service'
+            fetch: () => 'Response of new service',
           };
         }, { cache: true });
 
@@ -1295,7 +1397,8 @@ export const commonSandboxTests = (container, Container) => {
         // Cache storage
         let entries = [...container.middleware.cache.storage.entries()];
         expect(entries).toHaveLength(17); // before entries was 16
-        expect(entries[16][0]).toBe('NewService_fetch_[["GlobalMiddleware2before","GlobalMiddleware1before","Middleware2before","Middleware1before"]]');
+        expect(entries[16][0]).toBe('NewService_fetch_[["GlobalMiddleware2before",' +
+          '"GlobalMiddleware1before","Middleware2before","Middleware1before"]]');
         expect(entries[16][1]).toBe('Response of new service');
       });
     });
@@ -1357,7 +1460,7 @@ export const commonSandboxTests = (container, Container) => {
         NewService2.fetch();
         expect(NewService1.fetch()).toBe('Response of new service 1');
         expect(NewService2.fetch()).toBe('Response of new service 2');
-        
+
         // Cache entries
         const entries1 = [...container1.middleware.cache.storage.entries()];
         const entries2 = [...container2.middleware.cache.storage.entries()];
