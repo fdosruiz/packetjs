@@ -67,7 +67,7 @@ export const containerCommonTests = (Container, mocks) => {
         const callback = () => {
           return new Date();
         };
-        const options = { cached: true, methods: [ 'someMethod' ], excludeMode: false };
+        const options = { cache: true, methods: [ 'someMethod' ], excludeMode: false };
         const response = container.add(name, callback, options);
 
         expect(response).toBeTruthy();
