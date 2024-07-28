@@ -47,9 +47,11 @@
     "memoization",
     "memoize",
     "memoizer",
+    "middleware",
     "node",
     "nodejs",
-    "pimple"
+    "pimple",
+    "proxy"
   ],
   "license": "MIT",
   "devDependencies": {
