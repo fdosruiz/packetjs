@@ -1,5 +1,3 @@
-const uniqid = require('uniqid');
-
 const commonSandboxTests = (container, cicd = false) => {
   const throwError = (msg) => {
     throw new Error(msg);
@@ -40,12 +38,10 @@ const commonSandboxTests = (container, cicd = false) => {
           setTimeout(() => resolve(`time lapsed: ${time}`), time);
         });
       };
-      const getUniqid = () => uniqid();
       return {
         getRandom1,
         getRandom2,
         doTimeout,
-        getUniqid,
       }
     };
     container.add('Date', ({ container: c }) => {
@@ -368,7 +364,7 @@ const commonSandboxTests = (container, cicd = false) => {
 
     console.log('--------------------------- AFTER CALLING - SERVICE MIDDLEWARES ------------------------------------');
     const randomService = container.get('Random');
-    const uniqid1 = randomService.getUniqid();
+    const uniqid1 = randomService.getRandom1();
     console.log(' >> uniqid1:', uniqid1);
     console.log(result1);
     console.log(result2);
@@ -433,7 +429,7 @@ const commonSandboxTests = (container, cicd = false) => {
     }
 
     console.log('--------------------------- AFTER CALLING - GLOBAL MIDDLEWARES ------------------------------------');
-    const uniqid2 = container.get('Random').getUniqid();
+    const uniqid2 = container.get('Random').getRandom1();
     console.log(' >> uniqid2:', uniqid2);
     console.log(result1);
     console.log(result2);
