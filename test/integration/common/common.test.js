@@ -1401,7 +1401,7 @@ export const commonSandboxTests = (container, Container) => {
       });
     });
 
-    describe('Multiple containers', () => {
+    describe('Instancing containers', () => {
       it('global container should be the same that static property from Container', () => {
         expect(container).toBe(Container.container);
       });
@@ -1466,6 +1466,79 @@ export const commonSandboxTests = (container, Container) => {
         expect(entries1[0][1]).toBe('Response of new service 1');
         expect(entries2[0][0]).toBe('NewService_fetch_[]');
         expect(entries2[0][1]).toBe('Response of new service 2');
+      });
+
+      it('should disable the proxy globally in the container', () => {
+        const middleware1 = [];
+        const middleware2 = [];
+        const container1 = new Container({ middlewareProxy: false });
+        const container2 = new Container({ middlewareProxy: true });
+
+        container1.add('NewService', () => {
+          return { fetch: () => 'Response of new service 1' };
+        });
+
+        container2.add('NewService', () => {
+          return { fetch: () => 'Response of new service 2' };
+        });
+
+        container1.middleware.add('NewService',  (next, context, args) => {
+          const result = next(args);
+          middleware1.push(result);
+          return result;
+        });
+
+        container2.middleware.add('NewService',  (next, context, args) => {
+          const result = next(args);
+          middleware2.push(result);
+          return result;
+        });
+
+        // Call the service
+        const result1 = container1.get('NewService').fetch();
+        const result2 = container2.get('NewService').fetch();
+
+        // Middleware should not be called
+        expect(result1).toBe('Response of new service 1');
+        expect(middleware1).toHaveLength(0);
+
+        // Middleware should be called
+        expect(result2).toBe('Response of new service 2');
+        expect(middleware2).toHaveLength(1);
+        expect(middleware2[0]).toBe('Response of new service 2');
+      });
+
+      it('should enable the freeze option globally in the container', () => {
+        const container1 = new Container({ freeze: true });
+        const container2 = new Container({ freeze: false });
+
+        const service1 = new Date();
+        const service2 = new Date();
+        const service3 = new Date();
+
+        // Freeze should be enabled
+        container1.add('Duplicate1', () => service1);
+        container1.add('Duplicate1', () => service2);
+        container1.add('Duplicate1', () => service3);
+
+        const Duplicate1 = container1.get('Duplicate1');
+
+        // First service should be the same
+        expect(Duplicate1).toBe(service1);
+        expect(Duplicate1).not.toBe(service2);
+        expect(Duplicate1).not.toBe(service3);
+
+        // Freeze should be disabled
+        container2.add('Duplicate2', () => service1);
+        container2.add('Duplicate2', () => service2);
+        container2.add('Duplicate2', () => service3);
+
+        const Duplicate2 = container2.get('Duplicate2');
+
+        // Third service should be the same
+        expect(Duplicate2).not.toBe(service1);
+        expect(Duplicate2).not.toBe(service2);
+        expect(Duplicate2).toBe(service3);
       });
     });
   });

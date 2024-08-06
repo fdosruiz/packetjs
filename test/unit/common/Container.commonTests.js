@@ -110,6 +110,39 @@ export const containerCommonTests = (Container, mocks) => {
         expect(Duplicate2).not.toBe(service2);
         expect(Duplicate2).not.toBe(service3);
       });
+
+      it("should enable the freeze option globally in the container", () => {
+        const container1 = new Container({ freeze: true, middlewareProxy: false });
+        const container2 = new Container({ freeze: false, middlewareProxy: false });
+
+        const service1 = new Date();
+        const service2 = new Date();
+        const service3 = new Date();
+
+        // Freeze should be enabled
+        container1.add("Duplicate1", () => service1);
+        container1.add("Duplicate1", () => service2);
+        container1.add("Duplicate1", () => service3);
+
+        const Duplicate1 = container1.get("Duplicate1");
+
+        // First service should be the same
+        expect(Duplicate1).toBe(service1);
+        expect(Duplicate1).not.toBe(service2);
+        expect(Duplicate1).not.toBe(service3);
+
+        // Freeze should be disabled
+        container2.add("Duplicate2", () => service1);
+        container2.add("Duplicate2", () => service2);
+        container2.add("Duplicate2", () => service3);
+
+        const Duplicate2 = container2.get("Duplicate2");
+
+        // Third service should be the same
+        expect(Duplicate2).not.toBe(service1);
+        expect(Duplicate2).not.toBe(service2);
+        expect(Duplicate2).toBe(service3);
+      });
     });
 
     describe('testing get method', () => {
@@ -357,6 +390,34 @@ export const containerCommonTests = (Container, mocks) => {
         expect(allServices.service2()).toBe(serviceFunction2);
         expect(container.context.get(name2).instance).toBe(serviceFunction2);
         expect(container.context.get(name2).proxy).toBe('Proxy Instance');
+      });
+
+      it('should disable all proxies when the proxy is globally disabled in the container', () => {
+        // Proxy is disabled globally
+        let container = new Container({ middlewareProxy: false });
+        const name1 = 'service1';
+        const serviceFunction1 = new Date('2000-01-01T00:00:00.000Z');
+        const callback1 = () => serviceFunction1;
+        container.add(name1, callback1);
+        let allServices = container.getAll();
+
+        // Service 1
+        expect(allServices.service1()).toBe(serviceFunction1);
+        expect(container.context.get(name1).instance).toBe(serviceFunction1);
+        expect(middlewareGetProxyMock).not.toHaveBeenCalled();
+
+        // Proxy is enabled globally
+        container = new Container({ middlewareProxy: true });
+        const name2 = 'service2';
+        const serviceFunction2 = new Date('2000-01-01T00:00:01.000Z');
+        const callback2 = () => serviceFunction2;
+        container.add(name2, callback2);
+        allServices = container.getAll();
+
+        // Service 2
+        expect(allServices.service2()).toBe('Proxy Instance');
+        expect(container.context.get(name2).instance).toBe(serviceFunction2);
+        expect(middlewareGetProxyMock).toHaveBeenCalled();
       });
 
       it('getAll should return an empty object when context is empty', () => {

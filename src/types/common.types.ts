@@ -42,6 +42,24 @@ export interface IContextObject {
  * Represents the configuration settings for a service.
  * @interface
  */
+export interface IContainerOptions {
+  /**
+   * Indicates if the services in the container should be frozen (unmodifiable).
+   * @type {boolean | undefined}
+   */
+  freeze?: boolean | undefined;
+
+  /**
+   * Indicates if the services in the container should be proxied with a middleware.
+   * @type {boolean | undefined}
+   */
+  middlewareProxy?: boolean | undefined;
+}
+
+/**
+ * Represents the configuration settings for a service.
+ * @interface
+ */
 export interface IServiceOptions {
   /**
    * @deprecated since version 1.4.0. Will be removed in version 2.0.

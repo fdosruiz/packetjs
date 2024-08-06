@@ -1,6 +1,7 @@
 import {
   Callback,
   Context,
+  IContainerOptions,
   IContextObject,
   IServiceOptions,
 } from '../types/common.types';
@@ -13,6 +14,7 @@ import { Middleware } from '.';
 class Container {
   private context: Map<string, Context>;
   private properties: object;
+  private readonly options: IContainerOptions;
   public middleware: Middleware;
   static container: Container;
 
@@ -21,9 +23,14 @@ class Container {
    * @private
    * @constructor
    */
-  constructor() {
+  constructor(options: IContainerOptions = {}) {
     this.context = new Map<string, Context>();
     this.middleware = new Middleware(this);
+    this.options = {
+      freeze: false,
+      middlewareProxy: true,
+      ...options,
+    };
     this.properties = {};
   }
 
@@ -50,8 +57,9 @@ class Container {
   public add(key: string, callback: Callback, options?: IServiceOptions): boolean {
     const ctx = this.context.get(key);
     const { freeze } = ctx?.options || {};
+    const { freeze: globalFreeze } = this.options;
 
-    if (freeze) return false;
+    if (freeze || globalFreeze && ctx) return false;
 
     this.context.set(key, {
       key,
@@ -79,6 +87,17 @@ class Container {
   }
 
   /**
+   * Checks if each context should have a middleware proxy, depending on the global options
+   * or if the context has the "cache" or "cached" option enabled.
+   *
+   * @param {Context} ctx - The context to check.
+   * @returns {boolean} True if the context has a proxy, otherwise false.
+   */
+  private hasProxy(ctx: Context) {
+    return this.options.middlewareProxy || ctx.options?.cache || ctx.options?.cached;
+  }
+
+  /**
    * Retrieve an instance, and add a proxy, from the given context. The proxy will be added only if there are
    * middlewares registered.
    *
@@ -89,7 +108,7 @@ class Container {
     const instance = ctx.callback({ container: this, props: this.properties });
     return {
       instance,
-      proxy: this.middleware.getProxy({ ...ctx, instance }),
+      proxy: this.hasProxy(ctx) && this.middleware.getProxy({ ...ctx, instance }),
     };
   }
 
@@ -109,7 +128,7 @@ class Container {
         ctx.instance = instance;
         ctx.proxy = proxy;
       }
-      return proxy
+      return proxy && this.hasProxy(ctx)
         ? ctx.proxy
         : ctx.instance;
     }
@@ -127,7 +146,7 @@ class Container {
     const ctx = this.context.get(key);
     if (ctx) {
       const retrievedInstance = this.getInstance(ctx);
-      return proxy
+      return proxy && this.hasProxy(ctx)
         ? retrievedInstance.proxy
         : retrievedInstance.instance;
     }

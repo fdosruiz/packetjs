@@ -1,4 +1,4 @@
-import container from '../../src';
+import globalContainer from '../../src';
 import { commonSandboxTests } from '../common/sandbox';
 
-commonSandboxTests(container);
+commonSandboxTests(globalContainer);
