@@ -1,5 +1,4 @@
-import container from '../../../src';
-import { Container } from '../../../src/core';
+import container, { Container } from '../../../src';
 import { commonSandboxTests } from '../common/common.test';
 
 describe('Integration Testing (Source code)', () => {

@@ -1,2 +1,8 @@
 import { Container } from './core';
-export default Container.getContainer();
+
+const container = Container.getContainer();
+
+export {
+  container as default,
+  Container,
+};

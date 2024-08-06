@@ -1,4 +1,4 @@
-const container = require('../../lib');
+const { default: container } = require('../../lib');
 const { commonSandboxTests }  = require('../common/sandbox');
 
 commonSandboxTests(container);

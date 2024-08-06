@@ -1,5 +1,4 @@
-import { Container } from '../../../src/core';
-import container from '../../../src';
+import container, { Container } from '../../../src';
 
 describe('Unit Testing for entry point (Source code)', () => {
   it('should get the instance of the container', () => {
