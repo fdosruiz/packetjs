@@ -22,7 +22,7 @@ class Middleware {
    * @param {Options} options - The options for the middleware.
    * @returns {void}
    */
-  public add(key: string, middleware: IMiddleware, options: Options) {
+  public add(key: string, middleware: IMiddleware, options?: Options) {
     this.registerMiddleware(key, middleware, options);
     this.container.purge(key);
   }
@@ -34,7 +34,7 @@ class Middleware {
    * @param {Options} options - The options for the middleware.
    * @return {void}
    */
-  public addGlobal(middleware: IMiddleware, options: Options) {
+  public addGlobal(middleware: IMiddleware, options?: Options) {
     this.registerMiddleware(this.globalKey, middleware, options);
   }
 

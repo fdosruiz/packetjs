@@ -55,7 +55,7 @@ interface IMiddlewareContext {
    *
    * @type {Container} container
    */
-  container?: Container;
+  container: Container;
 
   /**
    * Represents the name of a method.
@@ -72,7 +72,7 @@ interface IMiddlewareContext {
   serviceName: string;
 }
 
-type IMiddleware = (next: (args: any[]) => any, context: IMiddlewareContext, args: any[]) => any;
+type IMiddleware = (next: (args?: any[]) => any, context: IMiddlewareContext, args: any[]) => any;
 
 export {
   IMiddleware,
