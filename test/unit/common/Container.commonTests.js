@@ -88,7 +88,7 @@ export const containerCommonTests = (Container, mocks) => {
         container.add('Duplicate', () => service2);
         container.add('Duplicate', () => service3);
 
-        const Duplicate = container.get('Duplicate', true);
+        const Duplicate = container.get('Duplicate', false);
 
         expect(Duplicate).not.toBe(service1);
         expect(Duplicate).not.toBe(service2);
@@ -104,7 +104,7 @@ export const containerCommonTests = (Container, mocks) => {
         container.add('Duplicate2', () => service2);
         container.add('Duplicate2', () => service3);
 
-        const Duplicate2 = container.get('Duplicate2', true);
+        const Duplicate2 = container.get('Duplicate2', false);
 
         expect(Duplicate2).toBe(service1);
         expect(Duplicate2).not.toBe(service2);
@@ -169,7 +169,7 @@ export const containerCommonTests = (Container, mocks) => {
         expect(middlewareGetProxyMock).toHaveBeenCalledTimes(1);
       });
 
-      it('should get a service from context and do not apply the proxy instance with disableProxy flag', () => {
+      it('should get a service from context and do not apply the proxy instance with proxy flag', () => {
         const name = 'service1';
         const callback = () => {
           return serviceFunction;
@@ -181,7 +181,7 @@ export const containerCommonTests = (Container, mocks) => {
         expect(container.context.get(name).proxy).toBeNull();
 
         // After the service was called
-        const service = container.get(name, true);
+        const service = container.get(name, false);
         expect(service).toBe(serviceFunction);
         expect(container.context.get(name).instance).toBe(service);
         expect(container.context.get(name).proxy).toBe('Proxy Instance');
@@ -197,12 +197,12 @@ export const containerCommonTests = (Container, mocks) => {
           return new Date('2000-01-01T00:00:00.000Z');
         };
         const callback2 = ({ container: c }) => {
-          const service1 = c.get(name1, true);
+          const service1 = c.get(name1, false);
           return new Date(service1.getTime() + 1000);
         };
         container.add(name1, callback1);
         container.add(name2, callback2);
-        const service2 = container.get(name2, true);
+        const service2 = container.get(name2, false);
 
         expect(service2).toBeInstanceOf(Date);
         expect(service2.getTime()).toBe(946684801000);
@@ -222,7 +222,7 @@ export const containerCommonTests = (Container, mocks) => {
         };
         container.add(name1, callback1);
         container.add(name2, callback2);
-        const service2 = container.get(name2, true);
+        const service2 = container.get(name2, false);
 
         expect(service2).toBeInstanceOf(Date);
         expect(service2.getTime()).toBe(946684802000);
@@ -237,8 +237,8 @@ export const containerCommonTests = (Container, mocks) => {
           return new Date();
         };
         container.add(name, callback);
-        const service1 = container.get(name, true);
-        const service2 = container.get(name, true);
+        const service1 = container.get(name, false);
+        const service2 = container.get(name, false);
 
         expect(service1).toBe(service2);
       });
@@ -257,13 +257,13 @@ export const containerCommonTests = (Container, mocks) => {
           return new Date();
         };
         container.add(name, callback);
-        const service1 = container.getFactory(name, true);
-        const service2 = container.getFactory(name, true);
+        const service1 = container.getFactory(name, false);
+        const service2 = container.getFactory(name, false);
 
         expect(service1).not.toBe(service2);
       });
 
-      it('should get a proxy instance when disableProxy is false (default)', () => {
+      it('should get a proxy instance when proxy is true (default)', () => {
         const name = 'service';
         const callback = () => {
           return serviceFunction;
@@ -276,13 +276,13 @@ export const containerCommonTests = (Container, mocks) => {
         expect(container.context.get(name).proxy).toBeNull();
       });
 
-      it('should get the original instance when disableProxy is true', () => {
+      it('should get the original instance when proxy is false', () => {
         const name = 'service';
         const callback = () => {
           return serviceFunction;
         };
         container.add(name, callback);
-        const service = container.getFactory(name, true);
+        const service = container.getFactory(name, false);
 
         expect(service).toBe(serviceFunction);
         expect(container.context.get(name).instance).toBeNull();
@@ -304,7 +304,7 @@ export const containerCommonTests = (Container, mocks) => {
         const callback2 = () => new Date('2000-01-01T00:00:01.000Z');
         container.add(name1, callback1);
         container.add(name2, callback2);
-        const allServices = container.getAll(true);
+        const allServices = container.getAll(false);
 
         expect(allServices.service1()).toBeInstanceOf(Date);
         expect(allServices.service1().getTime()).toBe(946684800000);
@@ -315,7 +315,7 @@ export const containerCommonTests = (Container, mocks) => {
         expect(allServices.service2()).toBe(container.context.get(name2).instance);
       });
 
-      it('should get all services with the proxy instance when disableProxy is false (default)', () => {
+      it('should get all services with the proxy instance when proxy is true (default)', () => {
         const name1 = 'service1';
         const name2 = 'service2';
         const serviceFunction1 = new Date('2000-01-01T00:00:00.000Z');
@@ -337,7 +337,7 @@ export const containerCommonTests = (Container, mocks) => {
         expect(container.context.get(name2).proxy).toBe('Proxy Instance');
       });
 
-      it('should get all services with the original instance when disableProxy is true', () => {
+      it('should get all services with the original instance when proxy is false', () => {
         const name1 = 'service1';
         const name2 = 'service2';
         const serviceFunction1 = new Date('2000-01-01T00:00:00.000Z');
@@ -346,7 +346,7 @@ export const containerCommonTests = (Container, mocks) => {
         const callback2 = () => serviceFunction2;
         container.add(name1, callback1);
         container.add(name2, callback2);
-        const allServices = container.getAll(true);
+        const allServices = container.getAll(false);
 
         // Service 1
         expect(allServices.service1()).toBe(serviceFunction1);
@@ -374,8 +374,8 @@ export const containerCommonTests = (Container, mocks) => {
         container.add(name1, callback1);
         container.add(name2, callback2);
 
-        const service1 = container.get(name1, true);
-        const service2 = container.get(name2, true);
+        const service1 = container.get(name1, false);
+        const service2 = container.get(name2, false);
 
         expect(service1).toBeInstanceOf(Date);
         expect(service2).toBeInstanceOf(Date);

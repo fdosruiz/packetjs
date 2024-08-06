@@ -843,7 +843,7 @@ export const middlewareCommonTests = (Middleware, Container) => {
       };
       const middlewareOmitInfiniteLoop = (next, context) => {
         const { container } = context;
-        const testService = container.get('testService', true);
+        const testService = container.get('testService', false);
         return testService.fetch();
       };
       let argument;

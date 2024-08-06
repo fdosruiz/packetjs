@@ -97,11 +97,11 @@ class Container {
    * Gets always the same instance for a concrete context
    *
    * @param {string} key - Unique key of the service or function
-   * @param {boolean} disableProxy - Flag indicating if proxy should be disabled (default is false)
+   * @param {boolean} proxy - Flag indicating if the middleware proxy should be enabled (default is true)
    * @return {any} - The instance of the service or function associated with the given key,
    * or null if no instance is found
    */
-  public get(key: string, disableProxy = false): any {
+  public get(key: string, proxy = true): any {
     const ctx = this.context.get(key);
     if (ctx) {
       if (!ctx.instance) {
@@ -109,9 +109,9 @@ class Container {
         ctx.instance = instance;
         ctx.proxy = proxy;
       }
-      return disableProxy
-        ? ctx.instance
-        : ctx.proxy;
+      return proxy
+        ? ctx.proxy
+        : ctx.instance;
     }
     return null;
   }
@@ -120,16 +120,16 @@ class Container {
    * Retrieves a new instance of a service or function based on the provided key.
    *
    * @param {string} key - The unique key of the service or function.
-   * @param {boolean} disableProxy - Flag indicating if proxy should be disabled (default is false)
+   * @param {boolean} proxy - Flag indicating if the middleware proxy should be enabled (default is true)
    * @returns {any} - A new instance of the service or function, or null if not found.
    */
-  public getFactory(key: string, disableProxy = false): any {
+  public getFactory(key: string, proxy = true): any {
     const ctx = this.context.get(key);
     if (ctx) {
-      const { instance, proxy } = this.getInstance(ctx);
-      return disableProxy
-        ? instance
-        : proxy;
+      const retrievedInstance = this.getInstance(ctx);
+      return proxy
+        ? retrievedInstance.proxy
+        : retrievedInstance.instance;
     }
     return null;
   }
@@ -146,7 +146,8 @@ class Container {
   /**
    * Retrieves all context objects like a getter function.
    *
-   * @param {boolean} disableProxy - A flag indicating whether proxy should be disabled or not. Default is false.
+   * @param {boolean} proxy - A flag indicating whether the middleware proxy should be
+   * enabled or not. Default is true.
    *
    * @example
    ```js
@@ -161,10 +162,10 @@ class Container {
    ```
    * @returns {IContextObject} - An object containing the context objects and their getters.
    */
-  public getAll(disableProxy = false): IContextObject {
+  public getAll(proxy = true): IContextObject {
     const contextServices: IContextObject = {};
     this.context.forEach((ctx) => {
-      contextServices[ctx.key] = () => this.get(ctx.key, disableProxy);
+      contextServices[ctx.key] = () => this.get(ctx.key, proxy);
     });
     return contextServices;
   }
