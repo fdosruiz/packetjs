@@ -1,7 +1,6 @@
-import { Container } from "../../src/core";
-import container from '../../src';
+import container, { Container } from '../../../lib';
 
-describe('testing entry point', () => {
+describe('Unit Testing for entry point (Lib code)', () => {
   it('should get the instance of the container', () => {
     expect(container).toBeInstanceOf(Container);
     expect(typeof container).toBe('object');

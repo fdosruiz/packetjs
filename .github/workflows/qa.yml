@@ -11,7 +11,7 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [8.6.0, 9.x, 10.x, 11.x, 12.x, 13.x, 14.x, 15.x, 16.x, 17.x, 18.x, 19.x, 20.x, 21.x]
+        node-version: [8.6.0, 9.x, 10.x, 11.x, 12.x, 13.x, 14.x, 15.x, 16.x, 17.x, 18.x, 19.x, 20.x, 21.x, 22.x]
         # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
 
     steps:
@@ -30,15 +30,16 @@ jobs:
         path: lib
 
     - run: node -v
-    - run: node sandbox/ci-cd.js
+    - run: ls -alF
+    - run: npm run sandbox-cicd
 
-  qa-tests:
-    name: QA Tests
+  qa-unit-tests:
+    name: QA Unit Tests
     runs-on: ubuntu-latest
 
     strategy:
       matrix:
-        node-version: [14.x, 16.x, 18.x, 20.x, 21.x]
+        node-version: [14.x, 16.x, 18.x, 20.x, 21.x, 22.x]
         # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
 
     steps:
@@ -65,9 +66,66 @@ jobs:
 
     - run: node -v
     - run: npm test
-    - run: npm run lint
+    - run: npm run test-lib
 
 #    - name: Coveralls
 #      uses: coverallsapp/github-action@master
 #      with:
 #        github-token: ${{ secrets.github_token }}
+
+  qa-integration-tests:
+    name: QA Integration Tests
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [14.x, 16.x, 18.x, 20.x, 21.x, 22.x]
+        # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Setup environment ${{ matrix.node-version }}
+      uses: actions/setup-node@v4
+      with:
+        node-version: ${{ matrix.node-version }}
+        cache: 'npm'
+
+    - uses: actions/cache@v4
+      with:
+        path: node_modules
+        key: node_modules-${{ hashFiles('package-lock.json') }}
+        restore-keys: |
+          node_modules-
+
+    - name: Download lib artifact
+      uses: actions/download-artifact@v4
+      with:
+        name: lib-artifact
+        path: lib
+
+    - run: node -v
+    - run: npm run test-integration
+    - run: npm run test-integration-lib
+
+  qa-lint:
+    name: QA Lint
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Set up Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: 20
+        registry-url: https://registry.npmjs.org/
+
+    - uses: actions/cache@v4
+      with:
+        path: node_modules
+        key: node_modules-${{ hashFiles('package-lock.json') }}
+        restore-keys: |
+          node_modules-
+
+    - run: node -v
+    - run: npm run lint

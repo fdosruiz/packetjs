@@ -36,6 +36,9 @@ export default {
 
   coveragePathIgnorePatterns: [
     "/node_modules/",
-    "/test/common/",
+    "/test/integration/common/",
+    "/test/unit/common/",
   ],
+
+  verbose: true,
 };
