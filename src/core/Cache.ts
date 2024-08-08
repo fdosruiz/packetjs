@@ -45,7 +45,7 @@ class Cache {
    */
   private isCacheable(ctx: Context, method: string): boolean {
     return ctx.options?.methods
-      ? this.hasConfigMethod(ctx.options.methods, method, ctx.options?.excludeMode)
+      ? this.hasConfigMethod(ctx.options.methods, method, ctx.options.excludeMode)
       : true;
   }
 

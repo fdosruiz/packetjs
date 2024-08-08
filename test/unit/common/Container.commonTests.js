@@ -28,15 +28,19 @@ export const containerCommonTests = (Container, mocks) => {
           param3: 'a3',
           param4: 'a4',
         };
-        const response = container.addProps(configuration1);
+        let response = container.addProps(configuration1);
 
-        expect(response).toBe(container);
+        // Should return the configuration 1
+        expect(response).toEqual(configuration1);
         expect(Object.keys(container.properties)).toHaveLength(2);
         expect(container.properties.param1).toBe('a1');
         expect(container.properties.param2).toBe('a2');
         expect(container.properties.param3).toBeUndefined();
         expect(container.properties.param4).toBeUndefined();
-        container.addProps(configuration2);
+
+        // Should return the configuration 2
+        response = container.addProps(configuration2);
+        expect(response).toEqual({ ...configuration1, ...configuration2 });
         expect(Object.keys(container.properties)).toHaveLength(4);
         expect(container.properties.param1).toBe('a1');
         expect(container.properties.param2).toBe('a2');
@@ -276,10 +280,62 @@ export const containerCommonTests = (Container, mocks) => {
         expect(service1).toBe(service2);
       });
 
-      it('should get null from services not set', () => {
-        const service = container.get('not-name');
+      it('should get an error from services not set, and could not be resolved', () => {
+        expect(() => container.get('not-name')).toThrow('The context with key "not-name" could not be resolved.');
+      });
 
-        expect(service).toBeNull();
+      it('should disable all proxies when the proxy is globally disabled in the container', () => {
+        // Proxy is disabled globally
+        let container = new Container({ middlewareProxy: false });
+        const name1 = 'service1';
+        const serviceFunction1 = new Date('2000-01-01T00:00:00.000Z');
+        const callback1 = () => serviceFunction1;
+        container.add(name1, callback1);
+        const service1 = container.get('service1');
+
+        // Service 1
+        expect(service1).toBe(serviceFunction1);
+        expect(container.context.get(name1).instance).toBe(serviceFunction1);
+        expect(middlewareGetProxyMock).not.toHaveBeenCalled();
+
+        // Proxy is enabled globally
+        container = new Container({ middlewareProxy: true });
+        const name2 = 'service2';
+        const serviceFunction2 = new Date('2000-01-01T00:00:01.000Z');
+        const callback2 = () => serviceFunction2;
+        container.add(name2, callback2);
+        const service2 = container.get('service2');
+
+        // Service 2
+        expect(service2).toBe('Proxy Instance');
+        expect(container.context.get(name2).instance).toBe(serviceFunction2);
+        expect(middlewareGetProxyMock).toHaveBeenCalled();
+      });
+
+      it('cache should be enabled when the proxy is globally disabled in the container', () => {
+        middlewareGetProxyMock.mockReturnValue('Proxy cache');
+
+        // Proxy is disabled globally and cache is enabled
+        let container = new Container({ middlewareProxy: false });
+        const serviceFunction1 = new Date('2000-01-01T00:00:00.000Z');
+        const callback1 = () => serviceFunction1;
+        container.add('service1', callback1, { cache: true });
+        const service1 = container.get('service1');
+
+        // Service 1
+        expect(service1).toBe('Proxy cache');
+        expect(middlewareGetProxyMock).toHaveBeenCalled();
+
+        // Proxy is disabled globally and cache is enabled (Deprecated cached option)
+        container = new Container({ middlewareProxy: false });
+        const serviceFunction2 = new Date('2000-01-01T00:00:01.000Z');
+        const callback2 = () => serviceFunction2;
+        container.add('service2', callback2, { cached: true });
+        const service2 = container.get('service2');
+
+        // Service 2
+        expect(service2).toBe('Proxy cache');
+        expect(middlewareGetProxyMock).toHaveBeenCalled();
       });
     });
 
@@ -322,10 +378,8 @@ export const containerCommonTests = (Container, mocks) => {
         expect(container.context.get(name).proxy).toBeNull();
       });
 
-      it('should get null from services not set', () => {
-        const service = container.getFactory('not-name');
-
-        expect(service).toBeNull();
+      it('should get an error from services not set, and could not be resolved', () => {
+        expect(() => container.getFactory('not-name')).toThrow('The context with key "not-name" could not be resolved.');
       });
     });
 
@@ -390,34 +444,6 @@ export const containerCommonTests = (Container, mocks) => {
         expect(allServices.service2()).toBe(serviceFunction2);
         expect(container.context.get(name2).instance).toBe(serviceFunction2);
         expect(container.context.get(name2).proxy).toBe('Proxy Instance');
-      });
-
-      it('should disable all proxies when the proxy is globally disabled in the container', () => {
-        // Proxy is disabled globally
-        let container = new Container({ middlewareProxy: false });
-        const name1 = 'service1';
-        const serviceFunction1 = new Date('2000-01-01T00:00:00.000Z');
-        const callback1 = () => serviceFunction1;
-        container.add(name1, callback1);
-        let allServices = container.getAll();
-
-        // Service 1
-        expect(allServices.service1()).toBe(serviceFunction1);
-        expect(container.context.get(name1).instance).toBe(serviceFunction1);
-        expect(middlewareGetProxyMock).not.toHaveBeenCalled();
-
-        // Proxy is enabled globally
-        container = new Container({ middlewareProxy: true });
-        const name2 = 'service2';
-        const serviceFunction2 = new Date('2000-01-01T00:00:01.000Z');
-        const callback2 = () => serviceFunction2;
-        container.add(name2, callback2);
-        allServices = container.getAll();
-
-        // Service 2
-        expect(allServices.service2()).toBe('Proxy Instance');
-        expect(container.context.get(name2).instance).toBe(serviceFunction2);
-        expect(middlewareGetProxyMock).toHaveBeenCalled();
       });
 
       it('getAll should return an empty object when context is empty', () => {

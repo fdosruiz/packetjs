@@ -985,6 +985,30 @@ export const middlewareCommonTests = (Middleware, Container) => {
         expect(entries[0][1]).toBe(result1);
         expect(entries[0][1]).toBe(result2);
       });
+
+      it('should get a memoized result with deprecated cached option', () => {
+        const overrideCtx = {
+          ...ctxTestService,
+          options: { cached: true },
+        };
+
+        // Get proxy
+        const proxy = middlewareInstance.getProxy(overrideCtx);
+
+        // Run proxy
+        const result1 = proxy.getUniqid();
+        const result2 = proxy.getUniqid();
+
+        // Check if the result is correct
+        expect(result1).toBe(result2);
+
+        // Check cache storage
+        const entries = [...middlewareInstance.cache.storage.entries()];
+        expect(middlewareInstance.cache.storage.size).toBe(1);
+        expect(entries[0][0]).toBe('testService_getUniqid_[]');
+        expect(entries[0][1]).toBe(result1);
+        expect(entries[0][1]).toBe(result2);
+      });
     });
   });
 };

@@ -134,7 +134,7 @@ class Middleware {
           const handleNextMiddleware = (i: number, newArgs: any[]) => {
             if (i <= index) throw new Error('next() called multiple times');
             index = i;
-            const currentMiddleware = middlewares?.[i];
+            const currentMiddleware = middlewares[i];
 
             if (!currentMiddleware) {
               return Reflect.apply(targetMethod, target, newArgs);

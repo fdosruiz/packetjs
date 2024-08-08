@@ -47,13 +47,13 @@ export interface IContainerOptions {
    * Indicates if the services in the container should be frozen (unmodifiable).
    * @type {boolean | undefined}
    */
-  freeze?: boolean | undefined;
+  freeze?: boolean;
 
   /**
    * Indicates if the services in the container should be proxied with a middleware.
    * @type {boolean | undefined}
    */
-  middlewareProxy?: boolean | undefined;
+  middlewareProxy?: boolean;
 }
 
 /**

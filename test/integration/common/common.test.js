@@ -254,13 +254,12 @@ export const commonSandboxTests = (container, Container) => {
       });
 
       it('calling a non registered service with get method', () => {
-        const service = container.get('NonRegisteredService');
-        expect(service).toBeNull();
+        expect(() => container.get('NonRegisteredService')).toThrow('The context with key' +
+          ' "NonRegisteredService" could not be resolved.');
       });
-
       it('calling a non registered service with getFactory method', () => {
-        const service = container.getFactory('NonRegisteredService');
-        expect(service).toBeNull();
+        expect(() => container.getFactory('NonRegisteredService')).toThrow('The context with key' +
+          ' "NonRegisteredService" could not be resolved.');
       });
     });
 
@@ -1150,8 +1149,7 @@ export const commonSandboxTests = (container, Container) => {
         });
 
         // Call the service
-        const NewService = container.get('NewService');
-        expect(NewService).toBeNull();
+        expect(() => container.get('NewService')).toThrow('The context with key "NewService" could not be resolved.');
 
         // Config the new service
         container.add('NewService', () => {
@@ -1506,6 +1504,37 @@ export const commonSandboxTests = (container, Container) => {
         expect(result2).toBe('Response of new service 2');
         expect(middleware2).toHaveLength(1);
         expect(middleware2[0]).toBe('Response of new service 2');
+      });
+
+      it('cache should be enabled when the proxy is globally disabled in the container', () => {
+        // Proxy is disabled globally and cache is enabled
+        let container = new Container({ middlewareProxy: false });
+        const serviceFunction1 = new Date('2000-01-01T00:00:00.000Z');
+        const callback1 = () => serviceFunction1;
+        container.add('service1', callback1, { cache: true });
+        const service1 = container.get('service1');
+        let context = [...container.context.entries()][0];
+
+        // Service 1
+        expect(context[0]).toBe('service1');
+        expect(context[1].instance).toBe(serviceFunction1);
+        expect(context[1].proxy).toEqual(expect.any(Date));
+        expect(service1).toEqual(expect.any(Date));
+
+        // Proxy is disabled globally and cache is enabled (Deprecated cached option)
+        container = new Container({ middlewareProxy: false });
+        const serviceFunction2 = new Date('2000-01-01T00:00:01.000Z');
+        const callback2 = () => serviceFunction2;
+        container.add('service2', callback2, { cached: true });
+        const service2 = container.get('service2');
+        context = [...container.context.entries()][0];
+        console.log(context);
+
+        // Service 2
+        expect(context[0]).toBe('service2');
+        expect(context[1].instance).toBe(serviceFunction2);
+        expect(context[1].proxy).toEqual(expect.any(Date));
+        expect(service2).toEqual(expect.any(Date));
       });
 
       it('should enable the freeze option globally in the container', () => {

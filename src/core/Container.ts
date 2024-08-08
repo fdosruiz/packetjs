@@ -13,7 +13,7 @@ import { Middleware } from '.';
  */
 class Container {
   private context: Map<string, Context>;
-  private properties: object;
+  private properties: any;
   private readonly options: IContainerOptions;
   public middleware: Middleware;
   static container: Container;
@@ -76,14 +76,14 @@ class Container {
    * Add configuration properties to the container.
    *
    * @param {object} props - The configuration properties to add to the container.
-   * @return {Container} - The modified container.
+   * @return {object} - The properties object.
    */
-  public addProps(props: object): Container {
+  public addProps(props: object): object {
     this.properties = {
       ...this.properties,
       ...props,
     };
-    return this;
+    return this.properties;
   }
 
   /**
@@ -91,20 +91,20 @@ class Container {
    * or if the context has the "cache" or "cached" option enabled.
    *
    * @param {Context} ctx - The context to check.
-   * @returns {boolean} True if the context has a proxy, otherwise false.
+   * @returns {boolean | undefined} - Returns true if the context has a proxy, otherwise false.
    */
-  private hasProxy(ctx: Context) {
+  private hasProxy(ctx: Context): boolean | undefined {
     return this.options.middlewareProxy || ctx.options?.cache || ctx.options?.cached;
   }
 
   /**
-   * Retrieve an instance, and add a proxy, from the given context. The proxy will be added only if there are
+   * Retrieve the instance and proxy, from the given context. The proxy will be added only if there are
    * middlewares registered.
    *
    * @param {Context} ctx - The context containing the necessary data.
    * @return {Object} - An object containing the retrieved instance and proxy.
    */
-  private getInstance(ctx: Context) {
+  private getInstance(ctx: Context): { instance: any; proxy: any } {
     const instance = ctx.callback({ container: this, props: this.properties });
     return {
       instance,
@@ -120,19 +120,21 @@ class Container {
    * @return {any} - The instance of the service or function associated with the given key,
    * or null if no instance is found
    */
-  public get(key: string, proxy = true): any {
+  public get<T = any>(key: string, proxy = true): T {
     const ctx = this.context.get(key);
-    if (ctx) {
-      if (!ctx.instance) {
-        const { instance, proxy } = this.getInstance(ctx);
-        ctx.instance = instance;
-        ctx.proxy = proxy;
-      }
-      return proxy && this.hasProxy(ctx)
-        ? ctx.proxy
-        : ctx.instance;
+
+    // If ctx is not found, throw an exception. This forces the user to handle this situation.
+    if (!ctx) throw new Error(`The context with key "${key}" could not be resolved.`);
+
+    if (!ctx.instance) {
+      const { instance, proxy } = this.getInstance(ctx);
+      ctx.instance = instance;
+      ctx.proxy = proxy;
     }
-    return null;
+
+    return proxy && this.hasProxy(ctx)
+      ? ctx.proxy
+      : ctx.instance;
   }
 
   /**
@@ -142,23 +144,25 @@ class Container {
    * @param {boolean} proxy - Flag indicating if the middleware proxy should be enabled (default is true)
    * @returns {any} - A new instance of the service or function, or null if not found.
    */
-  public getFactory(key: string, proxy = true): any {
+  public getFactory<T = any>(key: string, proxy = true): T {
     const ctx = this.context.get(key);
-    if (ctx) {
-      const retrievedInstance = this.getInstance(ctx);
-      return proxy && this.hasProxy(ctx)
-        ? retrievedInstance.proxy
-        : retrievedInstance.instance;
-    }
-    return null;
+
+    // If ctx is not found, throw an exception. This forces the user to handle this situation.
+    if (!ctx) throw new Error(`The context with key "${key}" could not be resolved.`);
+
+    const instanceObj = this.getInstance(ctx);
+
+    return proxy && this.hasProxy(ctx)
+      ? instanceObj.proxy
+      : instanceObj.instance;
   }
 
   /**
    * Retrieves the configuration properties object.
    *
-   * @returns {object} The configuration properties object.
+   * @returns {object} The properties object.
    */
-  public getProps(): object {
+  public getProps<T = object>(): T {
     return this.properties;
   }
 
@@ -171,8 +175,8 @@ class Container {
    * @example
    ```js
    const {
-     Service1,
-     Service2,
+   Service1,
+   Service2,
    } = container.getAll();
 
    // invoque the services
@@ -181,12 +185,12 @@ class Container {
    ```
    * @returns {IContextObject} - An object containing the context objects and their getters.
    */
-  public getAll(proxy = true): IContextObject {
+  public getAll<T = IContextObject>(proxy = true): T {
     const contextServices: IContextObject = {};
     this.context.forEach((ctx) => {
       contextServices[ctx.key] = () => this.get(ctx.key, proxy);
     });
-    return contextServices;
+    return contextServices as T;
   }
 
   /**
@@ -196,7 +200,7 @@ class Container {
    * @param {string} key - The key to purge the context for.
    * @return {boolean} - True if the purge was successful, false otherwise.
    */
-  public purge(key: string) {
+  public purge(key: string): boolean {
     const ctx = this.context.get(key);
     if (ctx) {
       ctx.instance = null;
