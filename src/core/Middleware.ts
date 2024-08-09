@@ -1,5 +1,5 @@
-import { Context } from '../types/common.types';
-import { IMiddleware, IMiddlewareStack, Options } from '../types/middleware.types';
+import { Context } from '../@types/common';
+import { IMiddleware, IMiddlewareStack, Options } from '../@types/middleware';
 import { Container } from '.';
 import { Cache } from '.';
 

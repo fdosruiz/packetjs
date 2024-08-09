@@ -4,7 +4,7 @@ import {
   IContainerOptions,
   IContextObject,
   IServiceOptions,
-} from '../types/common.types';
+} from '../@types/common';
 import { Middleware } from '.';
 
 /**
