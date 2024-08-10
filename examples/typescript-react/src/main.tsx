@@ -1,6 +1,6 @@
-import container from './dependency-injection';
 import React from 'react';
 import ReactDOM from 'react-dom/client';
+import container from './dependency-injection';
 import App from './App.tsx';
 import './css/index.css';
 
