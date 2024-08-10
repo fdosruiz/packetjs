@@ -53,6 +53,10 @@
             "release": "patch"
           },
           {
+            "type": "example",
+            "release": "patch"
+          },
+          {
             "scope": "no-release",
             "release": false
           }
@@ -108,6 +112,10 @@
             {
               "type": "test",
               "section": "Tests"
+            },
+            {
+              "type": "example",
+              "section": "Examples"
             }
           ]
         }
