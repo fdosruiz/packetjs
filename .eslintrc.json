@@ -21,6 +21,7 @@
     "jest"
   ],
   "ignorePatterns": [
+    "examples/**",
     "lib/**",
     "sandbox/**",
     "scripts/**"
