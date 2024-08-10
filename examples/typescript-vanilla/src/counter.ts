@@ -1,4 +1,4 @@
-import { Helper, Properties } from "./@types";
+import { Helper, Properties } from './@types';
 
 export function setupCounter(
   element: HTMLButtonElement,

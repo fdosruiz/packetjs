@@ -1,7 +1,7 @@
-import { ServiceMap } from "./@types";
-import typescriptLogo from "./typescript.svg";
-import viteLogo from "/vite.svg";
-import "./style.css";
+import { ServiceMap } from './@types';
+import typescriptLogo from '/typescript.svg';
+import viteLogo from '/vite.svg';
+import './css/style.css';
 
 const app = (Services: ServiceMap) => {
   return `
