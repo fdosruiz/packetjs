@@ -13,7 +13,7 @@ const app = (Services) => {
         <img src="${javascriptLogo}" class="logo vanilla" alt="JavaScript logo" />
       </a>
       <h1>Hello Vite!</h1>
-       <h2>${Helper().getProjectName()}</h2>
+      <h2>${Helper().getProjectName()}</h2>
       <div class="card">
         <button id="counter" type="button"></button>
       </div>
