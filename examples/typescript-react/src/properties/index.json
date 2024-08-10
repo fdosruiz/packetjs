@@ -2,6 +2,7 @@
   "name": "Packet.js DI Example in React with typescript",
   "version": "1.0.0",
   "translations": {
-    "random": "Random number is:"
+    "random": "Not cached random number is:",
+    "randomCached": "Cached random number is:"
   }
 }

@@ -6,4 +6,5 @@ export interface Properties {
 
 export interface Translations {
   readonly random: string;
+  readonly randomCached: string;
 }

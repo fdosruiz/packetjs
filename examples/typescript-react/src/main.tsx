@@ -7,7 +7,7 @@ import './css/index.css';
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
     <App
-      services={container.getAll()}
+      hooks={container.getAll()}
       properties={container.getProps()}
     />
   </React.StrictMode>,

@@ -1,14 +1,14 @@
 import { useState } from 'react';
-import { Properties, ServiceMap } from "./@types";
+import { Properties, hooksMap } from "./@types";
 import reactLogo from './assets/react.svg';
 import viteLogo from '/vite.svg';
 import './css/App.css';
 
 function App({
-  services,
+  hooks,
   properties,
 }: {
-  services: ServiceMap,
+  hooks: hooksMap,
   properties: Properties,
 }) {
   const [count, setCount] = useState(0);
@@ -24,10 +24,12 @@ function App({
         </a>
       </div>
       <h1>Vite + React</h1>
-      <h2>{services.Helper().getProjectName()}</h2>
+      <h2>{hooks.useHelper().getProjectName()}</h2>
+      <h3>{properties.translations.random} {hooks.useHelper().getRandom()}</h3>
+      <h3>{properties.translations.randomCached} {hooks.useHelperWithCache().getRandom()}</h3>
       <div className="card">
         <button onClick={() => setCount((count) => count + 1)}>
-          count is {count} | {properties.translations.random} {services.Helper().getRandom()}
+          count is {count}
         </button>
         <p>
           Edit <code>src/App.tsx</code> and save to test HMR
