@@ -1,8 +1,10 @@
+import { Properties } from "../@types";
+
 class Helper {
   private random: number;
-  private props?: any;
+  private props?: Properties;
 
-  constructor(props?: any) {
+  constructor(props?: Properties) {
     this.random = 0;
     this.props = props;
   }
