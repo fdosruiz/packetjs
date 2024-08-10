@@ -22,9 +22,11 @@ function App({
       </div>
       <h1>Vite + React</h1>
       <h2>{services.Helper().getProjectName()}</h2>
+      <h3>{properties.translations.random} {services.Helper().getRandom()}</h3>
+      <h3>{properties.translations.randomCached} {services.HelperWithCache().getRandom()}</h3>
       <div className="card">
         <button onClick={() => setCount((count) => count + 1)}>
-          count is {count} | {properties.translations.random} {services.Helper().getRandom()}
+          count is {count}
         </button>
         <p>
           Edit <code>src/App.jsx</code> and save to test HMR
@@ -40,10 +42,12 @@ function App({
 App.propTypes = {
   services: PropTypes.shape({
     Helper: PropTypes.func.isRequired,
+    HelperWithCache: PropTypes.func.isRequired,
   }).isRequired,
   properties: PropTypes.shape({
     translations: PropTypes.shape({
       random: PropTypes.string.isRequired,
+      randomCached: PropTypes.string.isRequired,
     }).isRequired,
   }).isRequired,
 };
