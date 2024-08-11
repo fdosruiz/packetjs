@@ -1,0 +1,11 @@
+{
+  "name": "Packet.js DI Example in React with typescript",
+  "version": "1.0.0",
+  "translations": {
+    "random": "Random number is:",
+    "randomCached": "Cached random number is:"
+  },
+  "axios": {
+    "baseURL": "https://jsonplaceholder.typicode.com/"
+  }
+}
