@@ -1,9 +1,8 @@
 import { Container } from 'packetjs-di';
 import axios, { AxiosResponse } from 'axios';
 import useHelper from '../hooks/useHelper.ts';
-import useHelperDefinition  from '../@types/useHelper';
 import properties from '../properties/index.json';
-import { Properties } from '../@types';
+import { Properties, useHelperDefinition } from '../@types';
 
 // Create the container
 const container = new Container();

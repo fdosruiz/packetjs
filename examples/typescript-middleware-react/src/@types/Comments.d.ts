@@ -1,4 +1,4 @@
-export interface Comments {
+export default interface Comments {
   readonly postId: number;
   readonly id: number;
   readonly name: string;

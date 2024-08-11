@@ -1,9 +1,8 @@
 import { useEffect, useState } from "react";
-import { Properties, servicesMap } from "./@types";
 import reactLogo from './assets/react.svg';
 import viteLogo from '/vite.svg';
+import { Properties, servicesMap, Comments } from "./@types";
 import './css/App.css';
-import { Comments } from "./@types/Comments";
 
 // Definition of the props
 interface AppProps {
