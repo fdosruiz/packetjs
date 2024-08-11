@@ -326,8 +326,8 @@ const commonSandboxTests = (container, cicd = false) => {
   };
 
   const middlewares = () => {
-    const middlewaresStack = container.middleware.middlewaresStack;
-    middlewaresStack.clear();
+    const middlewareStack = container.middleware.middlewareStack;
+    middlewareStack.clear();
     console.log('--------------------------- BEFORE CALLING - SERVICE MIDDLEWARES ------------------------------------');
     let result1 = [];
     let result2 = [];
@@ -354,12 +354,12 @@ const commonSandboxTests = (container, cicd = false) => {
       name: 'Random Middleware 2',
     });
 
-    console.log(middlewaresStack);
+    console.log(middlewareStack);
 
     if (cicd) {
       const expected = [["Random",[{"global":false,"name":"Random Middleware 2","priority":10},{"global":false,"name":"Random Middleware 1","priority":0}]]];
-      const storageEntries = [...middlewaresStack.entries()];
-      if (!toEquals(storageEntries, expected)) throwError("memorizedServices | BEFORE CALLING - SERVICE MIDDLEWARES | middlewaresStack should be equals");
+      const storageEntries = [...middlewareStack.entries()];
+      if (!toEquals(storageEntries, expected)) throwError("memorizedServices | BEFORE CALLING - SERVICE MIDDLEWARES | middlewareStack should be equals");
     }
 
     console.log('--------------------------- AFTER CALLING - SERVICE MIDDLEWARES ------------------------------------');
@@ -418,14 +418,14 @@ const commonSandboxTests = (container, cicd = false) => {
       name: 'Random Global Middleware 2',
     });
 
-    console.log(middlewaresStack);
+    console.log(middlewareStack);
 
     if (cicd) {
       const expected = [["Random",[{"global":false,"name":"Random Middleware 3","priority":20},{"global":false,"name":"Random Middleware 2",
         "priority":10},{"global":false,"name":"Random Middleware 1","priority":0}]],["global",[{"global":true,"name":"Random Global" +
           " Middleware 2","priority":10},{"global":true,"name":"Random Global Middleware 1","priority":0}]]];
-      const storageEntries = [...middlewaresStack.entries()];
-      if (!toEquals(storageEntries, expected)) throwError("memorizedServices | BEFORE CALLING - GLOBAL MIDDLEWARES | middlewaresStack should be equals");
+      const storageEntries = [...middlewareStack.entries()];
+      if (!toEquals(storageEntries, expected)) throwError("memorizedServices | BEFORE CALLING - GLOBAL MIDDLEWARES | middlewareStack should be equals");
     }
 
     console.log('--------------------------- AFTER CALLING - GLOBAL MIDDLEWARES ------------------------------------');

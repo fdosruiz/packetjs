@@ -14,7 +14,7 @@
     "sandbox-cicd": "node sandbox/ci-cd/index.js",
     "sandbox-lib": "nodemon sandbox/lib/index.js",
     "sandbox-ts": "nodemon sandbox/src/index.ts --watch sandbox/common/sandbox.js --watch sandbox/src/index.ts --watch src/*",
-    "test-all": "npm run test && npm run test-lib && npm run test-integration && npm run test-integration-lib",
+    "test-all": "npm run sandbox-cicd && npm run test && npm run test-lib && npm run test-integration && npm run test-integration-lib",
     "test": "jest test/unit/src",
     "test-watch": "jest --watch test/unit/src",
     "test-lib": "bash ./scripts/prettier.sh && jest test/unit/lib",
