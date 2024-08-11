@@ -3,7 +3,7 @@ import axios, { AxiosResponse } from 'axios';
 import useHelper from '../hooks/useHelper.ts';
 import useHelperDefinition  from '../@types/useHelper';
 import properties from '../properties/index.json';
-import { Properties } from "../@types";
+import { Properties } from '../@types';
 
 // Create the container
 const container = new Container();
@@ -29,15 +29,20 @@ container.add('axios', ({ props }: { props: Properties }) => {
 // Middlewares
 container.middleware.add('axios', async (next, context, args) => {
   const { container, methodName } = context;
+  // Call the next middleware and get the response
   const response: AxiosResponse = await next(args);
+
   if (methodName === 'get' && response.status === 200) {
-    const useHelper = container.get<useHelperDefinition>('useHelper');
     const { data } = response;
+    // Get the useHelper from the container
+    const useHelper = container.get<useHelperDefinition>('useHelper');
+    // Update comments by reference
     data.forEach((comment) => {
       comment.random = useHelper.getRandom();
       comment.uniqId = useHelper.getUniqId();
     });
   }
+
   return response;
 });
 

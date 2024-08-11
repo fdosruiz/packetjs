@@ -1,6 +1,7 @@
 import { Container } from 'packetjs-di';
-import useHelper from '../hooks/useHelper.ts';
+import useHelper from '../hooks/useHelper';
 import properties from '../properties/index.json';
+import { Properties } from '../@types';
 
 /**
  * Create the container
@@ -15,11 +16,11 @@ container.addProps(properties);
 /**
  * Add services
  */
-container.add('useHelper', ({ props }) => {
+container.add('useHelper', ({ props }: { props: Properties }) => {
   return useHelper(props);
 });
 
-container.add('useHelperWithCache', ({ props }) => {
+container.add('useHelperWithCache', ({ props }: { props: Properties }) => {
   return useHelper(props);
 }, { cache: true });
 

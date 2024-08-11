@@ -1,8 +1,8 @@
 import useHelper from './useHelper';
 
-interface hooksMap {
+interface servicesMap {
   useHelper: () => useHelper;
   useHelperWithCache: () => useHelper;
 }
 
-export default hooksMap;
+export default servicesMap;
