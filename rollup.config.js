@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-var-requires */
 const dts = require('rollup-plugin-dts').default;
 
 module.exports = [{

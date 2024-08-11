@@ -736,7 +736,7 @@ export const commonSandboxTests = (container, Container) => {
       });
 
       beforeEach(() => {
-        container.middleware.middlewaresStack.clear();
+        container.middleware.middlewareStack.clear();
       });
 
       it('should not call middleware with fake service | non object instance', () => {
@@ -749,7 +749,7 @@ export const commonSandboxTests = (container, Container) => {
         });
 
         // Before calling RequestFake service
-        const middlewares = container.middleware.middlewaresStack;
+        const middlewares = container.middleware.middlewareStack;
 
         expect(middlewares.get('RequestFake')).toHaveLength(1);
         expect(middlewares.get('RequestFake')).toEqual([{
@@ -792,7 +792,7 @@ export const commonSandboxTests = (container, Container) => {
         });
 
         // Before calling Request service
-        const middlewares = container.middleware.middlewaresStack;
+        const middlewares = container.middleware.middlewareStack;
 
         expect(middlewares.get('RequestService')).toHaveLength(2);
         expect(middlewares.get('RequestService')).toEqual([{
@@ -856,7 +856,7 @@ export const commonSandboxTests = (container, Container) => {
         });
 
         // Before calling Request service
-        const middlewares = container.middleware.middlewaresStack;
+        const middlewares = container.middleware.middlewareStack;
 
         expect(middlewares.get('RequestService')).toHaveLength(2);
         expect(middlewares.get('RequestService')).toEqual([{
@@ -945,7 +945,7 @@ export const commonSandboxTests = (container, Container) => {
         });
 
         // Before calling Request service
-        const middlewares = container.middleware.middlewaresStack;
+        const middlewares = container.middleware.middlewareStack;
 
         expect(middlewares.get('RequestService')).toHaveLength(2);
         expect(middlewares.get('global')).toHaveLength(2);
@@ -1050,7 +1050,7 @@ export const commonSandboxTests = (container, Container) => {
         });
 
         // Before calling Request service
-        const middlewares = container.middleware.middlewaresStack;
+        const middlewares = container.middleware.middlewareStack;
 
         expect(middlewares.get('RequestService')).toHaveLength(2);
         expect(middlewares.get('global')).toHaveLength(2);
@@ -1175,7 +1175,7 @@ export const commonSandboxTests = (container, Container) => {
         });
 
         // Before calling Request service
-        const middlewares = container.middleware.middlewaresStack;
+        const middlewares = container.middleware.middlewareStack;
         expect(middlewares.get('RequestService')).toHaveLength(1);
 
         // After calling Request service
@@ -1197,7 +1197,7 @@ export const commonSandboxTests = (container, Container) => {
         });
 
         // Before calling Request service
-        let middlewares = container.middleware.middlewaresStack;
+        let middlewares = container.middleware.middlewareStack;
         expect(middlewares.get('RequestService')).toHaveLength(1);
 
         // After calling Request service
@@ -1213,7 +1213,7 @@ export const commonSandboxTests = (container, Container) => {
         });
 
         // Before calling Request service again
-        middlewares = container.middleware.middlewaresStack;
+        middlewares = container.middleware.middlewareStack;
         expect(middlewares.get('RequestService')).toHaveLength(2);
 
         // After calling Request service again
@@ -1233,7 +1233,7 @@ export const commonSandboxTests = (container, Container) => {
         });
 
         // Before calling Request service
-        let middlewares = container.middleware.middlewaresStack;
+        let middlewares = container.middleware.middlewareStack;
         expect(middlewares.get('RequestService')).toHaveLength(1);
 
         // After calling Request service
@@ -1249,7 +1249,7 @@ export const commonSandboxTests = (container, Container) => {
         });
 
         // Before calling Request service again
-        middlewares = container.middleware.middlewaresStack;
+        middlewares = container.middleware.middlewareStack;
         expect(middlewares.get('RequestService')).toHaveLength(1);
 
         // After calling Request service again
@@ -1262,7 +1262,7 @@ export const commonSandboxTests = (container, Container) => {
 
     describe('Middlewares together with Cache', () => {
       beforeEach(() => {
-        container.middleware.middlewaresStack.clear();
+        container.middleware.middlewareStack.clear();
       });
 
       it('should call global middlewares, together with service and CACHE middleware, with custom priority | object instance', () => {
@@ -1315,7 +1315,7 @@ export const commonSandboxTests = (container, Container) => {
         }, { cache: true });
 
         // Before calling Request service
-        let middlewares = container.middleware.middlewaresStack;
+        let middlewares = container.middleware.middlewareStack;
 
         expect(middlewares.get('NewService')).toHaveLength(2);
         expect(middlewares.get('global')).toHaveLength(2);
@@ -1344,7 +1344,7 @@ export const commonSandboxTests = (container, Container) => {
 
         // After calling Request service
         const RequestService = container.get('NewService');
-        middlewares = container.middleware.middlewaresStack;
+        middlewares = container.middleware.middlewareStack;
         expect(middlewares.get('NewService')).toHaveLength(3);
         expect(middlewares.get('global')).toHaveLength(2);
         expect(middlewares.get('NewService')).toEqual([{
@@ -1528,7 +1528,6 @@ export const commonSandboxTests = (container, Container) => {
         container.add('service2', callback2, { cached: true });
         const service2 = container.get('service2');
         context = [...container.context.entries()][0];
-        console.log(context);
 
         // Service 2
         expect(context[0]).toBe('service2');

@@ -67,9 +67,9 @@ export const middlewareCommonTests = (Middleware, Container) => {
         middlewareInstance.add('Service', middleware1);
 
         // Check if the middleware is added to the middlewares stack
-        expect(middlewareInstance.middlewaresStack.size).toBe(1);
-        expect(middlewareInstance.middlewaresStack.get('Service')).toHaveLength(1);
-        expect(middlewareInstance.middlewaresStack.get('Service')[0]).toEqual({
+        expect(middlewareInstance.middlewareStack.size).toBe(1);
+        expect(middlewareInstance.middlewareStack.get('Service')).toHaveLength(1);
+        expect(middlewareInstance.middlewareStack.get('Service')[0]).toEqual({
             global: false,
             middleware: middleware1,
             name: undefined,
@@ -85,11 +85,11 @@ export const middlewareCommonTests = (Middleware, Container) => {
         middlewareInstance.add('Service', middleware3, { name: 'middleware3' });
 
         // Check if the middleware is added to the middlewares stack
-        expect(middlewareInstance.middlewaresStack.size).toBe(1);
-        expect(middlewareInstance.middlewaresStack.get('Service')).toHaveLength(3);
+        expect(middlewareInstance.middlewareStack.size).toBe(1);
+        expect(middlewareInstance.middlewareStack.get('Service')).toHaveLength(3);
 
         // First middleware will be added with the highest priority
-        expect(middlewareInstance.middlewaresStack.get('Service')[0]).toEqual({
+        expect(middlewareInstance.middlewareStack.get('Service')[0]).toEqual({
             global: false,
             middleware: middleware1,
             name: 'middleware1',
@@ -98,7 +98,7 @@ export const middlewareCommonTests = (Middleware, Container) => {
         );
 
         // Second middleware will be added with the second-highest priority
-        expect(middlewareInstance.middlewaresStack.get('Service')[1]).toEqual({
+        expect(middlewareInstance.middlewareStack.get('Service')[1]).toEqual({
             global: false,
             middleware: middleware2,
             name: 'middleware2',
@@ -107,7 +107,7 @@ export const middlewareCommonTests = (Middleware, Container) => {
         );
 
         // Third middleware will be added with the lowest priority
-        expect(middlewareInstance.middlewaresStack.get('Service')[2]).toEqual({
+        expect(middlewareInstance.middlewareStack.get('Service')[2]).toEqual({
             global: false,
             middleware: middleware3,
             name: 'middleware3',
@@ -123,11 +123,11 @@ export const middlewareCommonTests = (Middleware, Container) => {
         middlewareInstance.add('Service', middleware3, { priority: 3, name: 'middleware3' });
 
         // Check if the middleware is added to the middlewares stack
-        expect(middlewareInstance.middlewaresStack.size).toBe(1);
-        expect(middlewareInstance.middlewaresStack.get('Service')).toHaveLength(3);
+        expect(middlewareInstance.middlewareStack.size).toBe(1);
+        expect(middlewareInstance.middlewareStack.get('Service')).toHaveLength(3);
 
         // First middleware will be added with the highest priority
-        expect(middlewareInstance.middlewaresStack.get('Service')[0]).toEqual({
+        expect(middlewareInstance.middlewareStack.get('Service')[0]).toEqual({
             global: false,
             middleware: middleware3,
             name: 'middleware3',
@@ -136,7 +136,7 @@ export const middlewareCommonTests = (Middleware, Container) => {
         );
 
         // Second middleware will be added with the second-highest priority
-        expect(middlewareInstance.middlewaresStack.get('Service')[1]).toEqual({
+        expect(middlewareInstance.middlewareStack.get('Service')[1]).toEqual({
             global: false,
             middleware: middleware2,
             name: 'middleware2',
@@ -145,7 +145,7 @@ export const middlewareCommonTests = (Middleware, Container) => {
         );
 
         // Third middleware will be added with the lowest priority
-        expect(middlewareInstance.middlewaresStack.get('Service')[2]).toEqual({
+        expect(middlewareInstance.middlewareStack.get('Service')[2]).toEqual({
             global: false,
             middleware: middleware1,
             name: 'middleware1',
@@ -161,11 +161,11 @@ export const middlewareCommonTests = (Middleware, Container) => {
         middlewareInstance.addGlobal(middleware3, { name: 'global_middleware3' });
 
         // Check if the middleware is added to the middlewares stack
-        expect(middlewareInstance.middlewaresStack.size).toBe(1);
-        expect(middlewareInstance.middlewaresStack.get('global')).toHaveLength(3);
+        expect(middlewareInstance.middlewareStack.size).toBe(1);
+        expect(middlewareInstance.middlewareStack.get('global')).toHaveLength(3);
 
         // First middleware will be added with the highest priority
-        expect(middlewareInstance.middlewaresStack.get('global')[0]).toEqual({
+        expect(middlewareInstance.middlewareStack.get('global')[0]).toEqual({
             global: true,
             middleware: middleware1,
             name: 'global_middleware1',
@@ -174,7 +174,7 @@ export const middlewareCommonTests = (Middleware, Container) => {
         );
 
         // Second middleware will be added with the second-highest priority
-        expect(middlewareInstance.middlewaresStack.get('global')[1]).toEqual({
+        expect(middlewareInstance.middlewareStack.get('global')[1]).toEqual({
             global: true,
             middleware: middleware2,
             name: 'global_middleware2',
@@ -183,7 +183,7 @@ export const middlewareCommonTests = (Middleware, Container) => {
         );
 
         // Third middleware will be added with the lowest priority
-        expect(middlewareInstance.middlewaresStack.get('global')[2]).toEqual({
+        expect(middlewareInstance.middlewareStack.get('global')[2]).toEqual({
             global: true,
             middleware: middleware3,
             name: 'global_middleware3',
@@ -199,11 +199,11 @@ export const middlewareCommonTests = (Middleware, Container) => {
         middlewareInstance.addGlobal(middleware3, { priority: 3, name: 'global_middleware3' });
 
         // Check if the middleware is added to the middlewares stack
-        expect(middlewareInstance.middlewaresStack.size).toBe(1);
-        expect(middlewareInstance.middlewaresStack.get('global')).toHaveLength(3);
+        expect(middlewareInstance.middlewareStack.size).toBe(1);
+        expect(middlewareInstance.middlewareStack.get('global')).toHaveLength(3);
 
         // First middleware will be added with the highest priority
-        expect(middlewareInstance.middlewaresStack.get('global')[0]).toEqual({
+        expect(middlewareInstance.middlewareStack.get('global')[0]).toEqual({
             global: true,
             middleware: middleware3,
             name: 'global_middleware3',
@@ -212,7 +212,7 @@ export const middlewareCommonTests = (Middleware, Container) => {
         );
 
         // Second middleware will be added with the second-highest priority
-        expect(middlewareInstance.middlewaresStack.get('global')[1]).toEqual({
+        expect(middlewareInstance.middlewareStack.get('global')[1]).toEqual({
             global: true,
             middleware: middleware2,
             name: 'global_middleware2',
@@ -221,7 +221,7 @@ export const middlewareCommonTests = (Middleware, Container) => {
         );
 
         // Third middleware will be added with the lowest priority
-        expect(middlewareInstance.middlewaresStack.get('global')[2]).toEqual({
+        expect(middlewareInstance.middlewareStack.get('global')[2]).toEqual({
             global: true,
             middleware: middleware1,
             name: 'global_middleware1',
@@ -241,7 +241,7 @@ export const middlewareCommonTests = (Middleware, Container) => {
         const proxy = middlewareInstance.getProxy(ctx);
 
         expect(proxy).toBeUndefined();
-        expect(middlewareInstance.middlewaresStack.size).toBe(0);
+        expect(middlewareInstance.middlewareStack.size).toBe(0);
       });
 
       it('should get the instance from context if there is no middlewares registered', () => {
@@ -250,7 +250,7 @@ export const middlewareCommonTests = (Middleware, Container) => {
         const proxy = middlewareInstance.getProxy(ctx);
 
         expect(proxy).toBe(instance);
-        expect(middlewareInstance.middlewaresStack.size).toBe(0);
+        expect(middlewareInstance.middlewareStack.size).toBe(0);
       });
 
       it('should get a proxy for the given context if there is middlewares registered', () => {
@@ -269,8 +269,8 @@ export const middlewareCommonTests = (Middleware, Container) => {
         expect(proxy).not.toBe(instance);
 
         // Check if the middleware is added to the middlewares stack
-        expect(middlewareInstance.middlewaresStack.size).toBe(1);
-        expect(middlewareInstance.middlewaresStack.get('Service')).toHaveLength(3);
+        expect(middlewareInstance.middlewareStack.size).toBe(1);
+        expect(middlewareInstance.middlewareStack.get('Service')).toHaveLength(3);
       });
 
       it('should get a proxy for the given context with cache enabled if there is middlewares registered', () => {
@@ -289,11 +289,11 @@ export const middlewareCommonTests = (Middleware, Container) => {
         expect(proxy).not.toBe(instance);
 
         // Check if the middleware is added to the middlewares stack
-        expect(middlewareInstance.middlewaresStack.size).toBe(1);
-        expect(middlewareInstance.middlewaresStack.get('Service')).toHaveLength(4);
+        expect(middlewareInstance.middlewareStack.size).toBe(1);
+        expect(middlewareInstance.middlewareStack.get('Service')).toHaveLength(4);
 
         // Check if the cache middleware is added to the middlewares stack
-        expect(middlewareInstance.middlewaresStack.get('Service')[3]).toEqual({
+        expect(middlewareInstance.middlewareStack.get('Service')[3]).toEqual({
           global: false,
           middleware: expect.any(Function),
           name: 'Cache',
@@ -314,8 +314,8 @@ export const middlewareCommonTests = (Middleware, Container) => {
 
         // Proxy should be the instance, should not be a proxy
         expect(proxy).toBe(instance);
-        expect(middlewareInstance.middlewaresStack.size).toBe(1);
-        expect(middlewareInstance.middlewaresStack.get('Service')).toHaveLength(1);
+        expect(middlewareInstance.middlewareStack.size).toBe(1);
+        expect(middlewareInstance.middlewareStack.get('Service')).toHaveLength(1);
       });
     });
 
