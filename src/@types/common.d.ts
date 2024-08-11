@@ -1,7 +1,7 @@
 import { Container } from '../core';
 
 /**
- * Context definition
+ * Container Context definition
  */
 export interface Context {
   /**
@@ -12,7 +12,7 @@ export interface Context {
   /**
    * Callback function with dependency injection logic
    */
-  callback: Callback;
+  callback: ServiceRegisterCallback;
 
   /**
    * Instance of callback function
@@ -27,14 +27,15 @@ export interface Context {
   /**
    * Options object for service configuration
    */
-  options?: IServiceOptions;
+  options?: ServiceConfigOptions;
 }
 
 /**
- * Represents an interface for a context object.
+ * Represents an interface for retrieving a collection of all context objects for
+ * the getAll() method.
  * @interface
  */
-export interface IContextObject {
+export interface ContextProvider {
   [key: string]: () => any;
 }
 
@@ -42,7 +43,7 @@ export interface IContextObject {
  * Represents the configuration settings for a service.
  * @interface
  */
-export interface IContainerOptions {
+export interface ContainerOptions {
   /**
    * Indicates if the services in the container should be frozen (unmodifiable).
    * @type {boolean | undefined}
@@ -57,10 +58,10 @@ export interface IContainerOptions {
 }
 
 /**
- * Represents the configuration settings for a service.
+ * Represents the configuration settings for a registered service.
  * @interface
  */
-export interface IServiceOptions {
+export interface ServiceConfigOptions {
   /**
    * @deprecated since version 1.4.0. Will be removed in version 2.0.
    * Use {@link cache} instead.
@@ -94,14 +95,14 @@ export interface IServiceOptions {
 }
 
 /**
- * Properties definition
+ * Callback props definition registering a new service or function
  */
-export type Props = {
+export type RegisterCallbackProps = {
   container: Container;
   props: object | any;
 }
 
 /**
- * Callback definition
+ * Callback function to be executed when a new service or function is registered to the container
  */
-export type Callback = (props: Props) => any;
+export type ServiceRegisterCallback = (props: RegisterCallbackProps) => any;

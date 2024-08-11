@@ -1,6 +1,11 @@
 import { Container } from "../core";
 
-declare type Options = {
+/**
+ * Represents the options for configuring middleware.
+ *
+ * @interface
+ */
+interface MiddlewareOptions {
   /**
    * Represents the name of the middleware.
    *
@@ -16,7 +21,10 @@ declare type Options = {
   priority?: number;
 }
 
-interface IMiddlewareStack {
+/**
+ * Represents a middleware stack that can be used to manage and execute middleware.
+ */
+interface MiddlewareStack {
   /**
    * Represents if the middleware is global or not.
    *
@@ -27,9 +35,9 @@ interface IMiddlewareStack {
   /**
    * The middleware to be added.
    *
-   * @type {IMiddleware} middleware
+   * @type {MiddlewareCallback} middleware
    */
-  middleware: IMiddleware;
+  middleware: MiddlewareCallback;
 
   /**
    * The name of the middleware.
@@ -49,7 +57,7 @@ interface IMiddlewareStack {
 /**
  * Properties definition
  */
-interface IMiddlewareContext {
+interface ContextMiddleware {
   /**
    * The container.
    *
@@ -72,10 +80,19 @@ interface IMiddlewareContext {
   serviceName: string;
 }
 
-type IMiddleware = (next: (args?: any[]) => any, context: IMiddlewareContext, args: any[]) => any;
+/**
+ * Represents the middleware callback function signature.
+ *
+ * @callback MiddlewareCallback
+ * @param {Function} next - The next middleware function to be called.
+ * @param {ContextMiddleware} context - The context object containing middleware data.
+ * @param {Array} args - The arguments passed to the middleware.
+ * @returns {*} - The result of the middleware operation.
+ */
+type MiddlewareCallback = (next: (args?: any[]) => any, context: ContextMiddleware, args: any[]) => any;
 
 export {
-  IMiddleware,
-  IMiddlewareStack,
-  Options,
+  MiddlewareCallback,
+  MiddlewareStack,
+  MiddlewareOptions,
 };

@@ -1,11 +1,11 @@
 import { Context } from '../@types/common';
-import { IMiddleware, IMiddlewareStack, Options } from '../@types/middleware';
+import { MiddlewareCallback, MiddlewareStack, MiddlewareOptions } from '../@types/middleware';
 import { Container } from '.';
 import { Cache } from '.';
 
 class Middleware {
   private globalKey = 'global';
-  private middlewaresStack = new Map<string, IMiddlewareStack[]>();
+  private middlewareStack = new Map<string, MiddlewareStack[]>();
   private readonly container: Container;
   private readonly cache: Cache;
 
@@ -18,11 +18,11 @@ class Middleware {
    * Adds a new middleware to the middlewares stack for a given key.
    *
    * @param {string} key - The key under which the middleware should be added.
-   * @param {IMiddleware} middleware - The middleware to be added.
-   * @param {Options} options - The options for the middleware.
+   * @param {MiddlewareCallback} middleware - The middleware to be added.
+   * @param {MiddlewareOptions} options - The options for the middleware.
    * @returns {void}
    */
-  public add(key: string, middleware: IMiddleware, options?: Options) {
+  public add(key: string, middleware: MiddlewareCallback, options?: MiddlewareOptions) {
     this.registerMiddleware(key, middleware, options);
     this.container.purge(key);
   }
@@ -30,11 +30,11 @@ class Middleware {
   /**
    * Add a new global middleware to the middlewares stack.
    *
-   * @param {IMiddleware} middleware - The middleware to be added.
-   * @param {Options} options - The options for the middleware.
+   * @param {MiddlewareCallback} middleware - The middleware to be added.
+   * @param {MiddlewareOptions} options - The options for the middleware.
    * @return {void}
    */
-  public addGlobal(middleware: IMiddleware, options?: Options) {
+  public addGlobal(middleware: MiddlewareCallback, options?: MiddlewareOptions) {
     this.registerMiddleware(this.globalKey, middleware, options);
   }
 
@@ -42,12 +42,12 @@ class Middleware {
    * Register a new middleware to the middlewares stack for a given key.
    *
    * @param {string} key - The key to identify the middlewares stack.
-   * @param {IMiddleware} middleware - The middleware to be added.
-   * @param {Options} options - Optional options for the middleware.
+   * @param {MiddlewareCallback} middleware - The middleware to be added.
+   * @param {MiddlewareOptions} options - Optional options for the middleware.
    * @return {void}
    */
-  private registerMiddleware(key: string, middleware: IMiddleware, options?: Options) {
-    const stack = this.middlewaresStack.get(key) || [];
+  private registerMiddleware(key: string, middleware: MiddlewareCallback, options?: MiddlewareOptions) {
+    const stack = this.middlewareStack.get(key) || [];
 
     // Add middleware to stack array
     stack.push({
@@ -61,7 +61,7 @@ class Middleware {
     stack.sort((a, b) => (b.priority || 0) - (a.priority || 0));
 
     // Add array to middlewares stack
-    this.middlewaresStack.set(key, stack);
+    this.middlewareStack.set(key, stack);
   }
 
   /**
@@ -88,8 +88,8 @@ class Middleware {
     this.addCacheMiddleware(ctx);
 
     const middlewares = [
-      ...this.middlewaresStack.get(this.globalKey) || [],
-      ...this.middlewaresStack.get(ctx.key) || [],
+      ...this.middlewareStack.get(this.globalKey) || [],
+      ...this.middlewareStack.get(ctx.key) || [],
     ];
 
     if (middlewares.length > 0) {
@@ -104,11 +104,11 @@ class Middleware {
    * original instance.
    *
    * @param {Context} ctx - The context object.
-   * @param {IMiddlewareStack[]} middlewares - The array of middlewares to be applied to the proxy handler.
+   * @param {MiddlewareStack[]} middlewares - The array of middlewares to be applied to the proxy handler.
    * @returns {ProxyHandler<any>} - The proxy handler.
    */
-  private createProxy(ctx: Context, middlewares: IMiddlewareStack[]): any {
-    return typeof ctx.instance === 'object'
+  private createProxy(ctx: Context, middlewares: MiddlewareStack[]): any {
+    return typeof ctx.instance === 'object' || typeof ctx.instance === 'function'
       ? new Proxy(ctx.instance, this.createProxyHandler(ctx, middlewares))
       : ctx.instance;
   }
@@ -117,10 +117,10 @@ class Middleware {
    * Creates a proxy handler for the given context. This method implements the Chain of Responsibility pattern.
    *
    * @param {Context} ctx - The context object.
-   * @param {IMiddlewareStack[]} middlewares - The array of middleware functions.
+   * @param {MiddlewareStack[]} middlewares - The array of middleware functions.
    * @return {ProxyHandler<any>} - The proxy handler.
    */
-  createProxyHandler(ctx: Context, middlewares: IMiddlewareStack[]) {
+  createProxyHandler(ctx: Context, middlewares: MiddlewareStack[]) {
     return {
       get: (target: any, methodName: string, receiver: any) => {
         const targetMethod = target[methodName];

@@ -1,9 +1,9 @@
 import {
-  Callback,
+  ServiceRegisterCallback,
   Context,
-  IContainerOptions,
-  IContextObject,
-  IServiceOptions,
+  ContainerOptions,
+  ContextProvider,
+  ServiceConfigOptions,
 } from '../@types/common';
 import { Middleware } from '.';
 
@@ -14,7 +14,7 @@ import { Middleware } from '.';
 class Container {
   private context: Map<string, Context>;
   private properties: any;
-  private readonly options: IContainerOptions;
+  private readonly options: ContainerOptions;
   public middleware: Middleware;
   static container: Container;
 
@@ -23,7 +23,7 @@ class Container {
    * @private
    * @constructor
    */
-  constructor(options: IContainerOptions = {}) {
+  constructor(options: ContainerOptions = {}) {
     this.context = new Map<string, Context>();
     this.middleware = new Middleware(this);
     this.options = {
@@ -46,15 +46,15 @@ class Container {
   }
 
   /**
-   * Add a new service or function to the context.
+   * Register a new service or function to the context.
    *
    * @param {string} key - Unique key for the new service or function.
-   * @param {Callback} callback - Callback function with dependency injection logic.
-   * @param {IServiceOptions} [options] - Optional configuration for the service or function.
+   * @param {ServiceRegisterCallback} callback - Callback function with dependency injection logic.
+   * @param {ServiceConfigOptions} [options] - Optional configuration for the service or function.
    * @returns {boolean} - Returns a boolean value indicating whether the service or function was
    * successfully added to the context.
    */
-  public add(key: string, callback: Callback, options?: IServiceOptions): boolean {
+  public add(key: string, callback: ServiceRegisterCallback, options?: ServiceConfigOptions): boolean {
     const ctx = this.context.get(key);
     const { freeze } = ctx?.options || {};
     const { freeze: globalFreeze } = this.options;
@@ -174,19 +174,15 @@ class Container {
    *
    * @example
    ```js
-   const {
-   Service1,
-   Service2,
-   } = container.getAll();
-
-   // invoque the services
-   Service1();
-   Service2();
+   const { Service1, Service2 } = container.getAll();
+   const instance1 = Service1(); // Make the instance of the Service1.
+   const instance2 = Service2(); // Make the instance of the Service2.
    ```
-   * @returns {IContextObject} - An object containing the context objects and their getters.
+   *
+   * @returns {ContextProvider} - An object containing the context objects and their getters.
    */
-  public getAll<T = IContextObject>(proxy = true): T {
-    const contextServices: IContextObject = {};
+  public getAll<T = ContextProvider>(proxy = true): T {
+    const contextServices: ContextProvider = {};
     this.context.forEach((ctx) => {
       contextServices[ctx.key] = () => this.get(ctx.key, proxy);
     });
