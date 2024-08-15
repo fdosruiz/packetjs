@@ -54,7 +54,7 @@ export interface ContainerOptions {
    * Indicates if the services in the container should be proxied with a middleware.
    * @type {boolean | undefined}
    */
-  middlewareProxy?: boolean;
+  proxyMiddleware?: boolean;
 }
 
 /**

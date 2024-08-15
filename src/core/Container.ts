@@ -28,7 +28,7 @@ class Container {
     this.middleware = new Middleware(this);
     this.options = {
       freeze: false,
-      middlewareProxy: true,
+      proxyMiddleware: true,
       ...options,
     };
     this.properties = {};
@@ -94,7 +94,7 @@ class Container {
    * @returns {boolean | undefined} - Returns true if the context has a proxy, otherwise false.
    */
   private hasProxy(ctx: Context): boolean | undefined {
-    return this.options.middlewareProxy || ctx.options?.cache || ctx.options?.cached;
+    return this.options.proxyMiddleware || ctx.options?.cache || ctx.options?.cached;
   }
 
   /**
