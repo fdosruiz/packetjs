@@ -4,6 +4,6 @@ export default interface Comments {
   readonly name: string;
   readonly email: string;
   readonly body: string;
-  readonly random: number;
-  readonly uniqId: string;
+  random: number;
+  uniqId: string;
 }
