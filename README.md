@@ -474,7 +474,8 @@ container.middleware.add('Service', (next, context, args) => {
 > See **[Middleware Considerations](#service-middleware-considerations)** for more information about using the container
 > inside a middleware.
 
-> For an a real middleware example, See [A Real Middleware example using `axios`](docs/middleware-example-using-axios.md)
+> For an a real middleware example, See [A Real Middleware example using
+`axios`](wiki/middleware-example-using-axios.md)
 
 ### `middleware.addGlobal(middleware, options)`
 
@@ -603,10 +604,10 @@ The `getAll<T>()` method returns an object with the following structure:
 ```typescript
 {
   Service1: () => { // Logic for the registered service 1 };
-  Service2: () => { // Logic for the registered service 2 };
-  ...
-  ...
-}
+    Service2: () => { // Logic for the registered service 2 };
+    ...
+    ...
+    }
 ```
 
 So, to define the type of each service, you can do the following:
@@ -810,6 +811,22 @@ class Request {
 |----------------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|------------------------------------------------------|
 | `add(key, middleware, options)`  | **`key`**: Unique key for the new middleware, which should match the service name.<br/>**`middleware(next, context, args)`**: Callback function to register a new middleware. <ul><li>**next()**: call the next middleware in the stack, and return the result of calling the next middleware. Accepts the args as a parameter.</li><li>**context**: `{ serviceName: string, methodName: string, container: Container }` <ul><li>**serviceName**: Name of the service called.</li><li>**methodName**: Name of the method or function called.</li><li>**container**: Container instance.</li></ul></li><li>**args**: Array with the parameters from the method or function called.</li></ul><br/>**`options`**: `{ priority: number, name: string }`:<br/>Properties:<ul><li>**priority**: sets the priority of the middleware. A higher priority means that the middleware will be executed first. By default, if no priority is set, the priority of middleware will be in order of registration.</li><li>**name**: sets the name of the middleware. The name is not required. Only used for debugging purposes.</li></ul>For more information about middleware see the [Middleware](#middleware) section. | Add a new middleware to the middleware stack.        |
 | `addGlobal(middleware, options)` | **`middleware(next, context, args)`**: Same as `middleware.add()` method.<br/>**`options`**: Same as `middleware.add()` method.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             | Add a new global middleware to the middleware stack. |
+
+## Support
+
+If you encounter any issues or bugs while using `packetjs`, or if you have any feature requests, please feel free to
+open an issue in our GitHub repository. You can report issues, track progress, and engage in discussions with the
+community via the following link:
+
+- [Submit an Issue](https://github.com/fdosruiz/packetjs/issues)
+
+Before submitting a new issue, we encourage you to search through the existing issues to see if the problem has already
+been reported or discussed. This helps reduce duplicates and allows us to address concerns more efficiently.
+
+For any other questions or inquiries, you can also reach out to the maintainers directly through the GitHub discussion
+board or contact email if available.
+
+We appreciate your feedback and contributions to making `packetjs` even better!
 
 ## Credits
 
