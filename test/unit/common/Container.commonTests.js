@@ -116,8 +116,8 @@ export const containerCommonTests = (Container, mocks) => {
       });
 
       it("should enable the freeze option globally in the container", () => {
-        const container1 = new Container({ freeze: true, middlewareProxy: false });
-        const container2 = new Container({ freeze: false, middlewareProxy: false });
+        const container1 = new Container({ freeze: true, proxyMiddleware: false });
+        const container2 = new Container({ freeze: false, proxyMiddleware: false });
 
         const service1 = new Date();
         const service2 = new Date();
@@ -286,7 +286,7 @@ export const containerCommonTests = (Container, mocks) => {
 
       it('should disable all proxies when the proxy is globally disabled in the container', () => {
         // Proxy is disabled globally
-        let container = new Container({ middlewareProxy: false });
+        let container = new Container({ proxyMiddleware: false });
         const name1 = 'service1';
         const serviceFunction1 = new Date('2000-01-01T00:00:00.000Z');
         const callback1 = () => serviceFunction1;
@@ -299,7 +299,7 @@ export const containerCommonTests = (Container, mocks) => {
         expect(middlewareGetProxyMock).not.toHaveBeenCalled();
 
         // Proxy is enabled globally
-        container = new Container({ middlewareProxy: true });
+        container = new Container({ proxyMiddleware: true });
         const name2 = 'service2';
         const serviceFunction2 = new Date('2000-01-01T00:00:01.000Z');
         const callback2 = () => serviceFunction2;
@@ -316,7 +316,7 @@ export const containerCommonTests = (Container, mocks) => {
         middlewareGetProxyMock.mockReturnValue('Proxy cache');
 
         // Proxy is disabled globally and cache is enabled
-        let container = new Container({ middlewareProxy: false });
+        let container = new Container({ proxyMiddleware: false });
         const serviceFunction1 = new Date('2000-01-01T00:00:00.000Z');
         const callback1 = () => serviceFunction1;
         container.add('service1', callback1, { cache: true });
@@ -327,7 +327,7 @@ export const containerCommonTests = (Container, mocks) => {
         expect(middlewareGetProxyMock).toHaveBeenCalled();
 
         // Proxy is disabled globally and cache is enabled (Deprecated cached option)
-        container = new Container({ middlewareProxy: false });
+        container = new Container({ proxyMiddleware: false });
         const serviceFunction2 = new Date('2000-01-01T00:00:01.000Z');
         const callback2 = () => serviceFunction2;
         container.add('service2', callback2, { cached: true });
