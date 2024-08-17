@@ -48,9 +48,9 @@ The main features of PacketJs DI are:
 - [Global Container](#global-container)
 - [Registering Services](#registering-services)
 - [Getting Services](#getting-services)
-    - [`get(key, options)`](#get-key-options)
-    - [`getAll(options)`](#getall-options)
-    - [`getFactory(key, options)`](#getfactory-key-options)
+    - [`get(key, options)`](#getkey-options)
+    - [`getAll(options)`](#getalloptions)
+    - [`getFactory(key, options)`](#getfactorykey-options)
 - [Adding Properties](#adding-properties)
 - [Injecting Dependencies](#injecting-dependencies)
 - [Middleware](#middleware)
@@ -58,10 +58,10 @@ The main features of PacketJs DI are:
     - [Next Function](#next-function)
     - [Interception and Modification](#interception-and-modification)
 - [Registering Middleware](#registering-middleware)
-    - [`middleware.add(key, middleware, options)`](#middleware-add-key-middleware-options)
-    - [`middleware.addGlobal(middleware, options)`](#middleware-addglobal-middleware-options)
+    - [`middleware.add(key, middleware, options)`](#middlewareaddkey-middleware-options)
+    - [`middleware.addGlobal(middleware, options)`](#middlewareaddglobalmiddleware-options)
     - [Real example using `axios`](#real-example-using-axios)
-- [Caching/Memoization](#caching-memoization)
+- [Caching/Memoization](#cachingmemoization)
     - [Caching All Methods](#caching-all-methods)
     - [Caching Only For Specific Methods](#caching-only-for-specific-methods)
     - [Caching All Methods Except Specific Ones](#caching-all-methods-except-specific-ones)
@@ -79,7 +79,7 @@ The main features of PacketJs DI are:
     - [Service Locator Considerations](#service-locator-considerations)
 - [API](#api)
     - [Container API](#container-api)
-    - [Middleware API](#middleware-api-container-middleware)
+    - [Middleware API](#middleware-api-containermiddleware)
 - [Credits](#credits)
 - [License](#license)
 
@@ -139,7 +139,8 @@ import { Service } from "./@types";
 const service = container.get<Service>('Service');
 ```
 
-> Generic types are supported. This allows you to use the `get()` method with your own types.
+> Generic types are supported. This allows you to use the `get()` method with your own types. For more information,
+> see the [Typescript](#typescript) section.
 
 ## Global Container
 
