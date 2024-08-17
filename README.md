@@ -67,10 +67,10 @@ The main features of PacketJs DI are:
     - [Caching All Methods Except Specific Ones](#caching-all-methods-except-specific-ones)
     - [No Caching](#no-caching)
 - [Typescript](#typescript)
-    - [`get()` with generic types](#get-with-generic-types)
-    - [`getFactory()` with generic types](#getfactory-with-generic-types)
-    - [`getAll()` with generic types](#getall-with-generic-types)
-    - [`getProps()` with generic types](#getprops-with-generic-types)
+    - [`get()` with generic types](#gett)
+    - [`getFactory()` with generic types](#getfactoryt)
+    - [`getAll()` with generic types](#getallt)
+    - [`getProps()` with generic types](#getpropst)
 - [Considerations](#considerations)
     - [React Hooks Considerations](#react-hooks-considerations)
     - [Service Middleware Considerations](#service-middleware-considerations)
@@ -474,6 +474,8 @@ container.middleware.add('Service', (next, context, args) => {
 > See **[Middleware Considerations](#service-middleware-considerations)** for more information about using the container
 > inside a middleware.
 
+> For an a real middleware example, See [A Real Middleware example using `axios`](docs/middleware-example-using-axios.md)
+
 ### `middleware.addGlobal(middleware, options)`
 
 Global middleware are similar to service middleware, but they are applied to all the services in the container.
@@ -500,82 +502,6 @@ container.middleware.addGlobal((next, context, args) => {
 
 > See **[Global Middleware Considerations](#global-middleware-considerations)** for more information about using the
 > container inside a global middleware.
-
-### Real example using `axios`
-
-The following example shows how to add a middleware to intercept the requests for the `axios` library.
-
-First, we declare the `axios` instance to the container:
-
-```typescript
-import { Container } from 'packetjs-di';
-import axios from 'axios';
-import properties from './properties/index.json';
-import { Properties } from './@types';
-
-// Create the container
-const container = new Container();
-
-// Add configuration properties
-container.addProps(properties);
-
-// Add the axios service
-container.add('axios', ({ props }: { props: Properties }) => {
-  return axios.create({
-    baseURL: props.axios.baseURL, // jsonplaceholder.typicode.com
-  });
-});
-```
-
-Next, we register the middleware:
-
-```typescript
-import { AxiosResponse } from 'axios';
-import { Comments, HelperDefinition } from "./@types";
-
-container.middleware.add('axios', async (next, context, args) => {
-  // We can access the service name, method name and container
-  const { container, methodName } = context;
-
-  // We can override the arguments if needed
-  console.log('arguments', args);
-
-  // Call the next middleware and get the response
-  const response: AxiosResponse = await next(args);
-
-  // Here we can modify the response
-  if (methodName === 'get' && response.status === 200) {
-    const { data: comments }: { data: Comments[] } = response;
-
-    // Get the Helper from the container
-    const Helper = container.get<HelperDefinition>('Helper');
-
-    // Update comments by reference
-    comments.forEach((comment) => {
-      comment.random = Helper.getRandom();
-      comment.uniqId = Helper.getUniqId();
-    });
-  }
-
-  return response;
-}, {
-  priority: 1,
-  name: 'axiosService'
-});
-```
-
-> The context object contains information about the service name, method name and container. You can get any service
-> declared in the container through the Container instance using the `get()`, `getAll()` or `getFactory()` methods.
-
-Here's how to make the request that will be processed by the middleware:
-
-```typescript
-const axios = container.get<Axios>('axios');
-
-axios.get('/comments').then(({ data: comments }) => {
-  console.log(comments);
-});
-```
 
 ## Caching/Memoization
 
@@ -646,12 +572,12 @@ container.add('Service', () => {
 ## Typescript
 
 PacketJS-DI is built on top of [TypeScript](https://www.typescriptlang.org/) and supports TypeScript projects. This
-section will describe how to use TypeScript with PacketJS-DI.
+section will describe how to use PacketJS-DI with TypeScript and Generic Types.
 
-### `get()` with generic types
+### `get<T>()`
 
-The `get()` method returns the instance of the registered service. So, to define the type of the service, you can do the
-following:
+The `get<T>()` method returns the instance of the registered service. So, to define the type of the service, you can do
+the following:
 
 ```typescript
 import { Service } from './@types';
@@ -659,10 +585,10 @@ import { Service } from './@types';
 const service = container.get<Service>('Service');
 ```
 
-### `getFactory()` with generic types
+### `getFactory<T>()`
 
-Similar to the `get()` method, the `getFactory()` method returns an instance for the registered service, and the type of
-the service is defined using the `getFactory()` method.
+Similar to the `get<T>()` method, the `getFactory<T>()` method returns an instance for the registered service, and the
+type of the service is defined using the `getFactory<T>()` method.
 
 ```typescript
 import { Service } from './@types';
@@ -670,9 +596,9 @@ import { Service } from './@types';
 const service = container.getFactory<Service>('Service');
 ```
 
-### `getAll()` with generic types
+### `getAll<T>()`
 
-The `getAll()` method returns an object with the following structure:
+The `getAll<T>()` method returns an object with the following structure:
 
 ```typescript
 {
@@ -702,9 +628,9 @@ Then we can use it like this:
 const services = container.getAll<ServicesMap>();
 ```
 
-### `getProps()` with generic types
+### `getProps<T>()`
 
-The `getProps()` method returns an object with the properties registered in the container. So, to define the type of
+The `getProps<T>()` method returns an object with the properties registered in the container. So, to define the type of
 the properties, you can do the following:
 
 ```typescript
