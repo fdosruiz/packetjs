@@ -67,10 +67,10 @@ The main features of PacketJs DI are:
     - [Caching All Methods Except Specific Ones](#caching-all-methods-except-specific-ones)
     - [No Caching](#no-caching)
 - [Typescript](#typescript)
-    - [`get()` with generic types](#gett)
-    - [`getFactory()` with generic types](#getfactoryt)
-    - [`getAll()` with generic types](#getallt)
-    - [`getProps()` with generic types](#getpropst)
+    - [`get<T>(key, options)`](#gettkey-options)
+    - [`getFactory<T>(key, options)`](#getfactorytkey-options)
+    - [`getAll<T>(options)`](#getalltoptions)
+    - [`getProps<T>()`](#getpropst)
 - [Considerations](#considerations)
     - [React Hooks Considerations](#react-hooks-considerations)
     - [Service Middleware Considerations](#service-middleware-considerations)
@@ -574,7 +574,7 @@ container.add('Service', () => {
 PacketJS-DI is built on top of [TypeScript](https://www.typescriptlang.org/) and supports TypeScript projects. This
 section will describe how to use PacketJS-DI with TypeScript and Generic Types.
 
-### `get<T>()`
+### `get<T>(key, options)`
 
 The `get<T>()` method returns the instance of the registered service. So, to define the type of the service, you can do
 the following:
@@ -585,7 +585,7 @@ import { Service } from './@types';
 const service = container.get<Service>('Service');
 ```
 
-### `getFactory<T>()`
+### `getFactory<T>(key, options)`
 
 Similar to the `get<T>()` method, the `getFactory<T>()` method returns an instance for the registered service, and the
 type of the service is defined using the `getFactory<T>()` method.
@@ -596,7 +596,7 @@ import { Service } from './@types';
 const service = container.getFactory<Service>('Service');
 ```
 
-### `getAll<T>()`
+### `getAll<T>(options)`
 
 The `getAll<T>()` method returns an object with the following structure:
 
