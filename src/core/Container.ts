@@ -1,10 +1,10 @@
 import {
-  ServiceRegisterCallback,
-  Context,
   ContainerOptions,
+  Context,
   ContextProvider,
   ServiceConfigOptions,
-} from '../@types/common';
+  ServiceRegisterCallback,
+} from '../@types/container';
 import { Middleware } from '.';
 
 /**

@@ -1,4 +1,4 @@
-import { Context } from '../@types/common';
+import { Context } from '../@types/container';
 import Middleware from './Middleware';
 
 /**

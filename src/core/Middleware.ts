@@ -1,4 +1,4 @@
-import { Context } from '../@types/common';
+import { Context } from '../@types/container';
 import { MiddlewareCallback, MiddlewareStack, MiddlewareOptions } from '../@types/middleware';
 import { Container } from '.';
 import { Cache } from '.';

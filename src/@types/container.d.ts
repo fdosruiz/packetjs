@@ -1,4 +1,22 @@
-import { Container } from '../core';
+import { Container } from "../core";
+
+/**
+ * Represents the configuration settings for a service.
+ * @interface
+ */
+interface ContainerOptions {
+  /**
+   * Indicates if the services in the container should be frozen (unmodifiable).
+   * @type {boolean}
+   */
+  freeze?: boolean;
+
+  /**
+   * Indicates if the services in the container should be proxied with a middleware.
+   * @type {boolean}
+   */
+  proxyMiddleware?: boolean;
+}
 
 /**
  * Container Context definition
@@ -35,26 +53,8 @@ export interface Context {
  * the getAll() method.
  * @interface
  */
-export interface ContextProvider {
+interface ContextProvider {
   [key: string]: () => any;
-}
-
-/**
- * Represents the configuration settings for a service.
- * @interface
- */
-export interface ContainerOptions {
-  /**
-   * Indicates if the services in the container should be frozen (unmodifiable).
-   * @type {boolean | undefined}
-   */
-  freeze?: boolean;
-
-  /**
-   * Indicates if the services in the container should be proxied with a middleware.
-   * @type {boolean | undefined}
-   */
-  proxyMiddleware?: boolean;
 }
 
 /**
@@ -97,7 +97,7 @@ export interface ServiceConfigOptions {
 /**
  * Callback props definition registering a new service or function
  */
-export type RegisterCallbackProps = {
+type RegisterCallbackProps = {
   container: Container;
   props: object | any;
 }
@@ -105,4 +105,11 @@ export type RegisterCallbackProps = {
 /**
  * Callback function to be executed when a new service or function is registered to the container
  */
-export type ServiceRegisterCallback = (props: RegisterCallbackProps) => any;
+type ServiceRegisterCallback = (props: RegisterCallbackProps) => any;
+
+export {
+  ContainerOptions,
+  ContextProvider,
+  ServiceConfigOptions,
+  ServiceRegisterCallback,
+};
