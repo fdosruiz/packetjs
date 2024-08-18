@@ -2,6 +2,7 @@ import {
   ContainerOptions,
   Context,
   ContextProvider,
+  RegisteredServiceOptions,
   ServiceConfigOptions,
   ServiceRegisterCallback,
 } from '../@types/container';
@@ -113,14 +114,20 @@ class Container {
   }
 
   /**
-   * Gets always the same instance for a concrete context
+   * Retrieves a value from the context based on the specified key.
    *
-   * @param {string} key - Unique key of the service or function
-   * @param {boolean} proxy - Flag indicating if the middleware proxy should be enabled (default is true)
-   * @return {any} - The instance of the service or function associated with the given key,
-   * or null if no instance is found
+   * @template T - The type of the value to retrieve. Defaults to 'any'.
+   *
+   * @param {string} key - The key of the value to retrieve from the context.
+   * @param {RegisteredServiceOptions} options - The options for retrieving the value.
+   * @param {boolean} options.proxyMiddleware - Determines whether to use proxy middleware. Defaults to 'true'.
+   *
+   * @returns {T} - The retrieved value from the context.
+   *
+   * @throws {Error} If the context with the specified key is not found.
    */
-  public get<T = any>(key: string, proxy = true): T {
+  public get<T = any>(key: string, options: RegisteredServiceOptions): T {
+    const { proxyMiddleware = true } = options || {};
     const ctx = this.context.get(key);
 
     // If ctx is not found, throw an exception. This forces the user to handle this situation.
@@ -132,19 +139,25 @@ class Container {
       ctx.proxy = proxy;
     }
 
-    return proxy && this.hasProxy(ctx)
+    return proxyMiddleware && this.hasProxy(ctx)
       ? ctx.proxy
       : ctx.instance;
   }
 
   /**
-   * Retrieves a new instance of a service or function based on the provided key.
+   * Returns the factory object for a given key and options.
    *
-   * @param {string} key - The unique key of the service or function.
-   * @param {boolean} proxy - Flag indicating if the middleware proxy should be enabled (default is true)
-   * @returns {any} - A new instance of the service or function, or null if not found.
+   * @template T - The type of the value to retrieve. Defaults to 'any'.
+   *
+   * @param {string} key - The key of the value to retrieve from the context.
+   * @param {RegisteredServiceOptions} options - The options for retrieving the value.
+   *
+   * @return {T} - The retrieved value from the context.
+   *
+   * @throws {Error} If the factory context with the given key is not found.
    */
-  public getFactory<T = any>(key: string, proxy = true): T {
+  public getFactory<T = any>(key: string, options: RegisteredServiceOptions): T {
+    const { proxyMiddleware = true } = options || {};
     const ctx = this.context.get(key);
 
     // If ctx is not found, throw an exception. This forces the user to handle this situation.
@@ -152,7 +165,7 @@ class Container {
 
     const instanceObj = this.getInstance(ctx);
 
-    return proxy && this.hasProxy(ctx)
+    return proxyMiddleware && this.hasProxy(ctx)
       ? instanceObj.proxy
       : instanceObj.instance;
   }
@@ -167,10 +180,11 @@ class Container {
   }
 
   /**
-   * Retrieves all context objects like a getter function.
+   * Retrieves all context services based on the provided options.
    *
-   * @param {boolean} proxy - A flag indicating whether the middleware proxy should be
-   * enabled or not. Default is true.
+   * @template T - The type of the value to retrieve. Defaults to 'ContextProvider'.
+   *
+   * @param {RegisteredServiceOptions} options - The options used for retrieving the context services.
    *
    * @example
    ```js
@@ -179,12 +193,13 @@ class Container {
    const instance2 = Service2(); // Make the instance of the Service2.
    ```
    *
-   * @returns {ContextProvider} - An object containing the context objects and their getters.
+   * @return {T} - The context services object, where the keys are the context
+   * keys and the values are functions that retrieve the context values.
    */
-  public getAll<T = ContextProvider>(proxy = true): T {
+  public getAll<T = ContextProvider>(options: RegisteredServiceOptions): T {
     const contextServices: ContextProvider = {};
     this.context.forEach((ctx) => {
-      contextServices[ctx.key] = () => this.get(ctx.key, proxy);
+      contextServices[ctx.key] = () => this.get(ctx.key, options);
     });
     return contextServices as T;
   }

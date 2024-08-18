@@ -477,12 +477,12 @@ export const commonSandboxTests = (container, Container) => {
         expect(entries).toHaveLength(16); // before entries was 16
 
         // After calling methods
-        const random1 = container.get('RandomExclude', false).getRandom1();
-        const random2 = container.get('RandomExclude', false).getRandom1();
-        const random3 = container.get('RandomExclude', false).getRandom2();
-        const random4 = container.get('RandomExclude', false).getRandom2();
-        const timeout1 = container.get('RandomExclude', false).doTimeout();
-        const timeout2 = container.get('RandomExclude', false).doTimeout();
+        const random1 = container.get('RandomExclude', { proxyMiddleware: false }).getRandom1();
+        const random2 = container.get('RandomExclude', { proxyMiddleware: false }).getRandom1();
+        const random3 = container.get('RandomExclude', { proxyMiddleware: false }).getRandom2();
+        const random4 = container.get('RandomExclude', { proxyMiddleware: false }).getRandom2();
+        const timeout1 = container.get('RandomExclude', { proxyMiddleware: false }).doTimeout();
+        const timeout2 = container.get('RandomExclude', { proxyMiddleware: false }).doTimeout();
 
         expect(random1).not.toBe(random2); // getRandom1 excluded. Not memorized
         expect(random3).not.toBe(random4); // proxy cache is disabled. Not memorized
@@ -549,7 +549,7 @@ export const commonSandboxTests = (container, Container) => {
         expect(entries).toHaveLength(16); // before entries was 16
 
         // After calling methods
-        const factory = container.getFactory('RandomExclude', false);
+        const factory = container.getFactory('RandomExclude', { proxyMiddleware: false });
 
         const random1 = factory.getRandom1();
         const random2 = factory.getRandom1();
@@ -623,7 +623,7 @@ export const commonSandboxTests = (container, Container) => {
         expect(entries).toHaveLength(16); // before entries was 16
 
         // After calling methods
-        const { RandomExclude } = container.getAll(false);
+        const { RandomExclude } = container.getAll({ proxyMiddleware: false });
 
         const random1 = RandomExclude().getRandom1();
         const random2 = RandomExclude().getRandom1();

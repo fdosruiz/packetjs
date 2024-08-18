@@ -61,6 +61,19 @@ interface ContextProvider {
  * Represents the configuration settings for a registered service.
  * @interface
  */
+interface RegisteredServiceOptions {
+  /**
+   * Indicates if the service retrieved from the container should be proxied with
+   * a middleware.
+   * @type {boolean}
+   */
+  proxyMiddleware?: boolean;
+}
+
+/**
+ * Represents the configuration settings for a registered service.
+ * @interface
+ */
 interface ServiceConfigOptions {
   /**
    * @deprecated since version 1.4.0. Will be removed in version 2.0.
@@ -110,6 +123,7 @@ type ServiceRegisterCallback = (props: RegisterCallbackProps) => any;
 export {
   ContainerOptions,
   ContextProvider,
+  RegisteredServiceOptions,
   ServiceConfigOptions,
   ServiceRegisterCallback,
 };

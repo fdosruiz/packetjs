@@ -843,7 +843,7 @@ export const middlewareCommonTests = (Middleware, Container) => {
       };
       const middlewareOmitInfiniteLoop = (next, context) => {
         const { container } = context;
-        const testService = container.get('testService', false);
+        const testService = container.get('testService', { proxyMiddleware: false });
         return testService.fetch();
       };
       let argument;
