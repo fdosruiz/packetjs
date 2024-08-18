@@ -61,7 +61,7 @@ interface ContextProvider {
  * Represents the configuration settings for a registered service.
  * @interface
  */
-export interface ServiceConfigOptions {
+interface ServiceConfigOptions {
   /**
    * @deprecated since version 1.4.0. Will be removed in version 2.0.
    * Use {@link cache} instead.
