@@ -114,6 +114,39 @@ class Container {
   }
 
   /**
+   * Retrieves the resolved instance from the context based on the provided key and options.
+   *
+   * @template T - The type of the value to retrieve. Defaults to 'any'.
+   *
+   * @param {Context} ctx - The context object containing the resolved instance.
+   * @param {string} key - The key used to retrieve the instance from the context.
+   * @param {RegisteredServiceOptions} options - The options used to configure the resolved instance.
+   *
+   * @throws {Error} If the context with the specified key cannot be resolved.
+   *
+   * @returns {T} The resolved instance.
+   */
+  private getResolvedInstance<T = any>(ctx: Context, key: string, options: RegisteredServiceOptions): T {
+    // If ctx.key is not found, throw an exception. This forces the user to handle this situation.
+    if (!ctx.key) throw new Error(`The context with key "${key}" could not be resolved.`);
+
+    const { singleton = true } = ctx?.options || {};
+    const { proxyMiddleware = true } = options || {};
+    const hasProxyMiddleware = proxyMiddleware && this.hasProxy(ctx);
+
+    if (singleton) {
+      if (!ctx.instance) {
+        const { instance, proxy } = this.getInstance(ctx);
+        ctx.instance = instance;
+        ctx.proxy = proxy;
+      }
+      return hasProxyMiddleware ? ctx.proxy : ctx.instance;
+    }
+
+    const serviceInstance = this.getInstance(ctx);
+    return hasProxyMiddleware ? serviceInstance.proxy : serviceInstance.instance;
+  }
+  /**
    * Retrieves a value from the context based on the specified key.
    *
    * @template T - The type of the value to retrieve. Defaults to 'any'.
@@ -127,21 +160,8 @@ class Container {
    * @throws {Error} If the context with the specified key is not found.
    */
   public get<T = any>(key: string, options: RegisteredServiceOptions): T {
-    const { proxyMiddleware = true } = options || {};
-    const ctx = this.context.get(key);
-
-    // If ctx is not found, throw an exception. This forces the user to handle this situation.
-    if (!ctx) throw new Error(`The context with key "${key}" could not be resolved.`);
-
-    if (!ctx.instance) {
-      const { instance, proxy } = this.getInstance(ctx);
-      ctx.instance = instance;
-      ctx.proxy = proxy;
-    }
-
-    return proxyMiddleware && this.hasProxy(ctx)
-      ? ctx.proxy
-      : ctx.instance;
+    const ctx = this.context.get(key) || {} as Context;
+    return this.getResolvedInstance(ctx, key, options);
   }
 
   /**
@@ -157,17 +177,15 @@ class Container {
    * @throws {Error} If the factory context with the given key is not found.
    */
   public getFactory<T = any>(key: string, options: RegisteredServiceOptions): T {
-    const { proxyMiddleware = true } = options || {};
-    const ctx = this.context.get(key);
-
-    // If ctx is not found, throw an exception. This forces the user to handle this situation.
-    if (!ctx) throw new Error(`The context with key "${key}" could not be resolved.`);
-
-    const instanceObj = this.getInstance(ctx);
-
-    return proxyMiddleware && this.hasProxy(ctx)
-      ? instanceObj.proxy
-      : instanceObj.instance;
+    const ctx = this.context.get(key) || { options: {} } as Context;
+    const overrideCtx = {
+      ...ctx,
+      options: {
+        ...ctx.options,
+        singleton: false,
+      },
+    };
+    return this.getResolvedInstance(overrideCtx, key, options);
   }
 
   /**

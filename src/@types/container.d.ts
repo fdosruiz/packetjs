@@ -92,19 +92,25 @@ interface ServiceConfigOptions {
    * Represents a collection of methods for the cache and memoization.
    * @type {string[]}
    */
-  methods?: string[] | undefined;
+  methods?: string[];
 
   /**
    * Represents the exclude mode setting for the cache and memoization of methods defined in the `methods` array.
    * @type {boolean}
    */
-  excludeMode?: boolean | undefined;
+  excludeMode?: boolean;
 
   /**
    * Indicates if the service is frozen (unmodifiable).
-   * @type {boolean | undefined}
+   * @type {boolean}
    */
-  freeze?: boolean | undefined;
+  freeze?: boolean;
+
+  /**
+   * Enable the singleton pattern for the service.
+   * @type {boolean}
+   */
+  singleton?: boolean;
 }
 
 /**

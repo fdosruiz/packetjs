@@ -15,6 +15,7 @@ export const commonSandboxTests = (container, Container) => {
     container.add('Service5', () => Math.random() * 1000);
     container.add('Service6', ({ props }) => new Date(props.date));
     container.add('Service7', ({ props }) => new URL(props.url));
+    container.add('Service8', ({ props }) => new Date(props.date), { singleton: false});
   };
 
   const addServicesForCaching = () => {
@@ -137,6 +138,12 @@ export const commonSandboxTests = (container, Container) => {
         expect(service5.proxy).not.toBeNull();
       });
 
+      it('calling services with get method and singleton disabled (Service 5)', () => {
+        const service1 = container.get('Service8', { proxyMiddleware: false });
+        const service2 = container.get('Service8', { proxyMiddleware: false });
+        expect(service1).not.toBe(service2);
+      });
+
       it('calling services with get method (lazy-load) (Service 4)', () => {
         // Before calling service 4
         const service2 = container.context.get('Service2');
@@ -257,6 +264,7 @@ export const commonSandboxTests = (container, Container) => {
         expect(() => container.get('NonRegisteredService')).toThrow('The context with key' +
           ' "NonRegisteredService" could not be resolved.');
       });
+
       it('calling a non registered service with getFactory method', () => {
         expect(() => container.getFactory('NonRegisteredService')).toThrow('The context with key' +
           ' "NonRegisteredService" could not be resolved.');

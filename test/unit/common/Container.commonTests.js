@@ -280,6 +280,18 @@ export const containerCommonTests = (Container, mocks) => {
         expect(service1).toBe(service2);
       });
 
+      it('should get a different instance from the same two calls (singleton disabled)', () => {
+        const name = 'serviceFactory';
+        const callback = () => {
+          return new Date();
+        };
+        container.add(name, callback, { singleton: false });
+        const service1 = container.get(name, { proxyMiddleware: false });
+        const service2 = container.get(name, { proxyMiddleware: false });
+
+        expect(service1).not.toBe(service2);
+      });
+
       it('should get an error from services not set, and could not be resolved', () => {
         expect(() => container.get('not-name')).toThrow('The context with key "not-name" could not be resolved.');
       });
