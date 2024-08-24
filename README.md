@@ -60,7 +60,7 @@ The main features of Packet.js are:
 - [Registering Middleware](#registering-middleware)
     - [`middleware.add(key, middleware, options)`](#middlewareaddkey-middleware-options)
     - [`middleware.addGlobal(middleware, options)`](#middlewareaddglobalmiddleware-options)
-    - [Real example using `axios`](#real-example-using-axios)
+- [Middleware Example Using Axios](#middleware-example-using-axios)
 - [Caching/Memoization](#cachingmemoization)
     - [Caching All Methods](#caching-all-methods)
     - [Caching Only For Specific Methods](#caching-only-for-specific-methods)
