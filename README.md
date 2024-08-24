@@ -1,4 +1,4 @@
-# PacketJs DI
+# Packet.js DI
 
 ![packet.js di](resources/packetjs.png)
 
@@ -13,8 +13,8 @@
 [![Coverage Status](https://coveralls.io/repos/github/fdosruiz/packetjs/badge.svg?branch=main)](https://coveralls.io/github/fdosruiz/packetjs?branch=main)
 [![Known Vulnerabilities](https://snyk.io/test/npm/packetjs-di/badge.svg)](https://snyk.io/test/npm/packetjs-di)
 
-**Packet.js** is a lightweight Dependency Injection container written in TypeScript and made for JavaScript applications
-like Node.js, Angular, React, Vue, Vanilla JS, etc.
+**Packet.js DI** is a lightweight Dependency Injection container written in TypeScript and made for JavaScript
+applications like Node.js, Angular, React, Vue, Vanilla JS, etc.
 
 **Packet.js** is designed to be simple, powerful and easy to use. It provides a lightweight and efficient way to manage
 dependencies in your JavaScript/Node applications. With its lazy loading feature, it only instantiates services when
@@ -24,7 +24,7 @@ Additionally, it supports both object-oriented programming and functional progra
 to different coding styles. Whether you're building a small application or a large-scale project, **Packet.js** can help
 you organize and manage your dependencies effectively.
 
-The main features of PacketJs DI are:
+The main features of Packet.js are:
 
 - **Lazy loading**: It only instantiates services when they are actually needed, improving performance and reducing
   memory usage.
@@ -206,6 +206,15 @@ container.add('useCustomHook', () => useCustomHook());
 
 > See **[React Considerations](#react-hooks-considerations)** for more information about React hooks and singleton
 > option.
+
+By default, the singleton option is enabled. To disable it, use the `singleton` option:
+
+```javascript
+container.add('Service', () => new Service(), { singleton: false });
+```
+
+> This disables the singleton option for the service's `get()` method, and it is equivalent to using the `getFactory()`
+> method instead.
 
 Caching is disabled by default. To enable it, use the `cache` option:
 
@@ -474,9 +483,6 @@ container.middleware.add('Service', (next, context, args) => {
 > See **[Middleware Considerations](#service-middleware-considerations)** for more information about using the container
 > inside a middleware.
 
-> For an a real middleware example, See [A Real Middleware example using
-`axios`](wiki/middleware-example-using-axios.md)
-
 ### `middleware.addGlobal(middleware, options)`
 
 Global middleware are similar to service middleware, but they are applied to all the services in the container.
@@ -503,6 +509,82 @@ container.middleware.addGlobal((next, context, args) => {
 
 > See **[Global Middleware Considerations](#global-middleware-considerations)** for more information about using the
 > container inside a global middleware.
+
+# Middleware example using `axios`
+
+The following example shows how to add a middleware to intercept the requests for the `axios` library.
+
+First, we declare the `axios` instance to the container:
+
+```typescript
+import { Container } from 'packetjs-di';
+import axios from 'axios';
+import properties from './properties/index.json';
+import { Properties } from './@types';
+
+// Create the container
+const container = new Container();
+
+// Add configuration properties
+container.addProps(properties);
+
+// Add the axios service
+container.add('axios', ({ props }: { props: Properties }) => {
+  return axios.create({
+    baseURL: props.axios.baseURL, // jsonplaceholder.typicode.com
+  });
+});
+```
+
+Next, we register the middleware:
+
+```typescript
+import { AxiosResponse } from 'axios';
+import { Comments, HelperDefinition } from "./@types";
+
+container.middleware.add('axios', async (next, context, args) => {
+  // We can access the service name, method name and container
+  const { container, methodName } = context;
+
+  // We can override the arguments if needed
+  console.log('arguments', args);
+
+  // Call the next middleware and get the response
+  const response: AxiosResponse = await next(args);
+
+  // Here we can modify the response
+  if (methodName === 'get' && response.status === 200) {
+    const { data: comments }: { data: Comments[] } = response;
+
+    // Get the Helper from the container
+    const Helper = container.get<HelperDefinition>('Helper');
+
+    // Update comments by reference
+    comments.forEach((comment) => {
+      comment.random = Helper.getRandom();
+      comment.uniqId = Helper.getUniqId();
+    });
+  }
+
+  return response;
+}, {
+  priority: 1,
+  name: 'axiosService'
+});
+```
+
+> The context object contains information about the service name, method name and container. You can get any service
+> declared in the container through the Container instance using the `get()`, `getAll()` or `getFactory()` methods.
+
+Here's how to make the request that will be processed by the middleware:
+
+```typescript
+const axios = container.get<Axios>('axios');
+
+axios.get('/comments').then(({ data: comments }) => {
+  console.log(comments);
+});
+```
 
 ## Caching/Memoization
 
@@ -572,8 +654,8 @@ container.add('Service', () => {
 
 ## Typescript
 
-PacketJS-DI is built on top of [TypeScript](https://www.typescriptlang.org/) and supports TypeScript projects. This
-section will describe how to use PacketJS-DI with TypeScript and Generic Types.
+Packet.js is built on top of [TypeScript](https://www.typescriptlang.org/) and supports TypeScript projects. This
+section will describe how to use Packet.js with TypeScript and Generic Types.
 
 ### `get<T>(key, options)`
 
@@ -835,3 +917,4 @@ We appreciate your feedback and contributions to making `packetjs` even better!
 ## License
 
 [MIT](https://github.com/fdosruiz/packetjs/blob/main/LICENSE)
+
