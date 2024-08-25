@@ -47,7 +47,7 @@ maintain a clear and consistent commit history.
 Here’s the format for commit messages:
 
 ```bash
-git commit -m "<type>[optional scope]: <description>
+git commit -m "<type>: <description> [optional scope]
 [optional body]
 [optional footer(s)]"
 ```
