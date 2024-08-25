@@ -1,6 +1,6 @@
 # Packet.js DI
 
-![packet.js di](resources/packetjs.png)
+![packet.js di](https://raw.githubusercontent.com/fdosruiz/packetjs/main/resources/packetjs.png)
 
 [![node](https://img.shields.io/badge/node-%3E=8.6.0-green)](https://www.npmjs.com/package/packetjs-di)
 [![install size](https://packagephobia.com/badge?p=packetjs-di)](https://packagephobia.com/result?p=packetjs-di)
@@ -77,9 +77,11 @@ The main features of Packet.js are:
     - [Global Middleware Considerations](#global-middleware-considerations)
     - [Caching and Pure Functions Considerations](#caching-and-pure-functions-considerations)
     - [Service Locator Considerations](#service-locator-considerations)
-- [API](#api)
+- [API Reference](#api-reference)
     - [Container API](#container-api)
     - [Middleware API](#middleware-api-containermiddleware)
+- [Examples](#examples)
+- [Support](#support)
 - [Credits](#credits)
 - [License](#license)
 
@@ -724,155 +726,15 @@ const props = container.getProps<Props>();
 
 ## Considerations
 
-### React hooks considerations
+This section outlines some of the considerations that should be taken into account when using Packet.js.
 
-By default, the registered services use the singleton option enabled. This might cause conflict with native React hooks
-that utilize the component state, because with the singleton option enabled, the container will always return the same
-instance of the service. To disable, use the `singleton` option.
+- [Caching and Pure Functions Considerations](#https://github.com/fdosruiz/packetjs/wiki/Caching-and-Pure-Functions-Considerations)
+- [Service Middleware Considerations](#https://github.com/fdosruiz/packetjs/wiki/Service-Middleware-Considerations)
+- [Global Middleware Considerations](#https://github.com/fdosruiz/packetjs/wiki/Global-Middleware-Considerations)
+- [React Hooks Considerations](#https://github.com/fdosruiz/packetjs/wiki/React-Hooks-Considerations)
+- [Service Locator Considerations](#https://github.com/fdosruiz/packetjs/wiki/Service-Locator-Considerations)
 
-```javascript
-container.add('useCustomHook', () => useCustomHook(), {
-  singleton: false
-});
-```
-
-> This disables the singleton option for the service's `get()` method. An equivalent way to disable the singleton option
-> is to use the `getFactory()` method instead, which always returns a new instance of the service without the need to
-> disable the singleton option.
-
-### Service Middleware considerations
-
-Within a middleware, you can use the container to access the registered services. This enables you to have full control
-for implementing the necessary logic in your global middleware, but there is one limitation. If you call the same
-service that the middleware is using, it will result in an infinite loop within your middleware.
-
-```javascript
-container.middleware.add('KeyService1', (next, context, args) => {
-  const { container } = context;
-
-  // Get the services 
-  const service1 = container.get('KeyService1');
-  const service2 = container.get('KeyService2');
-
-  // Infinite loop error (KeyService1)
-  const random = service1.getRandom();
-
-  // Calling a method or function from any other service, will not
-  // generate an infinite loop.
-  const uniqId = service2.getUniqId();
-  return next(args);
-})
-```
-
-To avoid the infinite loop, you can use the `proxyMiddleware` option to disable the middleware proxy:
-
-```javascript
-container.middleware.add('KeyService1', (next, context, args) => {
-  const { container } = context;
-
-  // Get the services
-  const service1 = container.get('KeyService1', {
-    proxyMiddleware: false,
-  });
-  const service2 = container.get('KeyService2');
-
-  // Now we can use the service1 without the infinite loop
-  const random = service1.getRandom();
-  const uniqId = service2.getUniqId();
-
-  return next(args);
-})
-```
-
-### Global Middleware considerations
-
-Similar to service middleware, you can use the container to access the registered services. This enables you to have
-full control for implementing the necessary logic in your global middleware, but it has the same limitation. If you call
-any service within the global middleware, you will get an infinite loop in your global middleware.
-
-To avoid the infinite loop, you can use the `proxyMiddleware` option to disable the middleware proxy, but you need to
-do this for each service that you want to use in the global middleware.
-
-```javascript
-container.middleware.addGlobal((next, context, args) => {
-  const { container } = context;
-
-  // Get the services
-  const services = container.getAll({ proxyMiddleware: false });
-
-  // Now we can use the services without the infinite loop
-  const random = services.Service1().getRandom();
-  const uniqId = services.Service2().getUniqId();
-
-  return next(args);
-})
-```
-
-### Caching and Pure functions considerations
-
-It is important to note that functions meant for caching should always be pure. Meaning, given the same input
-parameters, the functions will always return the same result.
-[Pure functions - wikipedia](https://en.wikipedia.org/wiki/Pure_function)
-
-Functions unsuitable for memoization are those that always return a different value for the same input parameter or have
-side effects that cannot be captured by the memoization mechanism.
-
-### Service Locator considerations
-
-It's important to mention that the `Service Locator` pattern can become an antipattern, depending on the design we adopt
-in our application. This pattern can violate the Dependency Inversion principle if our classes depend on concrete
-implementations instead of abstractions (interfaces). This can lead to a decrease in the flexibility, modularity of the
-code and complicate the achievement of tests or unit tests. (simulation of mocks or stubs).
-
-It is recommended to use dependencies injection to solve this problem. It is a better alternative because it makes
-dependencies explicit, which facilitates the comprehension of the code, improves maintainability and simplifies tests.
-This approach reinforces the transparency in the design, which results in more robust and decoupled systems.
-
-> [Service locator pattern - Wikipedia](https://en.wikipedia.org/wiki/Service_locator_pattern)
-
-#### Without Dependency Injection (Service Locator)
-
-```typescript
-class Request {
-  public Fetch() {
-    const fetchService = container.get('fetchService');
-    return fetchService.get('/todos/1');
-  }
-}
-```
-
-**Issues**
-
-- **Hidden dependency:** The dependency (`fetchService`) is not visible in the `Request` class signature, making the
-  code less transparent.
-- **Testing challenges:** For unit testing, you'd need to set up the service container in every test, adding complexity
-  and reducing flexibility.
-- **Increased coupling:** The `Request` class is coupled to the dependency container, which can make the code harder to
-  maintain and evolve over time.
-
-#### With Dependency Injection
-
-```typescript
-class Request {
-  constructor(private fetchService: FetchService) {
-  }
-
-  public Fetch() {
-    return this.fetchService.get('/todos/1');
-  }
-}
-```
-
-**Advantages**
-
-- **Explicit dependency:** The `Request` class clearly states its dependency on `FetchService`, making the code easier
-  to read and understand.
-- **Easier testing:** For unit testing, you can simply inject a mock or stub of `FetchService` into the constructor
-  without setting up a container.
-- **Reduced coupling:** The `Request` class now directly depends on an abstraction (`FetchService`), reducing its
-  coupling with the dependency container and making the code more modular.
-
-## API
+## API Reference
 
 ### Container API
 
@@ -894,7 +756,7 @@ class Request {
 | `add(key, middleware, options)`  | **`key`**: Unique key for the new middleware, which should match the service name.<br/>**`middleware(next, context, args)`**: Callback function to register a new middleware. <ul><li>**next()**: call the next middleware in the stack, and return the result of calling the next middleware. Accepts the args as a parameter.</li><li>**context**: `{ serviceName: string, methodName: string, container: Container }` <ul><li>**serviceName**: Name of the service called.</li><li>**methodName**: Name of the method or function called.</li><li>**container**: Container instance.</li></ul></li><li>**args**: Array with the parameters from the method or function called.</li></ul><br/>**`options`**: `{ priority: number, name: string }`:<br/>Properties:<ul><li>**priority**: sets the priority of the middleware. A higher priority means that the middleware will be executed first. By default, if no priority is set, the priority of middleware will be in order of registration.</li><li>**name**: sets the name of the middleware. The name is not required. Only used for debugging purposes.</li></ul>For more information about middleware see the [Middleware](#middleware) section. | Add a new middleware to the middleware stack.        |
 | `addGlobal(middleware, options)` | **`middleware(next, context, args)`**: Same as `middleware.add()` method.<br/>**`options`**: Same as `middleware.add()` method.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             | Add a new global middleware to the middleware stack. |
 
-## Practical examples
+## Examples
 
 To see a list of practical examples of how to use Packet.js in various scenarios,
 click [here](https://github.com/fdosruiz/packetjs/wiki/Practical-Examples).
