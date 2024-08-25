@@ -10,9 +10,9 @@ on:
       - 'major/*'
 
 jobs:
-  build:
-    name: 'Stage #1'
-    uses: ./.github/workflows/build.yml
+#  build:
+#    name: 'Stage #1'
+#    uses: ./.github/workflows/build.yml
 
 #  qa:
 #    needs: build
