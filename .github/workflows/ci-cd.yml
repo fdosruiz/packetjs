@@ -10,9 +10,9 @@ on:
       - 'major/*'
 
 jobs:
-#  build:
-#    name: 'Stage #1'
-#    uses: ./.github/workflows/build.yml
+  build:
+    name: 'Stage #1'
+    uses: ./.github/workflows/build.yml
 
 #  qa:
 #    needs: build
@@ -20,7 +20,7 @@ jobs:
 #    uses: ./.github/workflows/qa.yml
 
   semantic:
-#    needs: qa
+    needs: build
 #    if: github.event_name != 'pull_request'
     name: 'Stage #3'
     uses: ./.github/workflows/semantic.yml

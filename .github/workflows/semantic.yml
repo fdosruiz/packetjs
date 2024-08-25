@@ -28,11 +28,11 @@ jobs:
           restore-keys: |
             node_modules-
 
-#      - name: Download lib artifact
-#        uses: actions/download-artifact@v4
-#        with:
-#          name: lib-artifact
-#          path: lib
+      - name: Download lib artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: lib-artifact
+          path: lib
 
       - name: Create release and publish package
         env:
