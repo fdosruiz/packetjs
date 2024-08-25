@@ -1,3 +1,22 @@
+## [2.0.0](https://github.com/fdosruiz/packetjs/compare/v1.4.0...v2.0.0) (2024-08-25)
+
+### ⚠ BREAKING CHANGES
+
+* forced a version change from 1.4.0 to 2.0.0, because 1.4.0 should have been updated to 2.0.0.
+
+ __  __       _              _____      _                       ___    ___   ___
+|  \/  |     (_)            |  __ \    | |                     |__ \  / _ \ / _ \
+| \  / | __ _ _  ___  _ __  | |__) |___| | ___  __ _ ___  ___     ) || | | | | | |
+| |\/| |/ _` | |/ _ \| '__| |  _  // _ \ |/ _ \/ _` / __|/ _ \   / / | | | | | | |
+| |  | | (_| | | (_) | |    | | \ \  __/ |  __/ (_| \__ \  __/  / /_ | |_| | |_| |
+|_|  |_|\__,_| |\___/|_|    |_|  \_\___|_|\___|\__,_|___/\___| |____(_)___(_)___/
+            _/ |
+           |__/
+
+### Documentation
+
+* simplify package description in package.json ([6ff13bb](https://github.com/fdosruiz/packetjs/commit/6ff13bbdc28b82e43a222b2d09f9b40e2760be36))
+
 ## [1.4.0](https://github.com/fdosruiz/packetjs/compare/v1.3.4...v1.4.0) (2024-08-25)
 
 ### Major Features
