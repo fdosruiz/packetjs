@@ -21,6 +21,7 @@
     "jest"
   ],
   "ignorePatterns": [
+    "examples/**",
     "lib/**",
     "sandbox/**",
     "scripts/**"
@@ -41,6 +42,8 @@
     ],
     "no-underscore-dangle": "off",
     "@typescript-eslint/ban-ts-comment": "off",
-    "@typescript-eslint/no-explicit-any": "off"
+    "@typescript-eslint/no-explicit-any": "off",
+    "no-multiple-empty-lines": ["error", { "max": 1 }],
+    "no-trailing-spaces": "error"
   }
 }

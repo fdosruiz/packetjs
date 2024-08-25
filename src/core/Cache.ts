@@ -1,90 +1,78 @@
-import { Context } from '../types/common.types';
+
+/**
+ * This file is part of the Packet.js DI package.
+ *
+ * (c) Francisco Ruiz <faruiz.github@gmail.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
+import { Context } from '../@types/container';
+import Middleware from './Middleware';
 
 /**
  * Caches the results of method calls.
  */
 class Cache {
-  private methods = new Map<string, any>();
-  private instances = new Map<string, any>();
+  private storage = new Map<string, any>();
+  private context = new Map<string, any>();
 
   /**
-   * Memorizes the methods on the given context instance, creating a cache proxy for each method,
-   * only if "config.cached" is active.
+   * Adds the cache middleware to the middleware stack.
    *
    * @param {Context} ctx - The context object.
-   * @return {Object} - The original context object with methods memorized.
+   * @param {Middleware} middleware - The middleware service.
+   * @returns {void}
    */
-  public memorizeMethods(ctx: Context): Context {
-    if (ctx.options?.cached && !this.instances.has(ctx.key) && typeof ctx.instance === 'object') {
-      const methods = this.extractMethods(ctx);
+  public add(ctx: Context, middleware: Middleware): void {
+    if (!this.context.has(ctx.key)) {
+      middleware.add(ctx.key, (next, context, args) => {
+        const key = this.generateCacheKey(ctx.key, context.methodName, args);
+        const isCacheable = this.isCacheable(ctx, context.methodName);
 
-      methods.forEach((method) => {
-        ctx.instance[method] = this.createCacheProxy(ctx, method);
-      });
-
-      this.instances.set(ctx.key, ctx.instance);
-    }
-
-    return ctx;
-  }
-
-  /**
-   * Extracts methods from the given context. The methods are extracted from the prototype of the instance or
-   * the keys of the object instance.
-   *
-   * @param {Context} ctx - The context object.
-   * @returns {string[]} - An array of method names.
-   */
-  private extractMethods(ctx: Context): string[] {
-    const objectMethods = this.getObjectMethods(ctx);
-    const functionMethods = this.getFunctionMethods(ctx);
-    const configMethods = ctx.options?.methods;
-    let methods = [...objectMethods, ...functionMethods].filter(
-      method => typeof ctx.instance[method] === 'function',
-    );
-
-    if (configMethods) {
-      const filterModeCallback = ctx.options?.excludeMode
-        ? (method: string) => !configMethods.includes(method)
-        : (method: string) => configMethods.includes(method);
-      methods = methods.filter(filterModeCallback);
-    }
-
-    return methods;
-  }
-
-  private getObjectMethods(ctx: Context): string[] {
-    return Object.prototype !== ctx.instance.__proto__
-      ? Object.getOwnPropertyNames(ctx.instance.__proto__)
-      : [];
-  }
-
-  private getFunctionMethods(ctx: Context): string[] {
-    return Object.keys(ctx.instance);
-  }
-
-  /**
-   * Creates a cache proxy for a given method.
-   *
-   * @param {Context} ctx - The context object.
-   * @param {string} method - The name of the method to create a cache proxy for.
-   * @returns {ProxyHandler<any>} - The cache proxy handler.
-   */
-  private createCacheProxy(ctx: Context, method: string): ProxyHandler<any> {
-    return new Proxy(ctx.instance[method], {
-      apply: (target, thisArg, argArray) => {
-        const key = this.generateCacheKey(ctx.key, method, argArray);
-
-        if (this.methods.has(key)) {
-          return this.methods.get(key);
+        if (isCacheable && this.storage.has(key)) {
+          return this.storage.get(key);
         }
 
-        const result = target.apply(thisArg, argArray);
-        this.methods.set(key, result);
-
+        const result = next(args);
+        isCacheable && this.storage.set(key, result);
         return result;
-      },
-    });
+      }, {
+        priority: -1000,
+        name: 'Cache',
+      });
+      this.context.set(ctx.key, ctx);
+    }
+  }
+
+  /**
+   * Determines whether the given method should be cached.
+   *
+   * @param {Context} ctx - The context object.
+   * @param {string} method - The method to check.
+   * @returns {boolean} - Returns true if the method should be cached, otherwise returns false.
+   */
+  private isCacheable(ctx: Context, method: string): boolean {
+    return ctx.options?.methods
+      ? this.hasConfigMethod(ctx.options.methods, method, ctx.options.excludeMode)
+      : true;
+  }
+
+  /**
+   * Checks if a given method is present in the configMethods array.
+   *
+   * @param {string[]} configMethods - The array of config methods.
+   * @param {string} method - The method to check.
+   * @param {boolean} [excludeMode] - Optional. When set to true, checks if the method is not present in the
+   * configMethods array. Default is false.
+   * @returns {boolean} - True if the method is found in the configMethods array, false otherwise (or if excludeMode
+   * is true and method is found).
+   */
+  private hasConfigMethod(configMethods: string[], method: string, excludeMode?: boolean): boolean {
+    return excludeMode
+      ? !configMethods.includes(method)
+      : configMethods.includes(method);
   }
 
   /**

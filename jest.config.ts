@@ -35,7 +35,11 @@ export default {
   },
 
   coveragePathIgnorePatterns: [
+    "/examples/",
     "/node_modules/",
-    "/test/common/",
+    "/test/integration/common/",
+    "/test/unit/common/",
   ],
+
+  verbose: true,
 };
