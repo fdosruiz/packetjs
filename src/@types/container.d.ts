@@ -107,7 +107,7 @@ interface ServiceConfigOptions {
   freeze?: boolean;
 
   /**
-   * Enable the singleton pattern for the service.
+   * Enable or disable the singleton pattern for the service. By default, the singleton pattern is enabled.
    * @type {boolean}
    */
   singleton?: boolean;
