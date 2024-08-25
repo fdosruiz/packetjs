@@ -728,11 +728,11 @@ const props = container.getProps<Props>();
 
 This section outlines some of the considerations that should be taken into account when using Packet.js.
 
-- [Caching and Pure Functions Considerations](#https://github.com/fdosruiz/packetjs/wiki/Caching-and-Pure-Functions-Considerations)
-- [Service Middleware Considerations](#https://github.com/fdosruiz/packetjs/wiki/Service-Middleware-Considerations)
-- [Global Middleware Considerations](#https://github.com/fdosruiz/packetjs/wiki/Global-Middleware-Considerations)
-- [React Hooks Considerations](#https://github.com/fdosruiz/packetjs/wiki/React-Hooks-Considerations)
-- [Service Locator Considerations](#https://github.com/fdosruiz/packetjs/wiki/Service-Locator-Considerations)
+- [Caching and Pure Functions Considerations](https://github.com/fdosruiz/packetjs/wiki/Caching-and-Pure-Functions-Considerations)
+- [Service Middleware Considerations](https://github.com/fdosruiz/packetjs/wiki/Service-Middleware-Considerations)
+- [Global Middleware Considerations](https://github.com/fdosruiz/packetjs/wiki/Global-Middleware-Considerations)
+- [React Hooks Considerations](https://github.com/fdosruiz/packetjs/wiki/React-Hooks-Considerations)
+- [Service Locator Considerations](https://github.com/fdosruiz/packetjs/wiki/Service-Locator-Considerations)
 
 ## API Reference
 
