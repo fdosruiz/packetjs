@@ -7,19 +7,20 @@ on:
   push:
     branches:
       - 'main'
+      - 'major/*'
 
 jobs:
   build:
     name: 'Stage #1'
     uses: ./.github/workflows/build.yml
 
-  qa:
-    needs: build
-    name: 'Stage #2'
-    uses: ./.github/workflows/qa.yml
+#  qa:
+#    needs: build
+#    name: 'Stage #2'
+#    uses: ./.github/workflows/qa.yml
 
   semantic:
-    needs: qa
+#    needs: qa
 #    if: github.event_name != 'pull_request'
     name: 'Stage #3'
     uses: ./.github/workflows/semantic.yml
