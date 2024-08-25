@@ -72,11 +72,6 @@ The main features of Packet.js are:
     - [`getAll<T>(options)`](#getalltoptions)
     - [`getProps<T>()`](#getpropst)
 - [Considerations](#considerations)
-    - [React Hooks Considerations](#react-hooks-considerations)
-    - [Service Middleware Considerations](#service-middleware-considerations)
-    - [Global Middleware Considerations](#global-middleware-considerations)
-    - [Caching and Pure Functions Considerations](#caching-and-pure-functions-considerations)
-    - [Service Locator Considerations](#service-locator-considerations)
 - [API Reference](#api-reference)
     - [Container API](#container-api)
     - [Middleware API](#middleware-api-containermiddleware)
@@ -206,8 +201,8 @@ container.add('useCustomHook', () => useCustomHook());
 > Note that the service statement must be wrapped in a callback function, and in both cases, should return an instance
 > of the class or the function.
 
-> See **[React Considerations](#react-hooks-considerations)** for more information about React hooks and singleton
-> option.
+> See **[React Considerations](https://github.com/fdosruiz/packetjs/wiki/React-Hooks-Considerations)** for more
+> information about React hooks and singleton option.
 
 By default, the singleton option is enabled. To disable it, use the `singleton` option:
 
@@ -482,8 +477,9 @@ container.middleware.add('Service', (next, context, args) => {
 > Internally, if the `next()` function is called with empty arguments, it will use the default arguments from the
 > service method instead.
 
-> See **[Middleware Considerations](#service-middleware-considerations)** for more information about using the container
-> inside a middleware.
+> See
+> **[Middleware Considerations](https://github.com/fdosruiz/packetjs/wiki/Service-Middleware-Considerations)** for more
+> information about using the container inside a middleware.
 
 ### `middleware.addGlobal(middleware, options)`
 
@@ -509,8 +505,9 @@ container.middleware.addGlobal((next, context, args) => {
 
 > Global middleware, which have higher priority than service middleware, are always executed first.
 
-> See **[Global Middleware Considerations](#global-middleware-considerations)** for more information about using the
-> container inside a global middleware.
+> See
+> **[Global Middleware Considerations](https://github.com/fdosruiz/packetjs/wiki/Global-Middleware-Considerations)** for
+> more information about using the container inside a global middleware.
 
 # Middleware example using `axios`
 
@@ -599,8 +596,9 @@ to the service execution as possible.
 
 ![js-cache-middleware.png](resources/cache-middleware.png)
 
-> See **[Pure Functions Considerations](#caching-and-pure-functions-considerations)** for more information about using
-> the caching system with non-pure functions.
+> See
+> **[Pure Functions Considerations](https://github.com/fdosruiz/packetjs/wiki/Caching-and-Pure-Functions-Considerations)
+** for more information about using the caching system with non-pure functions.
 
 ### Caching all methods
 
