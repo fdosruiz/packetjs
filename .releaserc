@@ -1,6 +1,7 @@
 {
   "branches": [
     "main"
+    "major/update-version"
   ],
   "plugins": [
     [
