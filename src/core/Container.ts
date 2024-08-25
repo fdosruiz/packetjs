@@ -18,10 +18,6 @@ import {
 } from '../@types/container';
 import { Middleware } from '.';
 
-/**
- * Dependency injection container
- * @author Francisco Ruiz
- */
 class Container {
   private context: Map<string, Context>;
   private properties: any;
@@ -128,15 +124,15 @@ class Container {
    *
    * @template T - The type of the value to retrieve. Defaults to 'any'.
    *
-   * @param {Context} ctx - The context object containing the resolved instance.
    * @param {string} key - The key used to retrieve the instance from the context.
+   * @param {Context} ctx - The context object containing the resolved instance.
    * @param {RegisteredServiceOptions} options - The options used to configure the resolved instance.
    *
    * @throws {Error} If the context with the specified key cannot be resolved.
    *
    * @returns {T} The resolved instance.
    */
-  private getResolvedInstance<T = any>(ctx: Context, key: string, options: RegisteredServiceOptions): T {
+  private getResolvedInstance<T = any>(key: string, ctx: Context, options: RegisteredServiceOptions): T {
     // If ctx.key is not found, throw an exception. This forces the user to handle this situation.
     if (!ctx.key) throw new Error(`The context with key "${key}" could not be resolved.`);
 
@@ -156,6 +152,7 @@ class Container {
     const serviceInstance = this.getInstance(ctx);
     return hasProxyMiddleware ? serviceInstance.proxy : serviceInstance.instance;
   }
+
   /**
    * Retrieves a value from the context based on the specified key.
    *
@@ -171,7 +168,7 @@ class Container {
    */
   public get<T = any>(key: string, options: RegisteredServiceOptions): T {
     const ctx = this.context.get(key) || {} as Context;
-    return this.getResolvedInstance(ctx, key, options);
+    return this.getResolvedInstance(key, ctx, options);
   }
 
   /**
@@ -195,7 +192,7 @@ class Container {
         singleton: false,
       },
     };
-    return this.getResolvedInstance(overrideCtx, key, options);
+    return this.getResolvedInstance(key, overrideCtx, options);
   }
 
   /**

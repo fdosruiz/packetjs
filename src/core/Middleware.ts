@@ -119,18 +119,18 @@ class Middleware {
    */
   private createProxy(ctx: Context, middlewares: MiddlewareStack[]): any {
     return typeof ctx.instance === 'object' || typeof ctx.instance === 'function'
-      ? new Proxy(ctx.instance, this.createProxyHandler(ctx, middlewares))
+      ? new Proxy(ctx.instance, this.getProxyHandler(ctx, middlewares))
       : ctx.instance;
   }
 
   /**
-   * Creates a proxy handler for the given context. This method implements the Chain of Responsibility pattern.
+   * Gets a proxy handler for the given context. This method implements the Chain of Responsibility pattern.
    *
    * @param {Context} ctx - The context object.
    * @param {MiddlewareStack[]} middlewares - The array of middleware functions.
    * @return {ProxyHandler<any>} - The proxy handler.
    */
-  createProxyHandler(ctx: Context, middlewares: MiddlewareStack[]) {
+  getProxyHandler(ctx: Context, middlewares: MiddlewareStack[]) {
     return {
       get: (target: any, methodName: string, receiver: any) => {
         const targetMethod = target[methodName];
