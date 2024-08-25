@@ -76,7 +76,7 @@ interface RegisteredServiceOptions {
  */
 interface ServiceConfigOptions {
   /**
-   * @deprecated since version 1.4.0. Will be removed in version 2.0.
+   * @deprecated since version 2.0.0. Will be removed in version 3.0.0.
    * Use {@link cache} instead.
    */
   cached?: boolean;
