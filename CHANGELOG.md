@@ -1,3 +1,17 @@
+## [2.0.0](https://github.com/fdosruiz/packetjs/compare/v1.4.0...v2.0.0) (2024-08-25)
+
+### ⚠ BREAKING CHANGES
+
+* Commented out the build stage in the CI/CD workflow and the lib artifact download step in the semantic workflow. This reduces unnecessary processing and aligns the workflows with current project requirements.
+* Added support for triggering CI/CD on branches prefixed with 'major/'. Additionally, commented out the QA stage and adjusted dependencies to ensure the build and semantic stages can run independently.
+* Commented out steps for semantic release and npm publish in the CI/CD workflow to prevent them from running. This change ensures that these stages are skipped, potentially to address issues or modify the release process.
+
+### Features
+
+* disable semantic release and npm publish in CI/CD pipeline ([c14eac7](https://github.com/fdosruiz/packetjs/commit/c14eac7ef368c39365a17b334114e9719fc394f5))
+* disable unused steps in CI/CD and semantic workflows ([9b1c8fb](https://github.com/fdosruiz/packetjs/commit/9b1c8fba9bffbead95b5a097f9b876fe998ca743))
+* enable CI/CD for major branches and comment out QA stage ([0829b05](https://github.com/fdosruiz/packetjs/commit/0829b0551bf437ff1a934588c102e67d94d2c9ab))
+
 ## [1.4.0](https://github.com/fdosruiz/packetjs/compare/v1.3.4...v1.4.0) (2024-08-25)
 
 ### Major Features
