@@ -1,7 +1,7 @@
 {
   "name": "packetjs-di",
   "version": "1.4.0",
-  "description": "Packet.js DI, a lightweight and powerful Dependency Injection container, written in TypeScript and made for JavaScript applications like Node.js, Angular, React, Vue, Vanilla JS, TypeScript, etc., and for efficient management of dependencies, with features like lazy loading, middleware management, and caching.",
+  "description": "A lightweight and powerful Dependency Injection container, written in TypeScript and made for JavaScript applications, and for efficient management of dependencies, with features like lazy loading, middleware management, and caching.",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
   "scripts": {
