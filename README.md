@@ -416,7 +416,7 @@ container.add('Service', ({ container }) => {
 The concept of middleware remains similar to other frameworks like Express, but it is adapted to intercept and modify
 the requests and responses of each of the container's services, instead of handling HTTP requests.
 
-![js-service-middleware.png](resources/service-middleware.png)
+![js-service-middleware.png](https://raw.githubusercontent.com/fdosruiz/packetjs/main/resources/service-middleware.png)
 
 ### **Middleware Stack**
 
@@ -488,7 +488,7 @@ container.middleware.add('Service', (next, context, args) => {
 
 Global middleware are similar to service middleware, but they are applied to all the services in the container.
 
-![js-global-middleware.png](resources/global-middleware.png)
+![js-global-middleware.png](https://raw.githubusercontent.com/fdosruiz/packetjs/main/resources/global-middleware.png)
 
 The signature of `addGlobal()` method is similar to `add()` method, without the `key` parameter:
 
@@ -597,7 +597,7 @@ applications that make multiple calls to methods or functions that perform the s
 The caching system is implemented on a middleware with the lowest priority, allowing the middleware to execute as close
 to the service execution as possible.
 
-![js-cache-middleware.png](resources/cache-middleware.png)
+![js-cache-middleware.png](https://raw.githubusercontent.com/fdosruiz/packetjs/main/resources/cache-middleware.png)
 
 > See
 > [**Pure Functions Considerations**](https://github.com/fdosruiz/packetjs/wiki/Caching-and-Pure-Functions-Considerations)
