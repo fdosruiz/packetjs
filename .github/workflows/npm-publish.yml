@@ -53,7 +53,21 @@ jobs:
             echo 'CHANGED=false' >> $GITHUB_ENV
           fi
 
-      - name: Publish package if version has changed from package.json (only on main branch)
+      - name: Set up SSH
+        if: ${{ env.CHANGED == 'true' }}
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+          ssh-keyscan github.com >> ~/.ssh/known_hosts
+
+      - name: Compile specific npmjs documentation if version has changed
+        if: ${{ env.CHANGED == 'true' }}
+        run: |
+          git clone "${{ secrets.WIKI_REPOSITORY }}"
+          npm run build:docu-npmjs
+
+      - name: Publish package if version has changed from package.json
         if: ${{ env.CHANGED == 'true' }}
         run: |
           git pull
