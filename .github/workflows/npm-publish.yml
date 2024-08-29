@@ -61,11 +61,12 @@ jobs:
           chmod 600 ~/.ssh/id_rsa
           ssh-keyscan github.com >> ~/.ssh/known_hosts
 
-      - name: Compile specific npmjs documentation if version has changed
+      - name: Compile npmjs documentation if version has changed
         if: ${{ env.CHANGED == 'true' }}
         run: |
           git clone "${{ secrets.WIKI_REPOSITORY }}"
-          npm run build:docu-npmjs
+          npm run build:docu
+          cat README-npmjs.md > README.md
 
       - name: Publish package if version has changed from package.json
         if: ${{ env.CHANGED == 'true' }}
