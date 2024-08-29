@@ -1,0 +1,6 @@
+{
+  "build": "README-npmjs.md",
+  "files": [
+    "docs/entry-point/_README_npmjs.md"
+  ]
+}

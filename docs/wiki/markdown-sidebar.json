@@ -1,6 +1,0 @@
-{
-  "build": "./packetjs.wiki/_Sidebar.md",
-  "files": [
-    "./packetjs.wiki/includes/_Main-Sidebar.md"
-  ]
-}

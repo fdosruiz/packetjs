@@ -1,6 +1,6 @@
 {
   "build": "README.md",
   "files": [
-    "./docs/main-npmjs.md"
+    "docs/entry-point/_README.md"
   ]
 }
