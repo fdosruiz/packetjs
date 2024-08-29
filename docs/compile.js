@@ -19,7 +19,7 @@ packetJsDi.middleware.add(key, (next, context, args) => {
         build[file].parsedData = build[file].parsedData.replace(/\n# /, '\n## '); // second h1 to h2
         break;
       case config.processTitles.wikiHome:
-        build[file].parsedData = build[file].parsedData.replace(/^## /gm, '### '); // h2 to h3
+        // build[file].parsedData = build[file].parsedData.replace(/^## /gm, '### '); // h2 to h3
         break;
       default:
         break;
