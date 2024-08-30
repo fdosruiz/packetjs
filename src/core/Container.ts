@@ -132,7 +132,7 @@ class Container {
    *
    * @returns {T} The resolved instance.
    */
-  private getResolvedInstance<T = any>(key: string, ctx: Context, options: RegisteredServiceOptions): T {
+  private getResolvedInstance<T = any>(key: string, ctx: Context, options?: RegisteredServiceOptions): T {
     // If ctx.key is not found, throw an exception. This forces the user to handle this situation.
     if (!ctx.key) throw new Error(`The context with key "${key}" could not be resolved.`);
 
@@ -166,7 +166,7 @@ class Container {
    *
    * @throws {Error} If the context with the specified key is not found.
    */
-  public get<T = any>(key: string, options: RegisteredServiceOptions): T {
+  public get<T = any>(key: string, options?: RegisteredServiceOptions): T {
     const ctx = this.context.get(key) || {} as Context;
     return this.getResolvedInstance(key, ctx, options);
   }
@@ -183,7 +183,7 @@ class Container {
    *
    * @throws {Error} If the factory context with the given key is not found.
    */
-  public getFactory<T = any>(key: string, options: RegisteredServiceOptions): T {
+  public getFactory<T = any>(key: string, options?: RegisteredServiceOptions): T {
     const ctx = this.context.get(key) || { options: {} } as Context;
     const overrideCtx = {
       ...ctx,
@@ -221,7 +221,7 @@ class Container {
    * @return {T} - The context services object, where the keys are the context
    * keys and the values are functions that retrieve the context values.
    */
-  public getAll<T = ContextProvider>(options: RegisteredServiceOptions): T {
+  public getAll<T = ContextProvider>(options?: RegisteredServiceOptions): T {
     const contextServices: ContextProvider = {};
     this.context.forEach((ctx) => {
       contextServices[ctx.key] = () => this.get(ctx.key, options);
