@@ -1,3 +1,30 @@
+## [2.0.1](https://github.com/fdosruiz/packetjs/compare/v2.0.0...v2.0.1) (2024-08-31)
+
+### Bug Fixes
+
+* make `options` parameter optional in retrieval methods [PTJSD-22] ([29c6311](https://github.com/fdosruiz/packetjs/commit/29c6311ba789dda2bd7cde34fdfa5ab0ca2d5aa5))
+* rename default_pull_request.md to pull_request_template.md [PTJSD-14] ([58ad365](https://github.com/fdosruiz/packetjs/commit/58ad36514949b360e8458f810fd11fde88389e9a))
+
+### CI/CD
+
+* add SSH setup and documentation compilation for npmjs to workflow ([28e2213](https://github.com/fdosruiz/packetjs/commit/28e22131b8eea9809b7d6be9041a8fdfdadebd3b))
+* iInclude additional branches in CI/CD workflow ([d659406](https://github.com/fdosruiz/packetjs/commit/d659406ebbfd6ed5ae13472a14ffb564a8ae4010))
+* update npmjs documentation build command ([7a31192](https://github.com/fdosruiz/packetjs/commit/7a31192921b9624a3ce65339dce9d2826953ba55))
+
+### Documentation
+
+* add bundle transformation to remove licence comment blocks from index.d.ts ([63d743f](https://github.com/fdosruiz/packetjs/commit/63d743feebd19f1c773f6b5d38e394e701a2ba91))
+* add custom compilation script for markdown docs [PTJSD-20] ([d16fbf0](https://github.com/fdosruiz/packetjs/commit/d16fbf0afb7dfe55c87e79fae1f47b98fa949cd5))
+* comment out title processing for WikiHome ([98fb3f2](https://github.com/fdosruiz/packetjs/commit/98fb3f2061ddf0de7c29d4b230e501c086fc7753))
+* fix relative path in index.json config file ([79d5203](https://github.com/fdosruiz/packetjs/commit/79d5203db40bcaeb83185d9457c5f9390b28b9e1))
+* refactor markdown-include integration ([f2dd776](https://github.com/fdosruiz/packetjs/commit/f2dd776acd42eb6c3f0e43024c6bbdb93a4c1333))
+* update CONTRIBUTING.md with instructions for breaking changes [PTJSD-18] ([2b8adb3](https://github.com/fdosruiz/packetjs/commit/2b8adb3601fc70de95f4f8125e5eacdd28313a2e))
+* update image URLs in README.md to use raw GitHub links [PTJSD-12] ([0f67abb](https://github.com/fdosruiz/packetjs/commit/0f67abb94f0e4d26b366144c23060cb5a8807a69))
+
+### Refactoring
+
+* optimizing npmjs package size, with npmjs-specific documentation [PTJSD-20] ([944d666](https://github.com/fdosruiz/packetjs/commit/944d666df15f8a2c356eff57701224970e50bf1c))
+
 ## [2.0.0](https://github.com/fdosruiz/packetjs/compare/v1.4.0...v2.0.0) (2024-08-25)
 
 ### ⚠ BREAKING CHANGES

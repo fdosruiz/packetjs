@@ -1,6 +1,6 @@
 {
   "name": "packetjs-di",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "A lightweight and powerful Dependency Injection container, written in TypeScript and made for JavaScript applications, and for efficient management of dependencies, with features like lazy loading, middleware management, and caching.",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
