@@ -2,7 +2,9 @@
 
 ### ⚠ BREAKING CHANGES
 
-* forced a version change from 1.4.0 to 2.0.0, because 1.4.0 should have been updated to 2.0.0.
+* Refactored type declarations and error handling in `Container.ts` for getter methods.
+* The `add()` method now returns a boolean instead of a `Container` instance.
+* CommonJS imports now use a default parameter to import the global container.
 
  __  __       _              _____      _                       ___    ___   ___
 |  \/  |     (_)            |  __ \    | |                     |__ \  / _ \ / _ \
