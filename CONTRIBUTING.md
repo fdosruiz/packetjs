@@ -65,6 +65,16 @@ git commit -m "<type>: <description> [optional scope]
 - **`style`**: Formatting changes (e.g., whitespace, semicolons) that do not affect code logic.
 - **`chore`**: Miscellaneous tasks that do not fit into the above categories.
 
+Breaking changes should be documented in the commit message like so:
+
+```bash
+git commit -m "feat: add new feature [optional scope]
+[optional body]
+BREAKING CHANGE: <description>"
+```
+
+> [Semantic release documentation](https://github.com/semantic-release/semantic-release)
+
 ## 5. Add Tests
 
 Ensure your code is properly tested. Place your tests in the appropriate directories:

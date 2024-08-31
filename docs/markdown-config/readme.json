@@ -1,6 +1,6 @@
 {
   "build": "README.md",
   "files": [
-    "./docs/main.md"
+    "docs/entry-point/_README.md"
   ]
 }

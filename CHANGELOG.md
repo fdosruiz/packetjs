@@ -2,7 +2,9 @@
 
 ### ⚠ BREAKING CHANGES
 
-* forced a version change from 1.4.0 to 2.0.0, because 1.4.0 should have been updated to 2.0.0.
+* Refactored type declarations and error handling in `Container.ts` for getter methods.
+* The `add()` method now returns a boolean instead of a `Container` instance.
+* CommonJS imports now use a default parameter to import the global container.
 
  __  __       _              _____      _                       ___    ___   ___
 |  \/  |     (_)            |  __ \    | |                     |__ \  / _ \ / _ \
@@ -12,12 +14,6 @@
 |_|  |_|\__,_| |\___/|_|    |_|  \_\___|_|\___|\__,_|___/\___| |____(_)___(_)___/
             _/ |
            |__/
-
-### Documentation
-
-* simplify package description in package.json ([6ff13bb](https://github.com/fdosruiz/packetjs/commit/6ff13bbdc28b82e43a222b2d09f9b40e2760be36))
-
-## [1.4.0](https://github.com/fdosruiz/packetjs/compare/v1.3.4...v1.4.0) (2024-08-25)
 
 ### Major Features
 
@@ -72,6 +68,7 @@
 * update singleton documentation in container type definition ([96a577c](https://github.com/fdosruiz/packetjs/commit/96a577cd190eb6f7d857b825192bed902cf9567a))
 * update TypeScript method signatures in README.md ([931bffd](https://github.com/fdosruiz/packetjs/commit/931bffdebd8072750860dd73d530b2e44dfe7771))
 * uUpdate CONTRIBUTING.md with detailed contribution guide [PTJSD-5] ([89f44d0](https://github.com/fdosruiz/packetjs/commit/89f44d01f4627d9d873a7cb14a41d29baebff3f7))
+* simplify package description in package.json ([6ff13bb](https://github.com/fdosruiz/packetjs/commit/6ff13bbdc28b82e43a222b2d09f9b40e2760be36))
 
 ### Refactoring
 
@@ -127,6 +124,11 @@
 * update import paths and rename file locations ([1e38907](https://github.com/fdosruiz/packetjs/commit/1e389073226d603eebfca05d6112fa43c0848dc1))
 * update translation text in index.json ([b9e6c25](https://github.com/fdosruiz/packetjs/commit/b9e6c25550a482dd5400324f91a20da32ea41ec5))
 * update type exports and imports for better consistency ([c1ba2a0](https://github.com/fdosruiz/packetjs/commit/c1ba2a0ef364676bdef1a34185be3f5259cc1108))
+
+## [1.4.0](https://github.com/fdosruiz/packetjs/compare/v1.3.4...v1.4.0) (2024-08-25)
+
+This version is deprecated because it is equivalent to 2.0.0 and it has broken compatibility with the previous version
+1.3.4. Use the latest version instead.
 
 ## [1.3.4](https://github.com/fdosruiz/packetjs/compare/v1.3.3...v1.3.4) (2024-07-09)
 

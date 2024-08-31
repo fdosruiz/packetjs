@@ -1,0 +1,13 @@
+{
+  "filesToProcess": [
+    "readme.json",
+    "readme-npmjs.json",
+    "wiki-home.json",
+    "wiki-sidebar.json"
+  ],
+  "compileBasePath": "docs/markdown-config/",
+  "processTitles": {
+    "npmjsReadme": "docs/entry-point/_README_npmjs.md",
+    "wikiHome": "packetjs.wiki/includes/_Home.md"
+  }
+}
