@@ -1,5 +1,5 @@
 {
-  "compileFiles": [
+  "filesToProcess": [
     "readme.json",
     "readme-npmjs.json",
     "wiki-home.json",
