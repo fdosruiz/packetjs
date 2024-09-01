@@ -9,7 +9,7 @@ packetJsDi.middleware.add(MARKDOWN_INCLUDE, (next, context, args) => {
   const result = next(args);
 
   if (context.methodName === 'processFile') {
-    const build = context.container.get(MARKDOWN_INCLUDE).build;
+    // const build = context.container.get(MARKDOWN_INCLUDE).build;
     switch (file) {
       case props.processTitles.wikiHome:
         // build[file].parsedData = build[file].parsedData.replace(/^## /gm, '### '); // h2 to h3
