@@ -4,17 +4,13 @@ const { MARKDOWN_INCLUDE } = require("./config/keys");
 
 // Add middleware to intercept markdownInclude
 packetJsDi.middleware.add(MARKDOWN_INCLUDE, (next, context, args) => {
+  const props = context.container.getProps();
   const [file] = args;
   const result = next(args);
-  const props = context.container.getProps();
 
   if (context.methodName === 'processFile') {
-    const build = context.container.get(MARKDOWN_INCLUDE).build;
+    // const build = context.container.get(MARKDOWN_INCLUDE).build;
     switch (file) {
-      case props.processTitles.npmjsReadme:
-        build[file].parsedData = build[file].parsedData.replace(/^## /gm, '### '); // h2 to h3
-        build[file].parsedData = build[file].parsedData.replace(/\n# /, '\n## '); // second h1 to h2
-        break;
       case props.processTitles.wikiHome:
         // build[file].parsedData = build[file].parsedData.replace(/^## /gm, '### '); // h2 to h3
         break;

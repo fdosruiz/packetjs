@@ -1,3 +1,18 @@
+## [2.0.2](https://github.com/fdosruiz/packetjs/compare/v2.0.1...v2.0.2) (2024-09-01)
+
+### Bug Fixes
+
+* remove npmjs documentation build and SSH setup ([eb621f2](https://github.com/fdosruiz/packetjs/commit/eb621f267b83965e220c876b534798bdbcb69b76))
+* rewrite and relocate the pull request template ([d1a6a95](https://github.com/fdosruiz/packetjs/commit/d1a6a951832d1a3f54fb40e292e745c16d894cfa))
+
+### CI/CD
+
+* rename 'patch' branch trigger to 'hotfix' ([8b34bf9](https://github.com/fdosruiz/packetjs/commit/8b34bf96e5824a4496b9a89195feea7904e4a2ae))
+
+### Code formating
+
+* comment out redundant build variable assignment ([80587aa](https://github.com/fdosruiz/packetjs/commit/80587aad01148350a7168a41546545be951d8120))
+
 ## [2.0.1](https://github.com/fdosruiz/packetjs/compare/v2.0.0...v2.0.1) (2024-08-31)
 
 ### Bug Fixes
