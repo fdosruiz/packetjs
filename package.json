@@ -1,7 +1,7 @@
 {
   "name": "packetjs-di",
   "version": "2.0.2",
-  "description": "A lightweight and powerful Dependency Injection container, written in TypeScript and made for JavaScript applications, and for efficient management of dependencies, with features like lazy loading, middleware management, and caching.",
+  "description": "Lightweight and powerful dependency injection container for Node.js and JavaScript apps written in TypeScript.",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
   "scripts": {
@@ -35,27 +35,18 @@
   },
   "keywords": [
     "cache",
-    "caching",
-    "container",
-    "dependency",
     "dependency-injection",
     "dependency-injection-container",
+    "dependency injection container",
+    "dependency inversion",
     "di",
-    "injection",
     "javascript",
-    "js",
-    "lazy",
-    "lazy-loading",
-    "memcached",
-    "memo",
     "memoization",
     "memoize",
     "memoizer",
-    "middleware",
-    "node",
-    "nodejs",
+    "node js",
     "pimple",
-    "proxy"
+    "proxy middleware"
   ],
   "license": "MIT",
   "devDependencies": {
