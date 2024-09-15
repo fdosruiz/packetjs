@@ -5,6 +5,7 @@ on:
     branches:
       - 'main'
       - 'release/**'
+      - 'release-candidate'
       - 'release-candidate/**'
       - 'hotfix/**'
   push:
