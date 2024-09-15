@@ -1,3 +1,13 @@
+## [2.0.3](https://github.com/fdosruiz/packetjs/compare/v2.0.2...v2.0.3) (2024-09-04)
+
+### CI/CD
+
+* enable Coveralls in QA workflow ([8e87f08](https://github.com/fdosruiz/packetjs/commit/8e87f08a7125e24e1555dece0652b6b01f2e7d05))
+
+### Documentation
+
+* simplify package description and keywords ([f7b0a4e](https://github.com/fdosruiz/packetjs/commit/f7b0a4ea4c70379c351a980fb7b78d97a3778443))
+
 ## [2.0.2](https://github.com/fdosruiz/packetjs/compare/v2.0.1...v2.0.2) (2024-09-01)
 
 ### Bug Fixes
