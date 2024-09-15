@@ -1,3 +1,17 @@
+## [2.0.4](https://github.com/fdosruiz/packetjs/compare/v2.0.3...v2.0.4) (2024-09-15)
+
+### CI/CD
+
+* add 'release-candidate' branch to CI/CD workflow ([f70f37f](https://github.com/fdosruiz/packetjs/commit/f70f37f8206dc786861d244d956582f219806a12))
+
+### Documentation
+
+* update README for better module import clarity and URL correction ([9fc1cc6](https://github.com/fdosruiz/packetjs/commit/9fc1cc65fa264132b49a687a95b2e3923ae8945b))
+
+### Examples
+
+* refactor dependency injection setup into separate modules for react-ts-middleware and react-typescript-middleware example ([d36e0b6](https://github.com/fdosruiz/packetjs/commit/d36e0b6516750760357ed5e57b476024a2567ef4))
+
 ## [2.0.3](https://github.com/fdosruiz/packetjs/compare/v2.0.2...v2.0.3) (2024-09-04)
 
 ### CI/CD
