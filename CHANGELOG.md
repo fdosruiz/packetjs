@@ -1,3 +1,13 @@
+## [2.1.0](https://github.com/fdosruiz/packetjs/compare/v2.0.4...v2.1.0) (2024-09-19)
+
+### Features
+
+* handle asynchronous instances within middleware to properly handle service methods, from services that come as Promises ([8f334d6](https://github.com/fdosruiz/packetjs/commit/8f334d6f6a22021a6e3a34c7b3894b166c2ff940))
+
+### Bug Fixes
+
+* update package names for react-typescript examples ([713c2d7](https://github.com/fdosruiz/packetjs/commit/713c2d76ddda84dde2e1f9bd77c0588c52f04ef9))
+
 ## [2.0.4](https://github.com/fdosruiz/packetjs/compare/v2.0.3...v2.0.4) (2024-09-15)
 
 ### CI/CD
