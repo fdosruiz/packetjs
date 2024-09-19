@@ -612,6 +612,59 @@ export const middlewareCommonTests = (Middleware, Container) => {
         // After calling Request service
         expect(proxy.fetch('param1')).toBe('Response of fetch method with arg: param1');
       });
+
+      it('middleware should receive the request of an asynchronous instance (Handle instance promises)', (done) => {
+        const promiseInstance = new Promise((resolve) => {
+          resolve(testService());
+        });
+
+        const middleware = (next, context, args) => {
+          expect(context.methodName).toBe('fetch');
+          expect(context.serviceName).toBe('promiseService');
+          return next(args);
+        };
+        // Add middlewares
+        middlewareInstance.add('promiseService', middleware, { name: 'middleware1' });
+
+        // Get proxy
+        const promiseProxy = middlewareInstance.getProxy({
+          key: 'promiseService',
+          instance: promiseInstance,
+        });
+
+        promiseProxy.then((proxy) => {
+          // After calling Request service
+          expect(proxy.fetch('param1')).toBe('Response of fetch method with arg: param1');
+          done();
+        });
+      });
+
+      it('middleware should receive an error of an asynchronous instance (Handle instance promises)', (done) => {
+        const promiseInstanceError = new Promise((resolve, reject) => {
+          reject('error instancing promiseService');
+        });
+
+        const middleware = (next, context, args) => {
+          expect(context.methodName).toBe('fetch');
+          expect(context.serviceName).toBe('promiseService');
+          return next(args);
+        };
+        // Add middlewares
+        middlewareInstance.add('promiseService', middleware, { name: 'middleware1' });
+
+        // Get proxy
+        const promiseProxy = middlewareInstance.getProxy({
+          key: 'promiseService',
+          instance: promiseInstanceError,
+        });
+
+        promiseProxy.then(() => {
+          done();
+        }).catch((error) => {
+          expect(error).toBe('error instancing promiseService');
+          done();
+        });
+      });
     });
 
     describe('Override requests in middleware', () => {

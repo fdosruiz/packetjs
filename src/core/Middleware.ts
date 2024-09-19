@@ -118,6 +118,14 @@ class Middleware {
    * @returns {ProxyHandler<any>} - The proxy handler.
    */
   private createProxy(ctx: Context, middlewares: MiddlewareStack[]): any {
+    if (ctx.instance instanceof Promise) {
+      return new Promise((resolve, reject) => {
+        ctx.instance.then((instance: any) => {
+          resolve(this.createProxy({ ...ctx, instance }, middlewares));
+        }).catch((error: any) => reject(error));
+      });
+    }
+
     return typeof ctx.instance === 'object' || typeof ctx.instance === 'function'
       ? new Proxy(ctx.instance, this.getProxyHandler(ctx, middlewares))
       : ctx.instance;

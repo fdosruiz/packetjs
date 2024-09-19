@@ -726,21 +726,34 @@ export const commonSandboxTests = (container, Container) => {
     });
 
     describe('Middlewares', () => {
+      const requestService = {
+        fetch: (arg) => {
+          if (!arg) return 'Response of fetch method without args';
+          return arg === 'overrideRequest'
+            ? 'Response of fetch method with args override'
+            : `Response of fetch method with arg: ${arg}`;
+        },
+        doTimeout: (time) => {
+          return new Promise((resolve) => {
+            setTimeout(() => resolve(`time lapsed: ${time}`), time);
+          });
+        },
+      };
       container.add('RequestFake', () => 'Response of fake service');
-      container.add('RequestService', () => {
-        return {
-          fetch: (arg) => {
-            if (!arg) return 'Response of fetch method without args';
-            return arg === 'overrideRequest'
-              ? 'Response of fetch method with args override'
-              : `Response of fetch method with arg: ${arg}`;
-          },
-          doTimeout: (time) => {
-            return new Promise((resolve) => {
-              setTimeout(() => resolve(`time lapsed: ${time}`), time);
-            });
-          },
-        };
+      container.add('RequestService', () => requestService);
+      container.add('PromiseService', () => {
+        return new Promise((resolve) => {
+          setTimeout(() => {
+            resolve(requestService);
+          }, 100);
+        });
+      });
+      container.add('PromiseServiceError', () => {
+        return new Promise((resolve, reject) => {
+          setTimeout(() => {
+            reject('error instancing promiseService');
+          }, 100);
+        });
       });
 
       beforeEach(() => {
@@ -1192,6 +1205,52 @@ export const commonSandboxTests = (container, Container) => {
           expect(result).toBe('time lapsed: 10');
           expect(response).toBe(result);
           expect(response).not.toEqual(expect.any(Promise));
+          done();
+        });
+      });
+
+      it('should handle methods from asynchronous instances (Promise Instance)', (done) => {
+        container.middleware.add('PromiseService', (next, context, args) => {
+          const result = next(args);
+          expect(result).toBe('Response of fetch method without args');
+          expect(context.serviceName).toBe('PromiseService');
+          expect(context.methodName).toBe('fetch');
+          return result;
+        });
+
+        // Before calling Promise Request service
+        const middlewares = container.middleware.middlewareStack;
+        expect(middlewares.get('PromiseService')).toHaveLength(1);
+
+        // After calling Promise Request service
+        const RequestService = container.get('PromiseService');
+        expect(RequestService).toBeInstanceOf(Promise);
+        RequestService.then((service) => {
+          expect(service.fetch()).toBe('Response of fetch method without args');
+          done();
+        });
+      });
+
+      it('should handle promise errors from asynchronous instances (Promise Instance)', (done) => {
+        container.middleware.add('PromiseServiceError', (next, context, args) => {
+          const result = next(args);
+          expect(result).toBe('Response of fetch method without args');
+          expect(context.serviceName).toBe('PromiseService');
+          expect(context.methodName).toBe('fetch');
+          return result;
+        });
+
+        // Before calling Promise Request service
+        const middlewares = container.middleware.middlewareStack;
+        expect(middlewares.get('PromiseServiceError')).toHaveLength(1);
+
+        // After calling Promise Request service
+        const RequestService = container.get('PromiseServiceError');
+        expect(RequestService).toBeInstanceOf(Promise);
+        RequestService.then(() => {
+          done();
+        }).catch((error) => {
+          expect(error).toBe('error instancing promiseService');
           done();
         });
       });
